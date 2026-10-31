@@ -1,0 +1,13 @@
+**/node_modules/
+**/.next/
+**/.vercel/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+*.tsbuildinfo
+# Presentation drafts stay local until approved.
+/slides/
+/docs/consulta.pdf
