@@ -971,4 +971,4 @@ En Codespaces elegí **Stop codespace** desde la lista de Codespaces. Cerrar la 
 - [Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/) y [validación de webhooks de GitHub](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries).
 - [Modelos gratuitos en OpenRouter](https://openrouter.ai/docs/guides/routing/model-variants/free).
 
-Las notas nativas del presentador en [`../slides/workshop.pptx`](../slides/workshop.pptx) conservan explicaciones y fuentes por diapositiva. El [PDF de consulta](consulta.pdf) sigue su misma secuencia.
+Las notas nativas del presentador en [`../slides/workshop.pptx`](../slides/workshop.pptx) conservan explicaciones y fuentes por diapositiva.

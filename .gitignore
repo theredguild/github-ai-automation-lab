@@ -8,6 +8,7 @@
 *.key
 .DS_Store
 *.tsbuildinfo
-# Presentation drafts stay local until approved.
-/slides/
+# Track workshop deck; keep local authoring files and PDF export out.
+/slides/*
+!/slides/workshop.pptx
 /docs/consulta.pdf

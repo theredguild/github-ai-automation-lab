@@ -8,7 +8,6 @@ Seis ejercicios sobre la landing Next.js del HackerSpace de Nodo Serrano. La apl
 | --- | --- |
 | Guía del participante | [docs/guia.md](docs/guia.md) |
 | Presentación única, con notas nativas | [slides/workshop.pptx](slides/workshop.pptx) |
-| PDF de consulta de los slides | [docs/consulta.pdf](docs/consulta.pdf) |
 | Continuación técnica para instructor o agente local | [docs/INSTRUCTOR.md](docs/INSTRUCTOR.md) |
 
 Para abrir sólo la landing, con Node 22 y pnpm 10.20.0:

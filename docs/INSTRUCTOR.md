@@ -4,7 +4,7 @@ Actualizado el 31 de octubre de 2026. Este archivo contiene el estado técnico d
 
 ## Punto de entrada y estructura
 
-El participante abre `README.md` y sigue únicamente `docs/guia.md`. La app Next.js está en la raíz. `docs/consulta.pdf` reproduce la presentación. `slides/workshop.pptx` es una sola presentación de 178 diapositivas con notas nativas, para importar en Google Slides.
+El participante abre `README.md` y sigue únicamente `docs/guia.md`. La app Next.js está en la raíz. `slides/workshop.pptx` es una sola presentación de 178 diapositivas con notas nativas, para importar en Google Slides. No se entrega ni se mantiene un PDF por ahora.
 
 Codespaces es una alternativa de preparación, no un segundo plan. Se conserva la configuración `.devcontainer/devcontainer.json` del proyecto anterior. Los seis ejercicios y sus comandos posteriores son los mismos en ambos entornos.
 
@@ -43,10 +43,10 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 | Hermes y canales | Documentación y configuración provista. No se instaló Hermes aquí, no se cargaron credenciales y no se llamó a modelos ni se enviaron mensajes a Telegram. |
 | Presentación | Validación estructural e importación en el motor de autoría completadas: 178 slides, 178 notas que coinciden con la fuente, 16 tablas nativas y sin hallazgos de geometría. Una secuencia de 178 diapositivas; notas nativas, texto de código y tablas editables. El código tiene Courier New explícita en sus runs y varios colores en el XML exportado. Renders generados para todas las diapositivas y revisión visual del recorrido y de los layouts modificados. |
 | Google Slides | No se importó en una cuenta de Google. Revisar tipografías, resaltado, conectores, recortes y conservación de las 178 notas después de convertir. No afirmar que esa importación se probó. |
-| Documentación | 59 bloques Bash de la fuente pasan bash -n; enlaces locales de README y guías comprobados sin faltantes. PDF de 178 páginas generado y muestras renderizadas con Poppler. |
+| Documentación | En esta incorporación se verificaron 18 enlaces locales sin faltantes, integridad ZIP del PPTX, 178 diapositivas y 178 notas. En la preparación anterior, 59 bloques Bash de la fuente pasaron bash -n y se generó un PDF de 178 páginas con muestras renderizadas con Poppler. Ese export queda local, fuera de la entrega y sin obligación de actualizarlo. |
 | Capturas | Referencias reales de documentación oficial de GitHub, Cloudflare, Vercel y OpenRouter/Hermes; foto publicada por Nodo Serrano. No son capturas de nuestras integraciones. Los ejemplos de salida se rotulan como ejemplos. |
 | DeepSec | Sigue pendiente una captura real y acceso al producto. No se inventó una pantalla ni se agregó una demo ficticia al recorrido de seis ejercicios. |
-| Publicación | El usuario autorizó iniciar el historial en el repo privado `theredguild/github-ai-automation-lab`. `slides/` y `docs/consulta.pdf` quedan fuera de Git hasta su aprobación. No se crearon findings ni se consumieron servicios pagos. |
+| Publicación | El usuario autorizó el historial en el repo privado `theredguild/github-ai-automation-lab` y la incorporación de `slides/workshop.pptx` para continuar editándolo. Los archivos de autoría adicionales y `docs/consulta.pdf` quedan locales y excluidos de Git. No se crearon findings ni se consumieron servicios pagos. |
 
 ## Cambios que afectan al ensayo
 
@@ -104,9 +104,9 @@ El receptor Next responde `received` al evento aceptado y no invoca IA. La dedup
 
 Para cambios manuales, `slides/workshop.pptx` contiene texto, código con runs de color, tablas, diagramas y notas. Se puede importar en Google Slides sin instalar archivos de fuentes.
 
-La fuente editable adicional está en `slides/source.json`: orden, texto, comandos, salidas ilustrativas, notas y enlaces oficiales por diapositiva. Los estilos están en `theme.mjs`, `layouts.mjs`, `base.mjs` y `metrics.json`. Las capturas compartidas están en `docs/assets/`.
+En el entorno local se conserva la fuente editable adicional `slides/source.json`: orden, texto, comandos, salidas ilustrativas, notas y enlaces oficiales por diapositiva. Los estilos están en `theme.mjs`, `layouts.mjs`, `base.mjs` y `metrics.json`. Estos archivos de autoría no se publican en el repo; el PPTX es la presentación versionada. Las capturas compartidas están en `docs/assets/`.
 
-Hay un generador opcional con una dependencia pública fijada, PptxGenJS 4.0.1:
+Si se dispone de esos archivos locales, hay un generador opcional con una dependencia pública fijada, PptxGenJS 4.0.1:
 
 ```bash
 cd slides
@@ -116,7 +116,7 @@ npm run build
 
 Escribe `workshop-generated.pptx`, sin sobrescribir la versión entregada. Se comprobó que el generador exporta las 178 slides y notas; **su salida alternativa requiere revisión visual** antes de sustituir el PPTX. El archivo entregado se renderizó con el motor de autoría original. El generador opcional no interviene en ningún comando del participante.
 
-Si cambian orden o contenido, actualizar también guía, notas y PDF. Para generar el PDF de una versión editada, exportar la presentación definitiva desde Google Slides o PowerPoint. El PDF de este paquete corresponde al PPTX entregado, no a la salida alternativa del generador.
+Si cambian orden o contenido, actualizar también guía y notas cuando corresponda. El PDF queda fuera del flujo de mantenimiento por ahora. Si se vuelve a necesitar, exportarlo desde la versión aprobada de la presentación en Google Slides o PowerPoint.
 
 ## Límites operativos
 
