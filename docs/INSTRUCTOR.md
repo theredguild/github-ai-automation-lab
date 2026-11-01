@@ -4,11 +4,11 @@ Actualizado el 1 de noviembre de 2026. Este archivo contiene el estado técnico 
 
 ## Punto de entrada y estructura
 
-El participante sigue `docs/guia.md`. La app Next.js autocontenida está en `hackerspace-site/`, separada de documentación y `slides/`. Desde el host clona el material, copia el contenido del starter a una carpeta inicial, comprueba `.gitignore`, publica su repo propio y **después del push correcto** lo clona en otra carpeta para trabajar. Guía y presentación no se suben al repo de la app. `slides/workshop.pptx` conserva 178 diapositivas con notas nativas; no se entrega ni mantiene un PDF.
+El participante sigue `docs/guia.md`. La app Next.js autocontenida está en `hackerspace-site/`, separada de documentación y `slides/`. Clona el material en el host y mueve esa carpeta completa a `../lab`, con destino libre. Crea su repo vacío en GitHub, configura un fine-grained PAT limitado a ese repo, ejecuta login/status y publica desde `lab`. No vuelve a clonar el sitio. `.gitignore` viaja desde el principio y se explica después del primer push, antes de instalar dependencias. `slides/workshop.pptx` contiene 198 diapositivas; no se entrega ni mantiene un PDF.
 
-El recorrido completo recomendado es **host + containers**. Codespaces queda limitado a una demo opcional de la landing al final del ejercicio 1, después del push correcto, build, Production/Preview y PR integrado. No certifica los ejercicios 2–6. La configuración `.devcontainer/devcontainer.json` se conserva dentro del starter, pero su presencia no prueba que runner, autenticación del agente, túnel y publicación de reviews funcionen allí. Las plantillas de ejercicios siguen en `hackerspace-site/docs/snippets/`.
+El recorrido completo recomendado es **host + containers**. Codespaces queda limitado a una demo opcional de la landing al final del ejercicio 1, después del push correcto, build, Production/Preview y PR integrado. No certifica los ejercicios 2–6. `.devcontainer/devcontainer.json` prepara únicamente esa demo; se quitó Docker-in-Docker. El `Dockerfile` local, `.dockerignore`, configuración remota y plantillas de `docs/snippets/` viajan juntos dentro de `lab`.
 
-El usuario autorizó actualizar el PPTX y ubicar esa demo más adelante dentro del ejercicio 1. Guía, README, presentación y notas ya reflejan el mismo recorrido. La fuente local `slides/source.json` y el texto del diagrama en `slides/base.mjs` se sincronizaron sin publicar archivos de autoría adicionales. La autorización no reabrió el ensayo remoto ni permitió crear otra instancia.
+Guía, README, PPTX y fuente local reflejan ese recorrido. Los archivos locales de autoría permanecen excluidos de la publicación. La autorización para actualizar la presentación no reabrió el ensayo remoto de Codespaces ni permitió crear otra instancia.
 
 El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded y Poppins. El código ahora usa Inconsolata explícita y colores por sintaxis. No se entrega un paquete de fuentes tipográficas.
 
@@ -18,12 +18,12 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 - Seis ejercicios: landing y Vercel; Docker y runner; Hermes y Telegram; túnel; webhook sin IA; review solicitada por etiqueta.
 - Empezar haciendo: dos diapositivas de apertura y el primer ejercicio. Enseñar Git, virtualización, redes y webhooks justo al necesitarlos.
 - App de ejemplo: landing Next.js del HackerSpace de NodoSerrano.org. Hacer build real y deploy de main y development; el código de la landing es secundario al proceso.
-- Separar material y app. Clonar el material en el host, copiar el starter incluyendo ocultos, publicar un solo repo propio y clonarlo sólo después de un push correcto.
-- Usar comandos nativos y alternativa web donde existe. `gh auth login` corresponde al host o al agente aislado del host cuando lo necesita; no usarlo para reemplazar autenticación heredada de Codespaces ni exportar/borrar tokens.
-- Priorizar el host y containers; no depurar Codespaces o Gitpod durante la clase ni afirmar equivalencia de los seis ejercicios sin ensayo real. Demo opcional en slides 49–51, después del checkpoint del ejercicio 1; detener Next y Codespace, y volver al host antes de Docker.
-- Mantener suficiente contenido para presentar detenidamente: pasos, comandos, salidas relevantes, capturas reales, explicaciones, diagramas y notas nativas. No reemplazar el taller por un resumen de pocas diapositivas.
+- Separar material y app con un `mv`, sin copias con exclusiones, cadenas de guardas ni clon adicional. El destino debe estar libre; si falla un paso o no coincide carpeta/estructura, detenerse antes de inicializar Git.
+- Crear el repo por web y enseñar el PAT antes de `gh auth login`, `gh auth status` y push. Seleccionar sólo el repo propio y añadir permisos cuando se necesitan. No usar OAuth amplio como atajo, refrescar scopes de PAT ni reemplazar autenticación heredada de Codespaces.
+- Priorizar host y containers. Demo opcional en slides 65–67, después del checkpoint del ejercicio 1; detener Next y Codespace, y volver al host antes de Docker. No depurar Codespaces o Gitpod durante la clase.
+- Mantener pasos, capturas reales y diagramas. **Notas del presentador: guion breve, sólo información útil ausente de la slide; vacío cuando no hace falta.** Sin pistas al instructor, relleno, repetición ni listas de fuentes.
 - Historial Git con carriles y curvas; usar main y development en el ejercicio. Explicar merge commit, squash y rebase, y mostrar la interfaz real de PR.
-- Una diapositiva Host, VM y container antes de Docker. Explicar localhost, puerto, DNS y origen por capas antes del webhook.
+- Host, VM y límites de containers explícitos; después leer el Dockerfile antes del build. Imagen `taller`, sin etiqueta fechada. Explicar redes cuando se usan, en el ejercicio 4; conectar el agente existente en el 6.
 - Quick Tunnels sin crear una cuenta Cloudflare ni dominio durante la clase. El túnel administrado sólo aparece como ampliación opcional.
 - Una imagen de herramientas y procesos fáciles de reconocer. Instancias distintas para runner, agente y app; no compartir el perfil del agente con el runner.
 - El instructor instala Hermes en vivo siguiendo su documentación y completa el wizard: OpenRouter/modelo gratuito disponible, luego Telegram. No convertir la instalación de uv u otras dependencias en el tema del taller.
@@ -33,28 +33,29 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 
 ## Estado real de validación
 
-| Área | Resultado y alcance |
+| Área | Resultado y alcance de esta revisión |
 | --- | --- |
-| Código de aplicación | App autocontenida en `hackerspace-site/`, sin duplicado en la raíz del material. Se conservan Next.js 16.4.3, React 19.3.0, Node objetivo 22.x, pnpm 10.20.0 y Biome 2.4.2. La exportación de sus 23 archivos versionados incluye dotfiles, Dockerfile, devcontainer y ambas plantillas, pero no guía, slides, caches ni instrucciones del mantenedor. |
-| Formato y lint | `pnpm lint` pasó desde la app anidada y desde un repo independiente creado con su exportación: 14 archivos, sin cambios de formato. Biome conserva exclusiones Git en ambos casos. Se quitó sólo la exclusión de slides, porque ya no están dentro de la app. |
-| TypeScript | `pnpm typecheck` terminó con código 0 desde la app anidada y desde el repo independiente en Node 22.23.4. |
-| Receptor y funciones | `pnpm test` pasó sus 23 comprobaciones en ambas ubicaciones. El servidor de producción exportado respondió health 200, evento firmado UTF-8 `received`, reentrega `duplicate` y evento sin firma 401. Los otros límites HTTP se habían probado en la corrección anterior; no se cambiaron sus handlers al moverlos. |
-| Entorno de estas comprobaciones | Exportación limpia: Linux amd64, Node 22.23.4 y pnpm 10.20.0; install frozen, lint, typecheck, tests y build pasaron sin depender del material padre. Checkout anidado: host Node 26.10.0 emitió el aviso de engines y pasó lint, typecheck, tests y build; no sustituye el ensayo Node 22. En la corrección anterior también se comprobó la recreación interactiva de dependencias existentes y el store fuera del proyecto. |
-| Build de producción | `pnpm build` pasó tanto anidado como independiente. En el repo exportado se arrancaron `pnpm dev` y `pnpm start --hostname 0.0.0.0`; landing revisada visualmente en ambos, producción sin errores de página. La primera navegación dev registró `net::ERR_ABORTED` para una fuente del overlay de Next; su endpoint respondió luego HTTP 200. La carga de `.env.local` tras el build se comprobó en la corrección anterior, sin cambiar ese comportamiento en esta reorganización. |
-| Dependencias | El lockfile se conserva. La consulta de advisories de producción de la preparación del 31 de octubre no encontró vulnerabilidades conocidas. No se repitió en esta revisión de instrucciones. No es una certificación de seguridad. |
-| Dockerfile | `docker build -t workshop-tools:2026-10 .` pasó usando como único contexto el repo exportado. Imagen conservada `sha256:4bdd0f2f053e3904c546cbe9e39042a503b45b58673a59c15f1712bf157a18ea`; Dockerfile y versiones no cambiaron. Las pruebas anteriores de UID 12345/GID 20 y rechazo de IDs inválidos siguen documentadas; no se repitieron por el cambio de carpeta. Arm64, Desktop y rootless no ejecutados. |
-| Codespaces | Se intentó acceder a la instancia existente facilitada por el usuario, sin crear otra: lista CLI vacía, API HTTP 403 `Resource not accessible by personal access token`, reader y navegador redirigidos al login de GitHub; descubrimiento de sesión de navegador autenticada agotó 30 s. No hubo conexión a terminal ni comprobaciones remotas. Es un bloqueo de acceso, no evidencia de fallo del runtime del Codespace. Se necesita una conexión autenticada de la cuenta creadora; compartir la URL no concede acceso. No se modificaron tokens, permisos ni instancias. |
-| Decisión sobre Codespaces | El usuario mantuvo el taller en host + containers y cerró la investigación remota. Luego autorizó preparar una demo breve en PPTX y guía, después de publicar y comprobar la app en el ejercicio 1. La demo sigue sin ensayo remoto. No se reintentó el acceso ni se creó otra instancia. |
-| Hermes y canales | Revisión estática contrastada con código upstream de Hermes v0.22.5: instalación, allowlist numérica de Telegram, YAML, filtros previos al modelo, HMAC de GitHub, bind/puerto y entrega `github_comment` mediante sesión guardada de `gh`. No se instaló Hermes aquí, no se cargaron credenciales, no se llamó a modelos ni se enviaron mensajes a Telegram. |
-| Presentación: reorganización anterior | Se conservaron 178 diapositivas, 178 notas correctamente emparejadas y las 759 partes del PPTX de ese ensayo. Cambiaron 84 partes: 50 slides, 33 notas y el orden de presentación; las otras 675 permanecieron idénticas byte a byte. Media, temas, masters, layouts y relaciones no cambiaron; resolvieron sus 932 destinos internos. Footers y progress coincidieron con el orden nuevo. Se renderizó con LibreOffice 7.4.7.2 y se inspeccionaron 26 slides. En ese render Courier New se sustituyó por Liberation Mono; ese resultado no valida Inconsolata. |
-| Tipografía actual | Inconsolata reemplaza Courier New en los 178 XML de slides y se aplica a 170 fragmentos de literales técnicos inline, incluidas tablas, instrucciones y diagramas. Los otros 581 miembros del archivo, las 178 notas y el orden permanecen idénticos byte a byte. La comparación normalizada confirma texto, tamaños, colores, geometría y propiedades de párrafo/run sin cambios, salvo familia y segmentación de runs inline. Se renderizó el PPTX real con Inconsolata Regular y Bold verificadas en fontconfig y PDF. Sus 112 cajas de código, diff y salida no presentan desbordes detectados con tolerancia de 2 pt; todos sus fragmentos usan Inconsolata y conservan el texto completo al ignorar whitespace. Se revisó la vista general de 178 slides y 24 en detalle, sin recortes ni solapamientos observados. No se probaron PowerPoint ni Google Slides. |
-| Google Slides | No se importó en una cuenta de Google. Revisar tipografías, resaltado, conectores, recortes y conservación de las 178 notas después de convertir. No afirmar que esa importación se probó. |
-| Documentación | Los 64 bloques Bash extraídos del PPTX coinciden con los comandos de la fuente, salvo espacios de líneas vacías del renderer, y pasan `bash -n`. La guía actual tiene 64 bloques Bash que también pasan `bash -n`. Resuelven los 22 enlaces a archivos locales y los 9 anchors entre guía, README y handoff. Sus destinos externos conservan los 36 enlaces que respondieron HTTP 200 en la corrección anterior; no se repitió la consulta de red. Codespaces y creación de repos requieren login, no prueban acceso autenticado. Se trasladaron al PPTX las correcciones de fuentes oficiales ya hechas en la guía. |
-| Capturas | Referencias reales de documentación oficial de GitHub, Cloudflare, Vercel y OpenRouter/Hermes; foto publicada por Nodo Serrano. No son capturas de nuestras integraciones. Los ejemplos de salida se rotulan como ejemplos. |
-| DeepSec | Sigue pendiente una captura real y acceso al producto. No se inventó una pantalla ni se agregó una demo ficticia al recorrido de seis ejercicios. |
-| Publicación | El usuario autorizó el historial en el repo privado `theredguild/github-ai-automation-lab` y la incorporación de `slides/workshop.pptx` para continuar editándolo. Los archivos de autoría adicionales y `docs/consulta.pdf` quedan locales y excluidos de Git. No se crearon findings ni se consumieron servicios pagos. |
+| App y separación | Se exportaron los 23 archivos versionados actuales del starter, incluidos dotfiles, Dockerfile, devcontainer y snippets. Un clon temporal del material se movió con `mv hackerspace-site ../lab`. `lab` recibió su propio `.git`, autor local, commit y push a remoto bare local, sin un segundo clon ni guía/slides en la app. No se creó un repo real en GitHub. |
+| Paradas manuales | Se comprobó que un destino existente hace que `mv` anide la carpeta; un origen ausente falla; un `cd` fallido deja la terminal en el material. En esos fixtures se detuvo el recorrido antes de `git init`. Los bloques son pasos manuales, **no una transacción con guardas automáticas**. La guía exige destino libre y verificar carpeta/estructura. |
+| Comprobaciones nativas | Desde `lab` independiente, Linux amd64, Node 22.23.4 y pnpm 10.20.0: install frozen, lint, typecheck, 23 tests y build pasaron. Biome comprobó 14 archivos sin corregirlos. No se recreó `hackerspace-site/node_modules` del material. |
+| Error del ejercicio 6 | Cambiar temporalmente la resta por suma hizo fallar `pnpm test`: `AssertionError [ERR_ASSERTION]`, `25 !== 15`. Restaurar la resta pasó los 23 tests, lint y typecheck. No se añadió otro test ni un comando Node inline. El test conserva el aviso no fatal `[MODULE_TYPELESS_PACKAGE_JSON]` del import TypeScript. |
+| Artefactos Git | Después de install/build, el árbol versionado quedó limpio; Git marcó `.next/`, `node_modules/` y `tsconfig.tsbuildinfo` como ignorados. `git ls-files node_modules .next` no devolvió archivos. `.gitignore` ya estaba incluido en el primer push. |
+| Imagen local | `docker build -t taller .` pasó desde la raíz de `lab`, único contexto. Imagen `sha256:4bdd0f2f053e3904c546cbe9e39042a503b45b58673a59c15f1712bf157a18ea`. Dockerfile y versiones no cambiaron. La shell real mostró Node 22.23.4, pnpm 10.20.0, gh 2.103.3 y cloudflared 2026.10.3. |
+| Usuario y mounts | La instancia del agente se creó antes de la red propia, con usuario 1000:1000. Las pruebas `touch`/`rm` escribieron en proyecto montado y perfil nuevo, sin credenciales ni socket Docker. Otro build con UID 12345/GID 20 pasó; ese usuario escribió en workspace de volumen nuevo, perfil, store y runner. GID 20 se muestra como `dialout` por un grupo preexistente: importa el número, no su nombre. No se ensayaron Desktop, arm64, rootless ni bind mount de un host con UID 12345. |
+| App y red | Next de producción arrancó dentro de la imagen. Landing respondió con su título; health devolvió `{"status":"ok","service":"nodoserrano"}` tanto por loopback publicado como desde otro container por DNS. Se conectó el agente ya existente a la red y otro container alcanzó su puerto 8644. Este último caso usó un servidor Node temporal para probar transporte, **no Hermes**. No se abrió un túnel público. |
+| Login y runner | En containers nuevos, sin red ni credenciales, se recorrieron los prompts reales de gh hasta `Paste your authentication token:` y del runner hasta `What is your runner register token?`. Se cancelaron sin introducir tokens. Se observó la ayuda de scopes clásicos de gh; no define los permisos del token fino. Esto no prueba autenticación ni registro real. |
+| Permisos CLI | Documentación oficial y código de gh v2.103.3 contrastados. PAT inicial: Contents/Pull requests write, Metadata read automático; Actions write para dispatch, Workflows write sólo para push del YAML. Runner web usa otro token temporal. Agente: Contents read/Pull requests write; Webhooks write sólo si administra hooks. Se reemplazaron `gh run watch`, vistas de PR por defecto y edición CLI de etiquetas por consultas explícitas o web. Sin ensayo autenticado. |
+| PPTX nativo | 198 slides, 198 notas emparejadas, 852 partes; resuelven 1041 relaciones internas. Se conservan las identidades de las 178 slides anteriores y sus media, temas, masters y layouts originales. Se añadieron 20 slides y 13 payloads de imagen, con 12 capturas nuevas distribuidas. Footers y progreso siguen el orden actual. |
+| Notas | 37 guiones breves y 161 notas vacías; máximo 23 palabras. El cuerpo nativo coincide con la fuente local. Sin bloques de fuentes ni instrucciones editoriales. Referencias y límites de verificación quedan en este archivo, no en el guion hablado. |
+| Render y tipografía | PPTX renderizado con LibreOffice 7.4.7.2 e Inconsolata Regular/Bold temporales. Sus 119 cajas de código, diff, salida y editor conservaron texto completo, familia Inconsolata y límites con tolerancia de 2 pt. Se revisó la vista general de las 198 slides; tabla de ramas, ejemplos densos y rótulo de red se corrigieron contra el render real. No se ensayaron PowerPoint ni Google Slides. |
+| Revisión final | Se corrigieron los cinco hallazgos: sincronización explícita de main antes de development, segunda review después del push corregido, build por defecto excluyente del adaptado, permiso Workflows antes del push y cuatro notas sin cláusulas repetidas. Los caminos web y CLI se ejecutaron con Git real y remotos bare locales: main, development y origin/development recibieron el workflow completo. Se renderizaron las slides corregidas; la segunda petición queda en 194, después de corrección/checks/push en 191–193. `ripwire --quality-delta` no encontró regresiones en código indexado; no mide la corrección del PPTX. |
+| Vercel | Referencias públicas contrastadas: GitHub App separada del PAT, Preview automático después del primer deployment, Production Branch Tracking y protección de acceso. Se muestran importación, build, Ready, entornos, Preview y evidencia en GitHub. No se creó un deployment propio ni se presentan imágenes de proyectos distintos como una ejecución correlacionada. |
+| Codespaces | Investigación remota cerrada por el usuario. En el intento anterior, CLI no listó instancias y API devolvió HTTP 403 `Resource not accessible by personal access token`; navegador exigió login. No se conectó a terminal ni se reintentó aquí. No demuestra fallo del runtime. |
+| Integraciones pendientes | Login real con PAT, runner/job, Vercel, Hermes, Telegram, hooks públicos, review de modelo, importación en Google y demo remota. No se registraron cuentas, consumieron modelos ni usaron servicios pagos. La revisión estática y los prompts offline no sustituyen estos recorridos. |
+| Evidencia anterior | La preparación previa comprobó handlers HTTP firmados, deduplicación y comparación de SHA inmutables; esos handlers y snippets no cambiaron aquí. La consulta de advisories del 31 de octubre no se repitió. No es certificación de seguridad. DeepSec sigue sin acceso ni captura real. |
+| Publicación | Autorizado el repo privado `theredguild/github-ai-automation-lab` y el PPTX. Fuentes de autoría, PDF y tipografías quedan fuera de Git. No se publicaron findings ni comentarios de prueba. |
 
-### Correcciones verificadas para el ensayo
+### Ensayos anteriores que siguen siendo relevantes
 
 - **Build y producción.** El Route Handler usa el runtime Node predeterminado, compatible con Cache Components. Las comprobaciones unitarias se complementaron con navegador y requests al servidor de producción, no sólo imports directos.
 - **Store y permisos.** La imagen define el store de pnpm fuera del bind mount y permite preparar `node` con UID/GID del participante. Se probó escritura en proyecto, home, store e instalación del runner con UID 12345/GID 20. La guía comprueba permisos antes de cargar credenciales.
@@ -66,19 +67,11 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 
 ### Separación del starter y del material
 
-El recorrido se prepara en el host. Se copia el starter a una carpeta inicial distinta del material, se conserva `.gitignore`, se hace el primer commit y se publica por CLI o web con repo vacío. Sólo tras el push correcto se clona ese repo propio en otra carpeta; allí continúan los seis ejercicios. Codespaces puede abrir el repo ya publicado para una demo de la app con su checkout automático, sin crear ni clonar otro repo dentro de él y sin reemplazar su autenticación.
+El recorrido actual mueve la carpeta completa fuera del material y continúa en `lab`, sin clon adicional. La `.git` del material permanece en su sitio. Los comandos de `git init`, autor local, commit y push se ejecutaron en un fixture aislado con remoto bare; sólo el transporte de publicación fue local. Las dependencias y el build se probaron después desde ese proyecto independiente.
 
-En la validación anterior se exportó únicamente el árbol versionado de `hackerspace-site/`, se hizo un commit Git local y se clonó a otra carpeta temporal. Ese checkout tuvo su propio `.git`, ejecutó todas las comprobaciones y sirvió la app sin montar el material del taller. No se creó un repo real en una cuenta de GitHub para simular este paso.
+Destino libre y comprobación de carpeta son condiciones humanas explícitas. `mv` no rechaza por sí solo un destino que ya es directorio, ni una secuencia de bloques impide continuar tras un error. No reintroducir las cadenas `&&`, copias con exclusiones o grupos Bash de la revisión anterior para ocultar esa diferencia.
 
-La revisión actual ejecutó los comandos escritos de copia, restauración de `.gitignore` y preparación del índice en repos temporales. Comprobó que restaurar un archivo faltante conserva las reglas personalizadas cuando ya existe, que `.env.example` sí se añade y que dependencias, builds, caches y `.env.local` no se añaden. Un push a un remoto bare local terminó antes del clon del sitio, que recibió su propio historial y `.gitignore`, sin artefactos.
-
-Otro fixture partió de artefactos ya versionados. La reparación dejó de seguirlos sin borrar archivos del disco ni añadir una edición ajena sin staging; detectó un `node_modules` anidado para retirarlo por su ruta exacta. Un objeto de un commit anterior siguió disponible después del commit de reparación, como advierte la guía. Estos ensayos no repararon el repo real del participante ni comprobaron un push a GitHub. Los fixtures se eliminaron y no se recreó `hackerspace-site/node_modules`.
-
-La revisión final detectó que clonar no conserva la identidad local del repo inicial. Un fixture con identidad global ajena reprodujo ese caso; después ejecutó la configuración local indicada en 1.2 y confirmó que el siguiente commit tenía el autor correcto sin modificar la configuración global. La guía vuelve a comprobar nombre y email en el clon aunque Git no muestre un error.
-
-Para actualizar la presentación se extrajeron del PPTX real los comandos de bootstrap y se ejecutaron en otro fixture temporal, cambiando únicamente el transporte Git por repos locales. Copia con ocultos, exclusión de artefactos, commit, push antes del clon e identidad local pasaron. El control de la demo también distinguió un checkout sincronizado de uno limpio con un commit local no publicado: `git pull --ff-only` por sí solo permite ese segundo caso, pero los SHA de `HEAD` y `origin/main` difieren. Los fixtures se eliminaron. No se ejecutó `gh repo create`, no se instaló la app de nuevo ni se retomó el Codespace real para este cambio de slides.
-
-La revisión del PPTX detectó que un fallo de copia todavía permitía ejecutar `git init` en el material. Se reprodujo con destino existente y se protegió copia, cambio de carpeta, inicialización y consultas de identidad mediante la cadena `&&` y un grupo Bash. Con el bloque corregido extraído del PPTX se probaron destino existente, copia fallida y éxito con nombre Git ausente. La traza nativa de Git confirmó que los dos fallos no llegan a inicializar; en el caso correcto se consultó el email aunque faltara el nombre. No se usaron comandos simulados y los fixtures se eliminaron.
+Los ensayos anteriores de reparación de artefactos comprobaron que `git rm --cached` no borra archivos locales ni elimina secretos de commits previos. La guía conserva esa reparación como caso opcional, separada de la explicación inicial del archivo ya incluido. No se reparó ningún repo real de un participante.
 
 Los comandos `cp docs/snippets/checks.yml ...` y las instrucciones de Hermes sobre `docs/snippets/hermes-webhook.yaml` siguen siendo relativos a la raíz del repo del participante. Sólo los enlaces de la guía apuntan a la ubicación dentro del material. `next dev` puede generar instrucciones propias de Next en el proyecto; no se copia allí el handoff ni el `AGENTS.md` del mantenedor.
 
@@ -90,7 +83,7 @@ Para agregar el workflow hay dos alternativas explícitas: web o CLI. La CLI act
 
 El runner no recibe mounts, sesión de gh, perfil del agente ni socket Docker, y usa la red predeterminada. El agente comparte únicamente la carpeta del proyecto por un bind mount **con escritura**. Esa carpeta también la usa lab-app. Esto permite delegar la edición de `.env.local`; no equivale a aislamiento completo ni a acceso de sólo lectura.
 
-La sesión de `gh auth login` del host no se monta dentro del agente. Se inicia una sesión propia cuando el ejercicio 5 la necesita. El flujo OAuth puede conceder más alcance que un repo; no afirmar restricciones propias de un fine-grained PAT. El gateway debe poder usar esa misma sesión guardada para `gh pr view`, `gh api` y `github_comment` sin exportar tokens. **Este punto requiere ensayo end-to-end.**
+La sesión del host no se monta dentro del agente. En el ejercicio 5 se inicia otra sesión con PAT de corta duración y sólo el repo propio: Contents read y Pull requests write; Webhooks write únicamente si se delega administrar hooks. No exportar tokens ni montar credenciales del host. `gh` puede guardar el token en texto plano dentro de ese container. El gateway debe reutilizar esa sesión para consultas explícitas de PR, `gh api` y `github_comment`. **Requiere ensayo autenticado end-to-end.**
 
 El agente configura archivos y hooks desde `hermes chat`, en otra shell. No se le pide reiniciar por Telegram el gateway que transporta su propia conversación. La persona reinicia el proceso de Next o del gateway en su terminal. No se monta el socket Docker para evitar esa acción humana.
 
@@ -109,7 +102,7 @@ docker volume create hermes-home-migrado
 docker run --rm --user 0 \
   -v hermes-home:/origen:ro \
   -v hermes-home-migrado:/destino \
-  workshop-tools:2026-10 \
+  taller \
   bash -c 'cp -a /origen/. /destino/ && chown -R node:node /destino'
 ```
 
@@ -137,18 +130,18 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 2. Construir y abrir la imagen:
 
    ```bash
-   docker build -t workshop-tools:2026-10 \
+   docker build -t taller \
      --build-arg WORKSHOP_UID="$(id -u)" \
      --build-arg WORKSHOP_GID="$(id -g)" .
-   docker run --rm workshop-tools:2026-10 \
+   docker run --rm taller \
      bash -lc 'node --version; pnpm --version; gh --version; cloudflared --version'
    ```
 
    Contrastar versiones y SHA si se actualiza el Dockerfile. Probar la arquitectura de las máquinas del taller. Comprobar permisos del usuario node y de la carpeta montada.
 
-3. Mantener el recorrido completo en host + containers. La demo opcional está en 1.9 de la guía y slides 49–51, después de verificar push, deployments y PR. Su autoría está actualizada, pero no su ensayo remoto: el usuario cerró esa investigación. No reintentar acceso ni crear otra instancia sin un nuevo pedido. No dar por validados Docker, credenciales, hooks o canales en Codespaces.
+3. Mantener el recorrido completo en host + containers. Demo opcional en 1.9 de la guía y slides 65–67, después de push, deployments y PR. El usuario cerró la investigación remota; no reintentar ni crear otra instancia sin nuevo pedido.
 
-4. Con autorización para un repo de ensayo, seguir `docs/guia.md` desde cero: clone del material, copia, primer push, clon del sitio publicado, Production, Preview, PR, review web/CLI, merge commit y nuevo Production.
+4. Con autorización para un repo de ensayo, seguir `docs/guia.md`: clone del material, mover a `lab`, crear repo vacío por web, PAT seleccionado, login/status, primer push, `.gitignore`, install/build, Production, Preview, PR, review y nuevo Production. No agregar un segundo clon.
 
 5. Ejecutar los tres checks con runners efímeros nuevos. Guardar los run IDs, SHA y mensajes reales. No abrir el runner a PRs de terceros.
 
@@ -158,7 +151,7 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 
 8. Fusionar la plantilla `hackerspace-site/docs/snippets/hermes-webhook.yaml` del material, que en el repo del participante queda como `docs/snippets/hermes-webhook.yaml`. Comprobarla contra la versión instalada y habilitar Webhooks. Confirmar el caso negativo de etiqueta sin llamada al modelo, el caso positivo con comentario, el control del SHA y una segunda revisión tras la corrección. Si `github_comment` requiere autenticación adicional en esa versión, resolverlo con el flujo nativo y actualizar guía y slides juntos.
 
-9. Importar la presentación en Google Slides. Revisar notas de una slide de código, una de captura y una de gráfico, y luego recorrer las 178. Si hay sustitución de fuente, corregir el estilo de los comandos en Slides manteniéndolo monoespaciado.
+9. Importar la presentación en Google Slides. Revisar código, capturas, gráficos y las 198 notas, incluidas vacías; recorrer las 198 slides. Si se sustituye Inconsolata, corregir los comandos manteniéndolos monoespaciados.
 
 10. Actualizar esta tabla con comandos, versiones, IDs y evidencias reales. Capturar las interfaces autorizadas del propio ensayo. Nunca capturar credenciales. Mantener los pendientes fuera de los slides del público.
 
@@ -176,11 +169,163 @@ npm install
 npm run build
 ```
 
-Escribe `workshop-generated.pptx`, sin sobrescribir la versión entregada. Se comprobó que el generador exporta las 178 slides y notas; **su salida alternativa requiere revisión visual** antes de sustituir el PPTX. El archivo entregado se renderizó con el motor de autoría original. El generador opcional no interviene en ningún comando del participante.
+El generador escribe `workshop-generated.pptx`, sin sobrescribir la entrega. Su ensayo anterior exportó 178 slides; no se repitió tras ampliar a 198. **La salida alternativa requiere revisión visual.** Esta revisión actualizó selectivamente el OOXML nativo y renderizó el PPTX real; el generador opcional no forma parte de los comandos del participante.
 
-El cambio a Inconsolata se aplicó directamente al PPTX. Los cuatro defaults monoespaciados de `theme.mjs`, `base.mjs`, `layouts.mjs` y `build.mjs` también se actualizaron. No se recalibraron los anchos de `metrics.json` ni la estimación conservadora del tamaño de código, y no se ejecutó el generador opcional. Los literales inline tienen segmentación nativa en el PPTX que ese generador no reproduce; revisar ese formato si se regenera. Para validar se usaron instancias Regular y Bold de la fuente oficial de Google Fonts sólo en una carpeta temporal fuera del repo. El PDF fue temporal y no forma parte de la entrega.
+La fuente local conserva orden, contenido y guiones mínimos, incluidos blancos. `base.mjs` no añade fuentes al cuerpo de las notas. El formato inline de código se segmenta nativamente en el PPTX; el generador opcional no reproduce todos esos detalles. Para validar se usaron Inconsolata Regular/Bold y fuentes del diseño sólo en una carpeta temporal fuera del repo. Ni fuentes tipográficas ni PDF forman parte de la entrega.
 
 Si cambian orden o contenido, actualizar también guía y notas cuando corresponda. El PDF queda fuera del flujo de mantenimiento por ahora. Si se vuelve a necesitar, exportarlo desde la versión aprobada de la presentación en Google Slides o PowerPoint.
+
+## Capturas y fuentes fuera del guion
+
+Las capturas nuevas son referencias públicas, no ejecuciones de nuestras cuentas. Conservan crédito visible. GitHub Blog: Hirsch Singhal, 18 de octubre de 2022; no se verificó una licencia abierta para sus imágenes y no se atribuyen como CC-BY. La imagen Community pertenece al post público enlazado, no a documentación oficial. Las demás proceden de documentación/changelog de sus titulares.
+
+| Archivo en `docs/assets/` | Imagen de origen | Alcance |
+| --- | --- | --- |
+| `github-pat-creation-expiry.png` | [Original](https://github.blog/wp-content/uploads/2022/10/PAT3.gif) | Fotograma 0, 2022; nombre/vencimiento; sin token generado. |
+| `github-pat-selected-repository.png` | [Original](https://github.blog/wp-content/uploads/2022/10/PAT3.gif) | Fotograma 175, 2022; cuenta/repo de ejemplo; interfaz histórica Beta. |
+| `github-vercel-app-repository-permissions.png` | [Original](https://docs.github.com/assets/images/github-apps/install-app.png) | Octo App genérica; no muestra permisos actuales de Vercel. |
+| `vercel-setup-import-repositories.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/docs-assets/static/docs/concepts/deployments/git/index/repo-list-light.png) | Importador oficial; repos de ejemplo. |
+| `vercel-setup-framework-detection.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/docs-assets/static/docs/concepts/deployments/build-step/framework-settings-light.png) | Recorte real (0, 0, 1864, 450) de imagen 1864×1114; omite overrides turbo/manuales; no altera controles. |
+| `vercel-check-build-logs.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/docs-assets/static/docs/concepts/deployments/logs/buttons-light.png) | Ubicación del botón Build Logs; no logs exitosos. |
+| `vercel-check-production-url.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/docs-assets/static/docs/concepts/deployments/generated-url-prod-light.png) | Ejemplo histórico Next.js 13: Ready/main/URL; sin repo completo ni SHA. |
+| `vercel-setup-environments-branch-tracking-community.png` | [Original](https://global.discourse-cdn.com/vercel/original/2X/1/1eed8aa80320906829b1fac3c6e5f9a0c1f98a5f.png) | Publicada por willessing-4027, Vercel Community, 2025-09-10; lista de entornos, no editor expandido. |
+| `vercel-check-deployment-filters.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/docs-assets/static/docs/concepts/deployments/filtering-deployments/filter-status-light.png) | Filtros de entorno/estado; no prueba estado de nuestra app. |
+| `vercel-setup-preview-protection.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/contentful/image/e5382hct74si/7LHNvuRkcDlKMWswY7c8xd/858a8627a82bcec2c456bcd42618b3f5/Screenshot_2025-07-09_at_5.05.58%C3%A2__pm.png) | Acceso protegido; no activación de generación Preview. |
+| `github-vercel-pr-deployment-details.png` | [Original](https://7nyt0uhk7sse4zvn.public.blob.vercel-storage.com/docs-assets/static/docs/concepts/deployments/git-link-light.png) | Ejemplo oficial de 2024: comentario, Ready, Inspect/Visit Preview y View deployment. |
+| `github-vercel-commit-status.png` | [Original](https://assets.vercel.com/image/upload/contentful/image/e5382hct74si/7wzza5neuEZJ9buQ1IYSR4/12066ac9f6c8d4c4fd95247e74662237/Terminal.png) | Check consolidado de monorepo; nombre/cantidad no obligatorios para la landing. |
+
+Origen de los fotogramas PAT: [artículo de GitHub Blog](https://github.blog/security/application-security/introducing-fine-grained-personal-access-tokens-for-github/). Origen Community: [post de septiembre de 2025](https://community.vercel.com/t/commits-to-production-branch-main-are-triggering-preview-deployments/22180). Sólo se usa su lista de entornos, no como prueba de resolución del fallo del post.
+
+No se obtuvo una captura actual del editor Branch Tracking expandido ni de Connected Git Repository configurado. Las rutas se explican desde documentación; las evidencias de repo, SHA y deployments propios se producen durante la práctica autorizada. No se sintetizó interfaz ni se emparejaron ejemplos públicos como si compartieran commit.
+
+### Índice de referencias de la presentación
+
+Estas referencias antes se anexaban a las notas. Se conservan aquí; no forman parte del texto hablado. Las páginas de creación de repos/tokens y Codespaces requieren autenticación para operar.
+
+Comprobación actual: 70 bloques Bash entre README, guía y este registro, más 64 extraídos del PPTX, pasaron `bash -n`. Resuelven 29 destinos locales y 8 anchors. Los 121 enlaces externos únicos respondieron HTTP 200, siguiendo redirecciones cuando corresponden. Crear repo, crear token y Codespaces terminaron en login: ese HTTP 200 no prueba acceso a una cuenta.
+
+#### App y herramientas
+
+- <https://nextjs.org/docs/app/api-reference/cli/create-next-app>
+- <https://nextjs.org/docs/app/api-reference/cli/next>
+- <https://nextjs.org/docs/app/api-reference/file-conventions/route>
+- <https://nodejs.org/api/assert.html>
+- <https://nodejs.org/api/typescript.html>
+- <https://nodejs.org/en/download>
+- <https://nodoserrano.org/>
+- <https://nodoserrano.org/somos/hackerspace.webp>
+- <https://pnpm.io/cli/install>
+- <https://pnpm.io/installation>
+
+#### Cloudflare
+
+- <https://developers.cloudflare.com/tunnel/concepts/>
+- <https://developers.cloudflare.com/tunnel/get-started/>
+- <https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/>
+- <https://developers.cloudflare.com/tunnel/troubleshooting/>
+- <https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/assets/images/changelog/cloudflare-one/tunnel-hostname-routing.webp>
+
+#### Docker
+
+- <https://docs.docker.com/build/building/packaging/>
+- <https://docs.docker.com/engine/network/drivers/bridge/>
+- <https://docs.docker.com/engine/network/port-publishing/>
+- <https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/>
+- <https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/>
+- <https://docs.docker.com/reference/cli/docker/container/exec/>
+- <https://docs.docker.com/reference/cli/docker/container/run/>
+
+#### Git y ramas
+
+- <https://git-scm.com/docs/git-checkout>
+- <https://git-scm.com/docs/git-switch>
+- <https://git-scm.com/install/>
+
+#### GitHub y CLI
+
+- <https://cli.github.com/>
+- <https://cli.github.com/manual/>
+- <https://cli.github.com/manual/gh_auth_login>
+- <https://cli.github.com/manual/gh_auth_refresh>
+- <https://cli.github.com/manual/gh_pr_create>
+- <https://cli.github.com/manual/gh_pr_diff>
+- <https://cli.github.com/manual/gh_pr_merge>
+- <https://cli.github.com/manual/gh_pr_review>
+- <https://cli.github.com/manual/gh_pr_view>
+- <https://cli.github.com/manual/gh_repo_create>
+- <https://cli.github.com/manual/gh_run_view>
+- <https://cli.github.com/manual/gh_run_watch>
+- <https://cli.github.com/manual/gh_workflow_run>
+- <https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/add-runners>
+- <https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow>
+- <https://docs.github.com/en/actions/how-tos/monitor-workflows/use-workflow-run-logs>
+- <https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/security-hardening-for-github-actions>
+- <https://docs.github.com/en/actions/reference/runners/self-hosted-runners>
+- <https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax>
+- <https://docs.github.com/en/apps/using-github-apps/installing-a-github-app-from-a-third-party>
+- <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>
+- <https://docs.github.com/en/billing/concepts/product-billing/github-codespaces>
+- <https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository>
+- <https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace>
+- <https://docs.github.com/en/codespaces/reference/security-in-github-codespaces>
+- <https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers>
+- <https://docs.github.com/en/get-started/git-basics/ignoring-files>
+- <https://docs.github.com/en/get-started/using-git/about-git>
+- <https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels>
+- <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request>
+- <https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request>
+- <https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request>
+- <https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request>
+- <https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github>
+- <https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository>
+- <https://docs.github.com/en/rest/actions/self-hosted-runners>
+- <https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens>
+- <https://docs.github.com/en/rest/repos/webhooks>
+- <https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/redelivering-webhooks>
+- <https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/viewing-webhook-deliveries>
+- <https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks>
+- <https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries>
+- <https://docs.github.com/en/webhooks/webhook-events-and-payloads#pull_request>
+- <https://github.blog/security/application-security/introducing-fine-grained-personal-access-tokens-for-github/>
+- <https://github.com/actions/checkout/tree/v7.0.1>
+- <https://github.com/cli/cli/blob/v2.103.3/pkg/cmd/auth/shared/login_flow.go>
+- <https://github.com/codespaces>
+- <https://github.com/new>
+- <https://github.com/settings/personal-access-tokens/new>
+
+#### Hermes, modelos y Telegram
+
+- <https://core.telegram.org/bots/features#creating-a-new-bot>
+- <https://hermes-agent.nousresearch.com/docs/getting-started/quickstart>
+- <https://hermes-agent.nousresearch.com/docs/guides/webhook-github-pr-review>
+- <https://hermes-agent.nousresearch.com/docs/integrations/providers>
+- <https://hermes-agent.nousresearch.com/docs/reference/cli-commands>
+- <https://hermes-agent.nousresearch.com/docs/user-guide/configuration>
+- <https://hermes-agent.nousresearch.com/docs/user-guide/messaging>
+- <https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram>
+- <https://hermes-agent.nousresearch.com/docs/user-guide/messaging/webhooks>
+- <https://hermes-agent.nousresearch.com/docs/user-guide/security>
+- <https://openrouter.ai/blog/tutorials/hermes-agent/>
+- <https://openrouter.ai/docs/guides/features/tool-calling>
+- <https://openrouter.ai/docs/guides/routing/model-variants/free>
+- <https://openrouter.ai/docs/quickstart>
+
+#### Vercel
+
+- <https://community.vercel.com/t/commits-to-production-branch-main-are-triggering-preview-deployments/22180>
+- <https://vercel.com/changelog/consolidated-commit-status-now-available-for-github>
+- <https://vercel.com/docs/deployment-protection>
+- <https://vercel.com/docs/deployments>
+- <https://vercel.com/docs/deployments/configure-a-build>
+- <https://vercel.com/docs/deployments/environments>
+- <https://vercel.com/docs/deployments/generated-urls>
+- <https://vercel.com/docs/deployments/logs>
+- <https://vercel.com/docs/git>
+- <https://vercel.com/docs/package-managers>
+- <https://vercel.com/docs/project-configuration/git-configuration>
+- <https://vercel.com/kb/guide/can-i-use-a-non-default-branch-for-production>
+- <https://vercel.com/kb/guide/unable-to-find-github-repository>
+
 
 ## Límites operativos
 

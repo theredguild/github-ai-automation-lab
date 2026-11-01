@@ -13,7 +13,7 @@ Construí una landing, publicá dos versiones y conectá GitHub con un runner, u
 | [5. El webhook](#5-el-webhook) | GitHub envía un evento firmado y el receptor responde |
 | [6. La review](#6-la-review) | Una etiqueta solicita una revisión y la respuesta aparece en el PR |
 
-Las capturas son interfaces reales publicadas en la documentación de sus proveedores; usan repositorios de referencia. Los bloques **Ejemplo de salida** son orientativos. Compará los datos de tu propia ejecución: una URL o un mensaje de ejemplo no prueban que tu integración esté funcionando.
+Las capturas proceden de documentación oficial o referencias públicas identificadas; pueden mostrar interfaces históricas y repositorios de ejemplo. No prueban una ejecución de nuestras cuentas. Los editores ilustrativos y los bloques **Ejemplo de salida** se rotulan como tales. Compará los datos de tu propia ejecución: una URL o un mensaje de ejemplo no prueban que tu integración funcione.
 
 ## Cómo leer los comandos
 
@@ -35,28 +35,95 @@ Cuando un proceso ocupa la terminal, abrí otra terminal para el siguiente coman
 
 **Objetivo:** publicar la landing primero y aprender branches y PR sobre un cambio visible.
 
-### 1.1 Preparar y publicar tu repo desde el host
+### 1.1 Clonar el material y mover la app
 
-Necesitás [Git](https://git-scm.com/install/), [GitHub CLI](https://cli.github.com/) y acceso al repositorio del taller. En una terminal Bash de tu equipo, comprobá `gh auth status`; si falta una sesión válida, usá `gh auth login`. Estos pasos no se hacen dentro de Codespaces y todavía no requieren Node ni Docker.
+Necesitás [Git](https://git-scm.com/install/), [GitHub CLI](https://cli.github.com/) y acceso de lectura al material. Este repo todavía es privado: resolvé ese acceso antes del taller con tu cuenta o credencial existente. El token que crearás para tu sitio no permite leer este repo privado.
+
+En una terminal Bash de tu equipo:
 
 ```bash
 git clone https://github.com/theredguild/github-ai-automation-lab.git
 cd github-ai-automation-lab
 ```
 
-Copiá el contenido del starter a una carpeta **inicial** nueva, al lado del material:
+Elegí una carpeta de destino **que todavía no exista**, al lado del material. En el ejemplo se llama `lab`. Mové la app completa:
 
 ```bash
-mkdir ../nodoserrano-hackerspace-inicial \
-  && cp -R hackerspace-site/. ../nodoserrano-hackerspace-inicial/ \
-  && cd ../nodoserrano-hackerspace-inicial
+mv hackerspace-site ../lab
 ```
 
-Si el destino ya existe, detenete y elegí otro nombre. `hackerspace-site/.` incluye archivos ocultos; `hackerspace-site/*` no los incluye. La `.git` del material queda fuera de la copia: no hace falta borrarla ni copiarla. Guía y presentación también quedan en el checkout del material.
+No hagas `mkdir lab` antes: `mv` crea ese destino al mover la carpeta. Si `lab` ya existe o el comando falla, detenete y elegí otro nombre. No vuelvas a copiar ni inicializar nada hasta resolverlo.
 
-Si ya tenés un sitio propio con archivos generados versionados, no lo reemplaces ni hagas otro `git init`: usá [la reparación de seguimiento](#si-tu-repo-ya-incluye-archivos-generados).
+Ahora entrá en la app:
 
-Iniciá el historial de esta copia nueva y comprobá la identidad Git:
+```bash
+cd ../lab
+pwd
+```
+
+Debe terminar en `/lab`. En el editor tienen que verse estos archivos:
+
+```text
+lab/
+  app/
+  public/
+  package.json
+  pnpm-lock.yaml
+  Dockerfile
+  .dockerignore
+  .gitignore
+  .devcontainer/
+    devcontainer.json
+```
+
+Si falla el `cd` o no ves esa estructura, detenete: **no ejecutes `git init` en el material**. Mover la carpeta incluye sus archivos ocultos, pero no la `.git` del taller, que estaba un nivel arriba. No hay que borrar ninguna `.git`. El checkout del material mostrará la carpeta movida como eliminada; no confirmes esos cambios allí. Desde ahora trabajás sólo en `lab`.
+
+`Dockerfile` está dentro de la app, al lado de `package.json`. `.devcontainer/` configura únicamente la demo remota posterior; no reemplaza ese Dockerfile. Guía y presentación quedan en el material o se consultan desde GitHub.
+
+### 1.2 Crear tu repo, limitar el token y publicar
+
+#### Crear un repositorio vacío en la web
+
+Abrí [New repository](https://github.com/new). Usá tu cuenta personal, un nombre como `nodoserrano-hackerspace` y visibilidad **Private**. Dejalo **vacío: sin README, licencia ni `.gitignore`**. Esos archivos llegarán desde tu carpeta local; no uses Upload files para iniciar otra historia.
+
+![Crear un repositorio en GitHub, referencia oficial](assets/github-new-repo.png)
+
+#### Un token para este repositorio
+
+Un **personal access token** es una credencial, no una contraseña para poner en el código. Abrí [Fine-grained personal access tokens → Generate new token](https://github.com/settings/personal-access-tokens/new):
+
+1. Nombre reconocible y vencimiento corto, por ejemplo 7 días.
+2. **Resource owner:** tu cuenta personal.
+3. **Repository access → Only select repositories:** únicamente el repo privado que acabás de crear.
+4. **Repository permissions:** `Contents: Read and write` y `Pull requests: Read and write`. `Metadata: Read-only` se incluye automáticamente. Estos permisos alcanzan para Git y los PR del ejercicio 1; no agregues permisos de cuenta ni Administration.
+
+![Selector de repositorio de un token fino, referencia oficial de GitHub de 2022](assets/github-pat-selected-repository.png)
+
+La captura histórica ubica el selector; los nombres de cuenta y repo son ejemplos. No copies los permisos de Issues que aparezcan en otras capturas. La restricción corresponde al repo privado seleccionado; estos tokens también pueden leer repos públicos. El token no concede derechos que tu cuenta no tenga. Si una organización exige aprobación, no supongas que ya funciona: para esta práctica usamos tu repo personal.
+
+Generá el token y copialo en privado para el siguiente paso. **No lo proyectes, captures, guardes en el repo ni pegues en un chat.** [Documentación actual de tokens y permisos](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+
+#### Login de GitHub CLI después de crear el repo
+
+En el **host**, no dentro de Codespaces:
+
+```bash
+gh auth login
+```
+
+Elegí **GitHub.com → Paste an authentication token → HTTPS → Yes para autenticar Git**, y pegá el token en la entrada oculta. Es el orden de GitHub CLI 2.103.3; otra versión puede cambiar los textos. No elijas el flujo OAuth del navegador para sustituir este token limitado. La ayuda puede mencionar scopes de tokens clásicos; no son permisos que haya que agregar a este token fino.
+
+```bash
+gh auth status
+```
+
+Comprobá cuenta, origen de la credencial y protocolo. No uses opciones para mostrar el token. Si `GH_TOKEN` o `GITHUB_TOKEN` controlan esa terminal, pueden prevalecer sobre la sesión guardada: no imprimas ni borres esas variables a ciegas; resolvé el contexto de la terminal con el instructor.
+
+Este login puede cambiar la credencial activa de `gh` y actualizar la credencial HTTPS de Git para GitHub. Otros repos privados podrían dejar de ser accesibles con este token, incluido el material del taller. Si aparece una advertencia de almacenamiento en texto plano, revisá el almacén de credenciales del equipo; no asumas que quedó cifrado ni uses `--insecure-storage`. [Login nativo](https://cli.github.com/manual/gh_auth_login).
+
+#### Iniciar Git y hacer el primer push
+
+Seguís en `lab`, donde están `package.json` y `Dockerfile`. Todavía no instalaste dependencias. El starter **ya trae `.gitignore`** para proteger archivos locales; lo explicaremos después del push.
 
 ```bash
 git init -b main
@@ -64,152 +131,70 @@ git config user.name
 git config user.email
 ```
 
-Si falta algún valor o corresponde a otra persona, configurá sólo este repo con tus datos reales:
+Nombre y email del commit son distintos del login de GitHub. Si faltan o pertenecen a otra persona, configurá sólo este repo con tus datos:
 
 ```bash
 git config user.name "Tu nombre"
 git config user.email "TU_EMAIL"
 ```
 
-La sesión de GitHub y la identidad de los commits son cosas distintas. Reemplazá los ejemplos antes de ejecutar esos dos comandos.
-
-#### Revisar `.gitignore` antes del primer commit
-
-El starter incluye [`.gitignore`](../hackerspace-site/.gitignore). Es un archivo de reglas que Git usa para no añadir archivos locales que todavía no sigue: dependencias en `node_modules/`, build y cache en `.next/`, store de pnpm y archivos temporales de TypeScript. También excluye `.env.local`; `.env.example` sí se versiona porque no lleva secretos.
-
-Desde la raíz de tu app, asegurate de conservar ese archivo. Si falta, copialo desde el material; si ya existe, no sobrescribas tus reglas:
+Prepará y revisá el contenido antes de confirmar:
 
 ```bash
-test -f .gitignore \
-  || cp ../github-ai-automation-lab/hackerspace-site/.gitignore .gitignore
-git check-ignore -v --no-index node_modules/ .next/ .pnpm-store/ \
-  .vercel/ tsconfig.tsbuildinfo .env.local
-```
-
-Cada ruta del ejemplo debe mostrar la regla que la excluye. Si faltan reglas, completalas con las del starter antes de seguir. `--no-index` permite diagnosticar las reglas incluso si algún archivo ya está seguido.
-
-Prepará el commit y **revisá qué se va a guardar**:
-
-```bash
-git add .gitignore
 git add .
-git ls-files -ci --exclude-standard
-git diff --cached --name-status
+git status
 ```
 
-`git ls-files -ci --exclude-standard` debe quedar sin salida. Si lista archivos, Git ya los sigue aunque ahora estén ignorados: corregilo con la sección de reparación antes de hacer commit. En el diff deben aparecer código, configuración, lockfile y `.gitignore`, no dependencias, builds ni secretos.
+Deben aparecer la app y su configuración, no guía, slides, dependencias ni secretos. Si no es así, detenete. Después:
 
 ```bash
-git commit -m "Agrega la landing del HackerSpace"
-```
-
-#### Publicar antes de clonar el sitio
-
-Elegí **una sola** opción desde este host:
-
-**CLI:** usá la sesión de tu equipo y creá un repo privado nuevo:
-
-```bash
-gh auth status
-gh repo create TU_USUARIO/REPO --private --source=. --remote=origin --push
-```
-
-**Alternativa web:** abrí [New repository](https://github.com/new), elegí tu cuenta y un nombre como `nodoserrano-hackerspace`. Crealo privado y **vacío, sin README, licencia ni `.gitignore`**, para no crear otro historial inicial. En lugar de `gh repo create`, conectá ese repo vacío:
-
-```bash
+git commit -m "Inicio del sitio"
 git remote add origin https://github.com/TU_USUARIO/REPO.git
 git push -u origin main
 ```
 
-![Creación de un repositorio en GitHub](assets/github-new-repo.png)
+Reemplazá `TU_USUARIO/REPO` por tu repo recién creado. Esperá el push sin error y abrilo en GitHub: deben estar `app/`, `package.json`, `Dockerfile` y `.gitignore` en raíz. **No vuelvas a clonar:** seguís trabajando en esta misma carpeta `lab`.
 
-Esperá que el push termine sin error y comprobá en GitHub que estén `package.json`, `app/` y `.gitignore`, sin `.next/` ni `node_modules/`. **Sólo después** pasá a 1.2 para clonar el sitio publicado. Un push fallido no es una publicación terminada.
+### 1.3 .gitignore, instalación y build
 
-#### Si tu repo ya incluye archivos generados
+Abrí `.gitignore` en el editor. Ya viene incluido; no tenés que inventar esas reglas para poder hacer el primer push. Le dice a Git qué archivos locales nuevos no debe añadir. Por ejemplo:
 
-Esta reparación se hace en el **repo de tu app en el host**, no en el material del taller. No crea otro repo ni borra archivos de trabajo. Primero ubicá la raíz y revisá el estado:
-
-```bash
-git rev-parse --show-toplevel
-git status
+```gitignore
+**/node_modules/
+**/.next/
+.env
+.env.*
+!.env.example
 ```
 
-Entrá en esa raíz. Restaurá `.gitignore` sólo si falta, como arriba, y comprobá sus reglas. Para el layout de esta app, quitá del índice sólo las carpetas y el cache conocidos:
+`node_modules/` contiene dependencias descargables y `.next/` contiene archivos generados. `.env.local` puede contener secretos. `.env.example` sí se guarda porque documenta las variables sin credenciales. El archivo completo también excluye otros caches. **Ignorar no deja de seguir algo que ya se había versionado.**
 
-```bash
-git rm -r --cached --ignore-unmatch node_modules .next .pnpm-store .vercel
-git rm --cached --ignore-unmatch tsconfig.tsbuildinfo
-```
-
-`--cached` deja esos archivos en tu disco y deja de versionarlos. Si Git rechaza la operación, detenete y revisá el estado; no agregues `-f` ni quites todo el repo del índice.
-
-```bash
-git add .gitignore
-git ls-files -ci --exclude-standard
-git diff --cached --name-status
-```
-
-La lista de archivos seguidos e ignorados debe quedar vacía. Si queda alguna ruta anidada, revisala y quitá **esa ruta concreta** del índice. Las entradas `D` de artefactos en el diff son las eliminaciones de seguimiento esperadas; no implican borrarlos del disco. Revisá el resto de tus cambios antes de confirmar y publicar la reparación.
-
-Esto evita seguir versionándolos, pero **no los elimina de commits anteriores**. Si un push fue rechazado por un archivo grande que ya está en el historial, un commit que lo borre no alcanza: detené la publicación y revisá ese historial con el instructor. No hagas force-push ni reescrituras a ciegas. Si se publicó una credencial, revocala o rotala; ignorarla o quitarla del índice no la vuelve segura. [Referencia oficial de `.gitignore`](https://docs.github.com/en/get-started/git-basics/ignoring-files).
-
-### 1.2 Clonar el sitio publicado y trabajar en tu equipo
-
-El recorrido completo usa **tu host + containers**, no Codespaces ni Gitpod. Después del push correcto de 1.1, volvé a la carpeta de proyectos y cloná **tu propio repo** en otra carpeta:
-
-```bash
-cd ..
-git clone https://github.com/TU_USUARIO/REPO.git nodoserrano-hackerspace
-cd nodoserrano-hackerspace
-```
-
-El destino debe estar libre. La carpeta `nodoserrano-hackerspace-inicial/` queda como preparación; continuá en este clon nuevo, que trae el historial y `.gitignore` ya publicados. No clones el sitio antes de su primer push correcto.
-
-El clon no trae la configuración local de `.git/config` de la carpeta inicial. Comprobá de nuevo tu identidad, aunque Git permita hacer commits sin preguntar:
-
-```bash
-git config user.name
-git config user.email
-```
-
-Si falta algún valor o corresponde a otra persona, configurá **este clon** con tus datos reales:
-
-```bash
-git config user.name "Tu nombre"
-git config user.email "TU_EMAIL"
-```
-
-Reemplazá ambos ejemplos. Estos comandos sólo cambian este repo; una identidad global incorrecta no se corrige al clonar.
-
-Para el ejercicio 1 prepará [Node 22](https://nodejs.org/en/download), [pnpm 10.20.0](https://pnpm.io/installation) y [GitHub CLI](https://cli.github.com/) en tu equipo. Elegí esas versiones, no otra versión por ser la que aparece primero en una descarga. Todavía no hace falta arrancar Docker.
+Prepará [Node 22](https://nodejs.org/en/download) y [pnpm 10.20.0](https://pnpm.io/installation) en tu equipo:
 
 ```bash
 node --version
 pnpm --version
-gh auth status
 ```
 
-Si la sesión del **host** no es válida, completá `gh auth login` en tu equipo. No copies ni exportes tokens manualmente. En 1.3 ejecutarás `pnpm dev` directamente con Node; Docker aparece en el ejercicio 2.
-
-Las terminales siguientes deben abrirse en la raíz de este clon de la app, con `package.json`, `app/`, `public/` y `Dockerfile` a la vista. Cuando Docker use `$PWD`, debe apuntar a esta raíz, nunca al checkout del material.
-
-### 1.3 Instalar y ver la landing
+Desde la misma carpeta `lab`, instalá:
 
 ```bash
 pnpm install --frozen-lockfile
+```
+
+Después construí:
+
+```bash
+pnpm build
+```
+
+Esperá que termine sin errores. El build genera `.next/`; no es un deployment. Si falla, leé el primer error antes de seguir. Ahora iniciá desarrollo:
+
+```bash
 pnpm dev
 ```
 
-Ejemplo de salida:
-
-```text
-Local: http://localhost:3000
-Ready in …
-```
-
-En tu equipo abrí `http://localhost:3000`. Todavía no es el deployment de Vercel.
-
-Comprobá que se vean el título del HackerSpace, sus actividades y la imagen. Si no carga, volvé a la terminal: el primer error visible suele ser más útil que recargar muchas veces.
+Abrí `http://localhost:3000` o el puerto indicado por Next. Dejá esa terminal abierta mientras comprobás título, actividades e imagen. Todavía no usaste Docker y esa URL no es Production de Vercel.
 
 | Archivo | Para qué lo usamos |
 | --- | --- |
@@ -220,19 +205,41 @@ Comprobá que se vean el título del HackerSpace, sus actividades y la imagen. S
 | `app/api/health/route.ts` | Respuesta sencilla para observar la red |
 | `app/api/github/route.ts` | Receptor preparado para el ejercicio 5 |
 
-Detené el servidor de desarrollo en su terminal y ejecutá:
+En otra terminal de `lab`, mirá qué quedó ignorado:
 
 ```bash
-pnpm build
+git status --ignored
 ```
 
-Un build prepara la aplicación de producción. Una salida exitosa termina sin error y genera los artefactos de Next. Si falla, resolvé el error antes de continuar. Más adelante Vercel hará su propio build a partir del commit de GitHub.
+Dependencias y build deben aparecer como ignorados, no como archivos preparados para un commit. No se suben con `git add .`. Detené `pnpm dev` con `Ctrl+C` cuando termines de verlo.
+
+#### Si tu repo ya incluye archivos generados
+
+Esto es una reparación opcional para un repo existente, no otro paso obligatorio del starter. Comprobá el seguimiento:
+
+```bash
+git ls-files node_modules .next
+```
+
+Sin salida significa que no están versionados. Si lista archivos, revisá `.gitignore` en el editor y ejecutá **sólo la línea correspondiente a cada carpeta seguida**:
+
+```bash
+git rm -r --cached node_modules
+```
+
+```bash
+git rm -r --cached .next
+```
+
+`--cached` quita el seguimiento sin borrar los archivos de tu disco. No agregues `-f` si Git rechaza la operación. Después revisá `git status`, añadí `.gitignore` si lo modificaste y confirmá/publicá la reparación. No quites todo el proyecto del índice.
+
+Esto no elimina archivos de commits anteriores. Un push rechazado por archivos grandes puede necesitar revisar el historial con el instructor, no un force-push improvisado. Si publicaste una credencial, revocala o rotala. [Referencia de `.gitignore`](https://docs.github.com/en/get-started/git-basics/ignoring-files).
 
 ### 1.4 Conectar Vercel
 
-Abrí [Vercel → New Project](https://vercel.com/new), iniciá sesión y elegí **Import Git Repository**. Conectá GitHub y concedé acceso al repo de la práctica. Si no aparece, revisá los permisos de la integración.
+Abrí [Vercel → New Project](https://vercel.com/new), iniciá sesión y elegí **Import Git Repository**. Conectá la **GitHub App de Vercel** y autorizá sólo tu repo personal de la práctica. Es una integración distinta del PAT de tu terminal: **no pegues ese token en Vercel**. Si falta el repo, usá **Configure GitHub App** o GitHub **Settings → Applications → Installed GitHub Apps → Vercel → Configure**, revisá **Only select repositories** y guardá.
 
-![Deployment de referencia en Vercel](assets/vercel-deployment.png)
+![Import Git Repository, referencia oficial de Vercel](assets/vercel-setup-import-repositories.png)
 
 Comprobá la configuración antes de pulsar **Deploy**:
 
@@ -245,13 +252,25 @@ Comprobá la configuración antes de pulsar **Deploy**:
 | Node.js | 22.x, en la configuración disponible del proyecto |
 | Production Branch | `main` |
 
+![Autodetección de Next.js, recorte de documentación oficial de Vercel](assets/vercel-setup-framework-detection.png)
+
+La captura muestra la ubicación del selector, no un deployment del taller. Usá los valores de la tabla y no copies overrides de otros proyectos.
+
 No hace falta cargar secretos para publicar esta landing. El receptor de webhooks se usará localmente más adelante; sus secretos no deben terminar en variables `NEXT_PUBLIC_*`.
 
 No sobrescribas Install Command con un `pnpm install` genérico: Vercel puede seleccionar otra versión del gestor. Para fijar exactamente `pnpm@10.20.0` en Vercel, habilitá Corepack según su documentación; no hace falta para el camino básico de autodetección.
 
-Abrí el deployment, leé los **Build Logs** y esperá el estado **Ready**. Visitá su URL de Production. Relacioná el commit mostrado por Vercel con el repo; un sitio que se ve bien puede pertenecer a otro deployment.
+Pulsá **Deploy**, abrí **Build Logs** y esperá **Ready**. Si falla, leé el primer error del build. Ready indica que el deployment está preparado; también hay que abrir su URL y comprobar la landing.
 
-**Terminal alternativa para operar un proyecto ya conectado:** la CLI oficial de Vercel permite `vercel login`, `vercel link` y `vercel inspect URL`. Para este ejercicio, la conexión Git se prepara una vez desde la web. Los siguientes deployments los disparará `git push`; no hace falta introducir otro flujo de publicación manual.
+![Ubicación de Build Logs, referencia oficial de Vercel](assets/vercel-check-build-logs.png)
+
+![Ready, rama y URL de un deployment, referencia oficial de Vercel](assets/vercel-check-production-url.png)
+
+En **Project → Settings → Git**, corroborá el repo conectado. En **Settings → Environments → Production → Branch Tracking**, verificá `main`. En el detalle del deployment revisá entorno **Production**, estado, rama, commit y URL; abrí el enlace del commit en GitHub y compará su SHA. La captura es de otro proyecto y no demuestra nuestra publicación.
+
+![Branch Tracking, captura pública de Vercel Community de septiembre de 2025](assets/vercel-setup-environments-branch-tracking-community.png)
+
+El primer deployment del proyecto es Production; por eso empezamos importando `main`. No crees otro proyecto Vercel para obtener el Preview. Usá tu repo personal: un repo privado de organización puede exigir un plan que no sea Hobby; no cambies visibilidad ni actives pagos como arreglo automático. [Integración Git](https://vercel.com/docs/git), [entornos](https://vercel.com/docs/deployments/environments).
 
 ### 1.5 Hacer un cambio en development
 
@@ -262,6 +281,17 @@ git switch main
 git pull --ff-only
 git switch -c development
 ```
+
+#### `switch` y `checkout`
+
+`git switch -c development` crea la rama y cambia a ella. `git switch main` vuelve a una rama existente. `checkout` es el comando anterior y tiene más funciones, incluida restauración de archivos:
+
+| Intención | Comando usado aquí | Equivalente anterior |
+| --- | --- | --- |
+| Crear y entrar en una rama | `git switch -c development` | `git checkout -b development` |
+| Cambiar a main existente | `git switch main` | `git checkout main` |
+
+Son alternativas, no pasos para ejecutar todos. Usamos `switch` porque deja clara la intención de cambiar de rama. Si Git advierte que perderías cambios locales, detenete y revisá `git status`; no fuerces el cambio. [Manual de switch](https://git-scm.com/docs/git-switch).
 
 En el editor, buscá el título visible de `app/page.tsx` y cambialo por una frase que reconozcas, por ejemplo, “El HackerSpace de Nodo Serrano”. Guardá y revisá:
 
@@ -281,9 +311,19 @@ Si Git pide identidad en esta copia de trabajo, repetí la comprobación y confi
 
 ### 1.6 Comparar Preview y Production
 
-Abrí los deployments de Vercel. El push a `development` debe generar un **Preview** asociado a ese commit. Abrilo y buscá tu título nuevo. Luego abrí Production: debe conservar el título anterior hasta integrar el cambio en `main`.
+Con la integración Git, **Preview viene habilitado por defecto** después del primer deployment. El push a `development`, que no es la rama productiva, genera un Preview. No hace falta crear un workflow de Actions ni comprar una función adicional.
 
-No des por hecho que un push terminó de desplegar. Comprobá el estado, la rama, el SHA y la URL. Si el Preview tiene acceso protegido, usá la sesión autorizada del proyecto; no cambies políticas de acceso sólo para que coincida una captura.
+En el mismo proyecto de Vercel, abrí **Deployments**, filtrá rama `development` y entorno **Preview**. Comprobá **Ready**, rama y SHA del commit que subiste. Abrí la URL única de ese deployment y buscá el título nuevo; Production debe conservar el anterior hasta el merge.
+
+![Filtros de Deployments, referencia oficial de Vercel](assets/vercel-check-deployment-filters.png)
+
+Si no aparece, revisá repo conectado, acceso de la GitHub App y **Environments → Production → Branch Tracking = main**. Preview debe incluir las ramas no asignadas. El entorno de Vercel llamado **Development** no es nuestra rama Git `development`: esa rama del taller debe desplegar como Preview.
+
+En un proyecto que ya tenía configuración, comprobá que `git.deploymentEnabled` no excluya esa rama y que **Build and Deployment → Ignored Build Step** no esté configurado para construir sólo Production o cancelar todo. No agregues esas opciones al camino básico. [Configuración de Git](https://vercel.com/docs/project-configuration/git-configuration).
+
+**Preview creado** y **Preview accesible sin login** son cosas distintas. Si hay protección, usá tu sesión autorizada. No desactives seguridad para simular que funciona.
+
+![Protección de deployments, referencia oficial de Vercel](assets/vercel-setup-preview-protection.png)
 
 ### 1.7 Crear y revisar un pull request
 
@@ -302,10 +342,20 @@ gh pr create --base main --head development \
   --title "Actualiza la portada del HackerSpace" \
   --body "Cambia el titulo visible de la landing."
 gh pr list --base main --head development
-gh pr view NUMERO
+gh pr view NUMERO --json number,title,state,url
 gh pr diff NUMERO
 gh pr view NUMERO --web
 ```
+
+#### Corroborar la integración desde GitHub y Vercel
+
+En el PR de GitHub buscá el estado de Vercel del último commit y el comentario del bot con **Ready**, **Visit Preview**, **Inspect** o **View deployment**. Abrí ese enlace y comprobá en Vercel repo, rama, SHA, entorno y URL. Vercel es quien construye: ese estado no es nuestro workflow manual de Actions del ejercicio 2.
+
+![Estado y enlace a Preview en un PR, referencia oficial de Vercel](assets/github-vercel-pr-deployment-details.png)
+
+![Estado de Vercel en los checks de GitHub, referencia oficial de Vercel](assets/github-vercel-commit-status.png)
+
+Las capturas son ejemplos públicos distintos, no dos mitades de nuestra ejecución. La prueba del participante debe enlazar **su PR y SHA** con **su deployment Preview, estado y URL**. La URL de rama puede cambiar con otro push; la URL única identifica un deployment concreto. Si no aparece el comentario del bot, consultá Deployments: los comentarios pueden desactivarse sin detener deployments. [Vercel para GitHub](https://vercel.com/docs/git/vercel-for-github).
 
 En **Files changed**, verde muestra líneas agregadas y rojo líneas eliminadas. Leé el cambio antes de integrar. En **Review changes** podés comentar, aprobar o pedir cambios según tus permisos. GitHub no permite aprobar tu propio PR; para una práctica individual usá un comentario. Si trabajan de a dos, la otra persona puede hacer la review.
 
@@ -382,7 +432,7 @@ En **Ports → 3000 → Open in Browser**, usá el puerto que muestre Next y man
 
 No ejecutes `gh auth login` ni `gh auth refresh`, ni borres o exportes variables de tokens. La autenticación automática tiene [permisos limitados](https://docs.github.com/en/codespaces/reference/security-in-github-codespaces). Si faltan acceso, herramientas o permisos, omití la demo y seguí en el host. La configuración `.devcontainer/devcontainer.json` no certifica el taller completo.
 
-Al terminar, **Ctrl+C** detiene Next, pero no el entorno remoto. En [tu lista de Codespaces](https://github.com/codespaces), elegí **Stop codespace** para esa instancia. No la borres. Volvé a la terminal del host, raíz de `nodoserrano-hackerspace/`, antes del ejercicio 2.
+Al terminar, **Ctrl+C** detiene Next, pero no el entorno remoto. En [tu lista de Codespaces](https://github.com/codespaces), elegí **Stop codespace** para esa instancia. No la borres. Volvé a la terminal del host, carpeta `lab`, antes del ejercicio 2.
 
 ## 2. Docker y runner
 
@@ -390,38 +440,72 @@ Al terminar, **Ctrl+C** detiene Next, pero no el entorno remoto. En [tu lista de
 
 ### 2.1 Ubicar Host, VM y container
 
-**Host** es la máquina que aloja procesos. Puede ser física o una VM. Una **VM** tiene su propio kernel y se ejecuta sobre un hipervisor. Un **container Linux** aísla procesos y filesystem y comparte el kernel Linux de su host. En Docker Desktop, ese host Linux suele estar dentro de una VM.
+**Host** es la máquina que aloja procesos. Puede ser física o una VM. Una **VM** tiene su propio kernel y se ejecuta sobre un hipervisor. Un **container Linux** tiene procesos y filesystem aislados de otros containers; todos comparten el kernel Linux de su host. En el gráfico, cada borde marcado **Container A/B** encierra su proceso y archivos, no un kernel propio. En Docker Desktop, el host Linux suele estar dentro de una VM.
 
 El **Dockerfile** es la receta, la **imagen** es el resultado de construirla y un **container** es una instancia en ejecución. Reutilizaremos una imagen de herramientas con instancias separadas para runner, agente y aplicación.
 
-### 2.2 Construir la imagen común
+### 2.2 Leer el Dockerfile y construir la imagen
 
-Estos ejercicios continúan en **tu host**, no en Codespaces. Prepará [Docker Desktop o Docker Engine](https://docs.docker.com/get-started/get-docker/) para tu sistema e iniciá su servicio. En la terminal principal, raíz del clon de tu app:
+Seguís en **tu equipo**, carpeta `lab`, no en Codespaces. Prepará [Docker Desktop o Docker Engine](https://docs.docker.com/get-started/get-docker/) e iniciá su servicio:
 
 ```bash
 docker version
-docker info
-docker build -t workshop-tools:2026-10 \
-  --build-arg WORKSHOP_UID="$(id -u)" \
-  --build-arg WORKSHOP_GID="$(id -g)" .
-docker image ls workshop-tools
-docker network create workshop-net
-docker network ls
 ```
 
-`docker version` debe mostrar **Client y Server**. Un error al conectar con el daemon no se arregla reinstalando el cliente. Iniciá Docker Desktop/Engine en tu equipo. Si la red ya existe, reutilizala.
+Debe mostrar **Client y Server**. Si no conecta al daemon, iniciá Docker Desktop/Engine; reinstalar el cliente no resuelve eso.
 
-Los argumentos hacen coincidir el usuario `node` de la imagen con tus IDs, sin ejecutar el agente como root. En Linux con Docker Engine convencional, esto permite escribir el bind mount del proyecto. Construí desde una cuenta normal, no con una sesión de usuario root. Si el proyecto pertenece a otra cuenta, prepará sus permisos con el instructor antes de continuar. Docker Desktop y Docker rootless pueden traducir propietarios de otra forma; comprobá escritura en el paso 3.1.
+Antes del build, abrí **`lab/Dockerfile` en el editor**. No está en la raíz del material del taller ni dentro de `.devcontainer/`. Estas instrucciones aparecen en la receta real:
 
-El store de pnpm queda en `/home/node/.local/share/pnpm/store`, fuera del proyecto. Si usás una imagen preparada por otra persona, sus IDs pueden ser distintos: reconstruí con los tuyos antes de crear las instancias que montan el proyecto.
+```dockerfile
+FROM node:22.23.4-bookworm-slim
+RUN npm install --global pnpm@10.20.0
+WORKDIR /workspace
+USER node
+CMD ["bash"]
+```
 
-La imagen contiene Bash, Git, Node, pnpm, GitHub CLI, cloudflared, el runner y utilidades mínimas. No guarda sesiones ni registra runners durante el build. Hermes se incorpora durante el setup en vivo del ejercicio 3, siguiendo su documentación oficial.
+Es un extracto para leer, no un Dockerfile nuevo que debas copiar. `FROM` elige la base, `RUN` instala durante la construcción, `WORKDIR` fija la carpeta de trabajo, `USER` evita ejecutar como root y `CMD` abre Bash al iniciar la instancia. La receta completa también instala Git, GitHub CLI, cloudflared y el runner con versiones y verificaciones de descarga. **No copia credenciales, no registra runners y no instala Hermes.** El proyecto se montará después.
+
+#### Elegir el build antes de ejecutarlo
+
+El instructor revisa permisos antes del taller. La imagen usa `node` con UID/GID `1000:1000` por defecto. En Linux con Docker Engine, comprobá tus IDs:
 
 ```bash
-docker run --rm -it --name herramientas \
-  --network workshop-net \
-  workshop-tools:2026-10 bash
+id -u
+id -g
 ```
+
+Si coinciden con `1000:1000`, el build básico es:
+
+```bash
+docker build -t taller .
+```
+
+`-t taller` sólo le da un nombre corto a la imagen. El punto usa el Dockerfile de esta carpeta. No vamos a versionar etiquetas en este ejercicio.
+
+Si tus IDs Linux son distintos, usá **esta alternativa en lugar del build básico**, reemplazando ambos valores:
+
+```bash
+docker build -t taller \
+  --build-arg WORKSHOP_UID=TU_UID \
+  --build-arg WORKSHOP_GID=TU_GID .
+```
+
+No ejecutes luego el build básico sobre la imagen adaptada. No construyas desde una sesión root ni arregles permisos con `chmod 777`. Docker Desktop y rootless pueden traducir propietarios; comprobaremos escritura antes de cargar credenciales.
+
+```bash
+docker image ls taller
+```
+
+El store de pnpm queda fuera del proyecto. `.devcontainer/devcontainer.json` configura la demo opcional de Codespaces con una imagen Node independiente; **no se usa para este build** ni requiere Docker dentro de Codespaces.
+
+Ahora creá una instancia de exploración:
+
+```bash
+docker run --rm -it --name herramientas taller
+```
+
+`CMD` abre Bash y `WORKDIR` nos deja en `/workspace`. Todavía no hace falta crear una red propia: la conexión entre containers aparece recién en el ejercicio 4.
 
 Ahora estás **dentro del container**. Probá:
 
@@ -449,7 +533,7 @@ Desde otra terminal del host, `docker exec -it herramientas bash` abre otra shel
 
 GitHub Actions organiza el trabajo en **workflow → jobs → steps**. Un runner ejecuta los steps de un job. El check del ejemplo instala el lockfile, corre Biome y revisa tipos de TypeScript.
 
-El archivo está provisto en [`../hackerspace-site/docs/snippets/checks.yml`](../hackerspace-site/docs/snippets/checks.yml) dentro del checkout del material. En tu repo de la aplicación está en `docs/snippets/checks.yml`. Leelo. Todavía no está activado en `.github/workflows/` para que lo incorpores durante el ejercicio.
+En el editor de `lab`, abrí `docs/snippets/checks.yml`. Ese archivo se movió con la app; ya no está en `hackerspace-site/` dentro de tu checkout del material. Leelo. Todavía no está activado en `.github/workflows/` para incorporarlo durante el ejercicio.
 
 La parte inicial dice:
 
@@ -469,6 +553,8 @@ jobs:
 
 **Para subirlo a main, la web es la opción más directa:** **Add file → Create new file**; nombre `.github/workflows/checks.yml`; pegá el archivo completo y confirmá en `main`. Si el repo exige PR, seguí su procedimiento.
 
+Para iniciar workflows desde CLI, agregá **Actions: Read and write** al PAT del mismo repo. Si también enviás el archivo `.github/workflows/checks.yml` por Git, agregá **Workflows: Write**; la creación web no usa ese permiso del token. Los permisos se editan en GitHub, no con `gh auth refresh`. Si GitHub reemplaza el token al actualizarlo, repetí el login por entrada oculta. No agregues Administration ni permisos de cuenta para resolverlo.
+
 **CLI alternativa:** en lugar de crearlo en la web, ejecutá desde el host:
 
 ```bash
@@ -480,8 +566,6 @@ git add .github/workflows/checks.yml
 git commit -m "Agrega checks manuales"
 git push origin main
 ```
-
-Si GitHub rechaza específicamente la edición de workflows por el alcance de la sesión OAuth de **tu host**, completá allí el consentimiento nativo `gh auth refresh --scopes workflow` y repetí el push. Esto no es una instrucción para Codespaces ni para ampliar su token automático. No hace falta editar tokens ni llamar a la API. Si preferís cambiar al camino web, conservá tu commit local y resolvé la sincronización antes de volver a hacer pull; no crees otra copia del mismo cambio sin revisar `git status`.
 
 Con el workflow ya en `main`, actualizá ambas ramas en tu copia:
 
@@ -504,25 +588,23 @@ En GitHub, **Settings → Actions → Runners → New self-hosted runner**, eleg
 En una terminal nueva del **host**:
 
 ```bash
-docker run --rm -it --name lab-runner \
-  workshop-tools:2026-10 bash
+docker run --rm -it --name lab-runner taller
 ```
 
 Dentro de **lab-runner**, reemplazá el repo y pegá el token temporal cuando lo solicite:
 
 ```bash
 cd /opt/actions-runner
-read -rs -p "Token temporal de registro: " RUNNER_TOKEN
-printf '\n'
 ./config.sh --url https://github.com/TU_USUARIO/REPO \
-  --token "$RUNNER_TOKEN" \
   --name workshop-runner --labels workshop --ephemeral
 exec ./run.sh
 ```
 
-`--ephemeral` asigna un solo job y luego da de baja el runner. `exec` reemplaza la shell por ese proceso: cuando termina, el container sale y `--rm` lo elimina. La terminal queda esperando; una línea relevante es **Listening for Jobs**. GitHub debe mostrarlo como disponible. El token de registro es temporal y diferente de tu sesión de `gh`.
+El programa pide el **token temporal de registro** con entrada oculta: usá el de la pantalla New self-hosted runner, no tu PAT. Aceptá los valores sugeridos para grupo y carpeta de trabajo si aparecen. No pases el token como argumento ni variable de shell.
 
-Este container no recibe el proyecto del host, el perfil de Hermes, una sesión de GitHub ni el socket Docker. El checkout del job descarga el repo. No se conecta a `workshop-net`: sólo necesita salida hacia GitHub y las descargas del job. Ejecutá únicamente código de la práctica que controles; un runner ejecuta comandos del repositorio.
+`--ephemeral` asigna un solo job y luego da de baja el runner. `exec` reemplaza la shell por el proceso: al terminar sale el container y `--rm` lo elimina. GitHub debe mostrarlo disponible mientras espera. Para esta vía web **no agregamos Administration al PAT**.
+
+Este container no recibe el proyecto, perfil de Hermes, sesión de `gh` ni socket Docker. Sólo necesita salida hacia GitHub y las descargas del job. El checkout descarga el repo. Ejecutá únicamente código de la práctica que controles.
 
 ### 2.5 Ejecutar y observar el check
 
@@ -533,9 +615,11 @@ Este container no recibe el proyecto del host, el perfil de Hermes, una sesión 
 ```bash
 gh workflow run checks.yml --ref development
 gh run list --workflow checks.yml --limit 5
-gh run watch RUN_ID --exit-status
+gh run view RUN_ID --json status,conclusion
 gh run view RUN_ID --web
 ```
+
+Usamos el navegador para seguir la ejecución. `gh run watch` no admite este token fino; no cambies a un token clásico ni amplíes permisos para conservar ese comando.
 
 Abrí cada step del job y buscá instalación, Biome y TypeScript. Si queda **Queued**, revisá que el runner esté escuchando y que sus etiquetas incluyan `self-hosted`, `linux` y `workshop`. Si está en **Failure**, leé el step que falló.
 
@@ -584,11 +668,10 @@ En el **host**, raíz del repo:
 
 ```bash
 docker run -it --name lab-agent \
-  --network workshop-net \
   -p 127.0.0.1:8644:8644 \
   -v hermes-home:/home/node/.hermes \
-  --mount type=bind,source="$PWD",target=/workspace \
-  -w /workspace workshop-tools:2026-10 bash
+  -v "$PWD":/workspace \
+  taller
 ```
 
 Este container tiene acceso de lectura y escritura a **este proyecto** por el bind mount. Más adelante Hermes podrá preparar su receptor y `.env.local`. No montes tu carpeta personal ni el socket Docker. El volumen `hermes-home` conserva el perfil del agente; no pertenece al runner.
@@ -597,11 +680,13 @@ Comprobá permisos dentro de **lab-agent**, antes de configurar credenciales:
 
 ```bash
 id
-test -w /workspace && test -w /home/node/.hermes \
-  && echo "Proyecto y perfil escribibles"
+touch /workspace/.prueba-permisos
+touch /home/node/.hermes/.prueba-permisos
+rm /workspace/.prueba-permisos
+rm /home/node/.hermes/.prueba-permisos
 ```
 
-Si no aparece el mensaje, no continúes con Hermes ni cambies a root: revisá propietario y permisos del proyecto y los IDs usados en el build. Un volumen nuevo hereda el propietario preparado por la imagen; uno existente conserva el suyo.
+Los dos `touch` deben terminar sin error; los `rm` retiran sólo los archivos de prueba recién creados. Si falla la escritura, no continúes con credenciales ni cambies a root: revisá propietario, permisos e IDs del build. Un volumen nuevo hereda el propietario de la imagen; uno existente conserva el suyo.
 
 El nombre debe estar libre. Si ya lo creaste con la misma imagen e IDs, recuperá esa instancia con `docker start -ai lab-agent` o abrí otra shell con `docker exec -it lab-agent bash` si está en ejecución. `docker start` no adopta una imagen reconstruida. Si cambiás los IDs o necesitás reemplazar una instancia que ya guarda credenciales, seguí la migración del [handoff del instructor](INSTRUCTOR.md#migrar-una-instancia-y-su-perfil); no borres el volumen ni descartes el container anterior.
 
@@ -665,12 +750,20 @@ En `https://HOSTNAME/api/health`, `https` es el esquema, `HOSTNAME` es el nombre
 
 Detené cualquier `pnpm dev` que esté usando el puerto 3000 del host. En una terminal nueva del **host**, raíz del proyecto:
 
+Ahora sí hace falta una red compartida para que app y connector se encuentren por nombre. Creala una vez:
+
+```bash
+docker network create red-taller
+```
+
+Si ya existe, revisala y reutilizala; no borres redes ajenas. La exploración de Docker, el runner y Telegram no la necesitaron.
+
 ```bash
 docker run -it --name lab-app \
-  --network workshop-net \
+  --network red-taller \
   -p 127.0.0.1:3000:3000 \
-  --mount type=bind,source="$PWD",target=/workspace \
-  -w /workspace workshop-tools:2026-10 bash
+  -v "$PWD":/workspace \
+  taller
 ```
 
 Dentro de **lab-app**:
@@ -714,17 +807,17 @@ HTTP/1.1 200 OK
 Ahora desde un container de la misma red:
 
 ```bash
-docker run --rm --network workshop-net \
-  workshop-tools:2026-10 \
+docker run --rm --network red-taller \
+  taller \
   curl -i http://lab-app:3000/api/health
 ```
 
-Debe devolver el mismo JSON. Docker resuelve `lab-app` dentro de `workshop-net`. **`localhost` siempre vuelve al entorno donde corre el cliente**: dentro de otro container no apunta a `lab-app`.
+Debe devolver el mismo JSON. Docker resuelve `lab-app` dentro de `red-taller`. **`localhost` siempre vuelve al entorno donde corre el cliente**: dentro de otro container no apunta a `lab-app`.
 
 | Desde dónde preguntás | Dirección del origen |
 | --- | --- |
 | Host del taller | `http://127.0.0.1:3000` |
-| Container conectado a workshop-net | `http://lab-app:3000` |
+| Container conectado a red-taller | `http://lab-app:3000` |
 | Cliente externo, después del túnel | La URL HTTPS que imprime cloudflared |
 
 No continúes a la URL pública si todavía falla la consulta interna.
@@ -735,8 +828,8 @@ En una terminal del **host**:
 
 ```bash
 docker run --rm -it --name lab-tunnel \
-  --network workshop-net \
-  workshop-tools:2026-10 \
+  --network red-taller \
+  taller \
   cloudflared tunnel --no-autoupdate \
   --url http://lab-app:3000
 ```
@@ -816,7 +909,9 @@ cd /workspace
 gh auth status
 ```
 
-Si no tiene sesión válida, ejecutá **dentro de lab-agent en Docker de tu host** `gh auth login` y completá el flujo del navegador. Esto no se ejecuta en la terminal de Codespaces. Tu login del host no se comparte automáticamente con el container. Revisá qué cuenta y permisos autorizás: este flujo puede conceder más acceso que un único repositorio. El taller no lo presenta como un token de acceso mínimo a un solo repo.
+Dentro de **lab-agent**, repetí el método **Paste an authentication token** de 1.2, no OAuth del navegador. Usá otro PAT corto para el mismo repo: **Contents: Read** y **Pull requests: Read and write**. Agregá **Webhooks: Read and write** sólo si le delegás administrar hooks. No necesita Actions, Workflows ni Administration para leer el diff y comentar. El token nunca se pega en Hermes o Telegram.
+
+Tu sesión del host no se comparte con el container. `gh` puede advertir que guarda la credencial en texto plano: en esta imagen no prometemos un almacén cifrado. La configuración de `gh` queda fuera de `hermes-home`, en el filesystem del container; conservar sólo mientras se necesite y revocar el PAT al terminar. No copies el perfil del host ni lo montes en el runner. Esto no se hace en Codespaces.
 
 Con `hermes chat`, podés delegar las tareas repetitivas. Usá tu repo y tu URL reales; no pegues secretos en el mensaje.
 
@@ -928,7 +1023,7 @@ Antes de gastar tokens se aplican filtros sobre datos del evento: repo propio, r
 
 ### 6.2 Configurar la ruta provista
 
-La configuración está en [`../hackerspace-site/docs/snippets/hermes-webhook.yaml`](../hackerspace-site/docs/snippets/hermes-webhook.yaml) dentro del checkout del material. En tu repo de la aplicación está en `docs/snippets/hermes-webhook.yaml`. Es un fragmento que se **fusiona bajo `platforms`** del perfil de Hermes; no es un reemplazo de todo el archivo. Conservá modelo, proveedor y Telegram.
+En el editor de `lab`, abrí `docs/snippets/hermes-webhook.yaml`, que viajó con la app. Es un fragmento que se **fusiona bajo `platforms`** del perfil de Hermes; no reemplaza todo el archivo. Conservá modelo, proveedor y Telegram.
 
 En el host:
 
@@ -985,10 +1080,18 @@ La ruta de salud comprueba el listener; todavía no demuestra que el modelo pued
 
 Detené el túnel anterior en su propia terminal para liberar `lab-tunnel`. En el **host**:
 
+`lab-agent` se creó sin red propia. Conectalo una vez para que el connector pueda resolver su nombre:
+
+```bash
+docker network connect red-taller lab-agent
+```
+
+Si retomás una instancia ya conectada, no repitas esa línea. No hace falta recrearla ni perder su perfil.
+
 ```bash
 docker run --rm -it --name lab-tunnel \
-  --network workshop-net \
-  workshop-tools:2026-10 \
+  --network red-taller \
+  taller \
   cloudflared tunnel --no-autoupdate \
   --url http://lab-agent:8644
 ```
@@ -1001,7 +1104,7 @@ Copiá el hostname nuevo. El path del webhook será **`/webhooks/github-pr-revie
 
 ![Entrada al panel Labels de GitHub](assets/github-labels.png)
 
-**CLI alternativa:** podés pedir a Hermes que cree esas dos etiquetas sólo si faltan. La acción humana de solicitar la review será `gh pr edit` o el selector web del PR.
+Si le pedís a Hermes crear etiquetas, el permiso Pull requests del token alcanza para ese endpoint; no agregues Issues ni permisos de organización por reflejo. Para solicitar la review usaremos **el selector web Labels**, sin depender de queries adicionales de `gh pr edit`.
 
 Tarea para Hermes:
 
@@ -1030,19 +1133,11 @@ El error es concreto: con capacidad 20 y 5 lugares ocupados deberían quedar **1
 
 ### 6.6 Comprobar primero el filtro
 
-En el panel Labels del PR, agregá **prueba-webhook**, o ejecutá:
-
-```bash
-gh pr edit NUMERO --add-label prueba-webhook
-```
+En el panel **Labels** del PR, agregá **prueba-webhook**. Usamos la interfaz web para no depender de consultas adicionales de `gh pr edit` con el token fino.
 
 Buscá su entrega en **Settings → Webhooks → Recent Deliveries**. El gateway debe ignorarla por no coincidir con `ai-review`. Mirá logs y uso del proveedor para comprobar que ese evento no inició una tarea del modelo. La falta de comentario por sí sola no demuestra que no hubo llamada.
 
-Después agregá **ai-review** desde ese panel o con:
-
-```bash
-gh pr edit NUMERO --add-label ai-review
-```
+Después agregá **ai-review** desde ese mismo panel.
 
 La etiqueta debe pasar de ausente a presente para generar `labeled`. Si ya estaba, quitála y volvé a agregarla.
 
@@ -1057,7 +1152,6 @@ Comprobá en orden:
 5. Aparece un comentario en el PR y describe qué pudo comprobar.
 
 ```bash
-gh pr view NUMERO --comments
 gh pr view NUMERO --web
 ```
 
@@ -1075,26 +1169,15 @@ No cambies automáticamente a un modelo pago ante un fallo del gratuito. Revisá
 
 ### 6.8 Corregir, verificar y cerrar
 
-Volvé a la resta en `app/capacidad.ts`. Podés comprobar el ejemplo sin levantar una web:
+Volvé a la resta en `app/capacidad.ts`. Las pruebas ya incluidas comprueban que 20 lugares con 5 ocupados dejan 15, y con 20 ocupados dejan 0. No hace falta otro script de Node:
 
 ```bash
-node --experimental-strip-types --input-type=module -e \
-  'import assert from "node:assert/strict";
-   import {lugaresLibres} from "./app/capacidad.ts";
-   assert.equal(lugaresLibres(20, 5), 15);
-   assert.equal(lugaresLibres(20, 20), 0);
-   console.log("Cálculo correcto");'
+pnpm test
 pnpm lint
 pnpm typecheck
-pnpm test
 ```
 
-Hacé commit y push de la corrección. Para solicitar otra revisión quitá y agregá la etiqueta desde la web o la terminal:
-
-```bash
-gh pr edit NUMERO --remove-label ai-review
-gh pr edit NUMERO --add-label ai-review
-```
+Hacé commit y push de la corrección. Para solicitar otra revisión, desde **Labels** del PR quitá **ai-review** y volvé a agregarla.
 
 Comprobá que la nueva respuesta se refiera al SHA nuevo. Revisá vos el diff, ejecutá los checks acordados y, cuando esté listo, integrá mediante **Create a merge commit** o `gh pr merge NUMERO --merge`. Comprobá el nuevo Production en Vercel.
 
@@ -1111,6 +1194,8 @@ docker ps
 
 El runner efímero debe haber terminado tras su job. Si sigue esperando, detenelo en su terminal y revisá su registro en GitHub. No elimines por rutina el volumen `hermes-home`: contiene tu progreso y credenciales. Para reutilizarlo, arrancá su container; para descartarlo, decidilo conscientemente después de guardar lo necesario.
 
+En GitHub, **Settings → Developer settings → Personal access tokens → Fine-grained tokens**, revocá los tokens dedicados del host y del agente cuando dejen de necesitarse. Cerrar sesión local no revoca un token remoto. No publiques el perfil de Hermes ni la configuración de `gh`.
+
 Si usaste la demo opcional de Codespaces, elegí **Stop codespace** desde [tu lista de Codespaces](https://github.com/codespaces). Cerrar la pestaña no garantiza detenerlo. Un Codespace detenido puede seguir consumiendo almacenamiento; eliminá sólo el que ya no necesites y cuyo trabajo hayas enviado al repo.
 
 ## Documentación para profundizar
@@ -1125,4 +1210,4 @@ Si usaste la demo opcional de Codespaces, elegí **Stop codespace** desde [tu li
 - [Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/) y [validación de webhooks de GitHub](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries).
 - [Modelos gratuitos en OpenRouter](https://openrouter.ai/docs/guides/routing/model-variants/free).
 
-Las notas nativas del presentador en [`../slides/workshop.pptx`](../slides/workshop.pptx) conservan explicaciones y fuentes por diapositiva.
+Las notas nativas del presentador en [`../slides/workshop.pptx`](../slides/workshop.pptx) son un guion breve sólo para puntos que no aparecen en pantalla. Pueden estar vacías. La procedencia de capturas y las verificaciones quedan en [`INSTRUCTOR.md`](INSTRUCTOR.md), no en esas notas.

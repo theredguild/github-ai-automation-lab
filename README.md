@@ -4,23 +4,19 @@ Seis ejercicios sobre la landing Next.js del HackerSpace de Nodo Serrano. Este r
 
 **Empezá por [la guía completa](docs/guia.md)**. El recorrido usa tu equipo y, desde el ejercicio 2, containers. Codespaces queda como una demo opcional de la landing al final del ejercicio 1, después del push y de comprobar los deployments.
 
-Cloná este repositorio y copiá sólo el contenido de `hackerspace-site/`, incluidos los archivos ocultos, a una carpeta nueva. Revisá `.gitignore`, iniciá Git y publicá tu repo propio. Sólo después de un push correcto cloná ese sitio para trabajar, como indica la guía. Guía y presentación quedan en el checkout del material.
+Cloná este repositorio y mové `hackerspace-site/` completa a una carpeta externa nueva llamada `lab`. Creá tu repo vacío en GitHub, generá un token fino limitado a ese repo, hacé login y publicá desde `lab`. Seguís en esa misma carpeta, sin otro clon. `.gitignore`, Dockerfile y devcontainer ya viajan con la app; guía y presentación quedan en el material.
 
 | Material | Ubicación |
 | --- | --- |
 | Guía del participante | [docs/guia.md](docs/guia.md) |
-| Aplicación inicial para copiar a tu propio repositorio | [hackerspace-site/](hackerspace-site/) |
+| Aplicación inicial para mover a `lab` | [hackerspace-site/](hackerspace-site/) |
 | Presentación única, con notas nativas | [slides/workshop.pptx](slides/workshop.pptx) |
 | Continuación técnica para instructor o agente local | [docs/INSTRUCTOR.md](docs/INSTRUCTOR.md) |
 
-Para abrir sólo la landing, con Node 22 y pnpm 10.20.0:
+El repo del material sigue siendo privado; necesitás acceso de lectura previo al clon. El PAT del sitio no lo concede. La guía explica el orden completo y los permisos mínimos, sin pedir un token clásico.
 
-~~~bash
-cd hackerspace-site
-pnpm install --frozen-lockfile
-pnpm dev
-~~~
+Después del primer push se explica `.gitignore`, se instala con Node 22/pnpm 10.20.0, se construye y se abre la landing. Los comandos de app se ejecutan desde `lab`, no desde la raíz del material. El build Docker es `docker build -t taller .`, después de leer `lab/Dockerfile` y revisar permisos.
 
-Abrí el puerto 3000. Los comandos habituales del proyecto son `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build`.
+Las notas del PPTX son un guion breve: sólo información útil que no está en pantalla, sin pistas ni fuentes repetidas. Donde no hace falta ampliar, quedan vacías.
 
 Para Google Slides, importá **slides/workshop.pptx** y revisá las notas y posibles sustituciones de fuentes. El código editable usa **Inconsolata**, con resaltado de sintaxis. Para PowerPoint de escritorio, la fuente debe estar instalada en ese equipo; no se entrega un paquete tipográfico. La regeneración opcional de los slides se explica sólo en el handoff del instructor.
