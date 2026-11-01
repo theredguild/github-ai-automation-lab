@@ -37,26 +37,51 @@ Cuando un proceso ocupa la terminal, abrí otra terminal para el siguiente coman
 
 ### 1.1 Crear tu repositorio
 
-La aplicación está directamente en la raíz: `package.json`, `app/` y `public/`. `docs/` contiene esta guía y `slides/` la presentación. No hay que entrar en una carpeta `web/` ni ejecutar un asistente `./lab`.
+En el repositorio del material del taller, elegí **Code → Download ZIP**, descomprimí el archivo y ubicá `hackerspace-site/`. No clones el repositorio del taller. Esa carpeta contiene la aplicación inicial, con `package.json`, `app/`, `public/` y `Dockerfile`.
 
-En GitHub, abrí **+ → New repository**. Elegí tu cuenta, un nombre como `nodoserrano-hackerspace` y la visibilidad apropiada. Para practicar con el runner, preferí un repositorio privado propio. Inicializalo con un README y verificá que la rama inicial se llame `main`.
+Esta guía, sus imágenes y la presentación quedan en el material descargado. Mantené la guía abierta desde ahí; no la copies al repositorio de tu aplicación.
+
+**Antes de crear un repositorio, elegí un solo camino: A web o B CLI.** No hagas ambos.
+
+#### A. Crear y cargar desde la web
+
+En GitHub, abrí **+ → New repository**. Elegí tu cuenta y un nombre como `nodoserrano-hackerspace`. Creá un repositorio privado propio para practicar con el runner, inicializalo con un README y verificá que la rama inicial se llame `main`.
 
 ![Creación de un repositorio en GitHub](assets/github-new-repo.png)
 
-Abrí **Add file → Upload files** y subí el contenido de este proyecto. Los archivos deben quedar en la raíz, no dentro de otra carpeta con el nombre del ZIP. Confirmá el commit en `main`. Incluí también `.gitignore`, `.env.example` y `.devcontainer/` si tu selector de archivos oculta nombres que comienzan con punto. Nunca subas `.env.local`, credenciales ni `node_modules`.
+Abrí **Add file → Upload files** y subí **sólo el contenido de `hackerspace-site/`**. `package.json`, `app/`, `public/` y `Dockerfile` deben quedar en la raíz de tu repo, no dentro de una carpeta `hackerspace-site/` ni de la carpeta del ZIP. Incluí `.gitignore`, `.dockerignore`, `.env.example` y `.devcontainer/`; activá la vista de archivos ocultos si tu selector no los muestra. Confirmá el commit en `main`.
 
-**Alternativa desde tu terminal local**, después de instalar Git y GitHub CLI y dentro de la carpeta descomprimida:
+No subas los documentos ni las diapositivas del taller, `node_modules`, `.next`, `.env.local`, credenciales ni perfiles de Hermes. En 1.2 elegí Codespaces o una copia local de tu nuevo repo.
+
+#### B. Crear y publicar desde la terminal local
+
+Este camino reemplaza la creación web y la carga de archivos. Necesitás Git y GitHub CLI. Abrí una terminal **dentro de `hackerspace-site/` del material descomprimido**, no en la carpeta que contiene todo el taller:
 
 ```bash
 gh auth login
 gh auth status
 git init -b main
+git config user.name
+git config user.email
+```
+
+Antes del primer commit, verificá que Git muestre tu nombre y tu email verificado o dirección privada de GitHub. La sesión de `gh` no configura la identidad de Git. Si falta algún valor o corresponde a otra persona, configurá la identidad **local de este repo** con tus datos reales:
+
+```bash
+git config user.name "Tu nombre"
+git config user.email "TU_EMAIL"
+```
+
+Reemplazá los ejemplos antes de ejecutar esos dos comandos. Luego revisá los archivos y publicá:
+
+```bash
+git status
 git add .
-git commit -m "Agrega la landing del HackerSpace y el workshop"
+git commit -m "Agrega la landing del HackerSpace"
 gh repo create TU_USUARIO/REPO --private --source=. --remote=origin --push
 ```
 
-Elegí una de las dos formas de crear el repositorio. El último comando publica los archivos en tu cuenta: revisá `git status` antes de ejecutarlo. Si el repositorio ya existe, usá la alternativa web o conectá ese remoto; no vuelvas a crearlo.
+El último comando crea tu repo privado y sube el commit. No lo ejecutes sobre un repo que ya creaste por la web. **Seguí trabajando en esta misma carpeta**, que ahora es tu copia Git de la aplicación; no clones otra copia. Si preferís Codespaces, abrilo sobre tu propio repo como indica 1.2.
 
 ### 1.2 Elegir dónde trabajar
 
@@ -66,24 +91,27 @@ Elegí una de las dos formas de crear el repositorio. El último comando publica
 | Editor, archivos y procesos corren en una máquina remota | Los archivos y procesos corren en tu equipo o WSL2 |
 | Revisá la cuota y quién paga antes de crear el entorno | Comprobá que Docker Desktop o Docker Engine esté iniciado |
 
-**Codespaces:** en tu repo, **Code → Codespaces → Create codespace on main**. Si aparece configuración avanzada, elegí una máquina de dos núcleos disponible. Este proyecto incluye una configuración de desarrollo con Node 22, GitHub CLI y Docker. Esperá a que termine la creación del entorno; la primera vez descarga imágenes.
+**Codespaces, para cualquiera de los dos caminos:** abrí **tu propio repositorio**, no el del material del taller, y elegí **Code → Codespaces → Create codespace on main**. Si aparece configuración avanzada, elegí una máquina de dos núcleos disponible. La aplicación incluye una configuración de desarrollo con Node 22, GitHub CLI y Docker. Esperá a que termine la creación del entorno; la primera vez descarga imágenes.
 
 ![Abrir Codespaces desde el repositorio](assets/codespaces-machine.png)
 
 GitHub puede incluir una cuota de Codespaces según la cuenta. Revisá **Settings → Billing and licensing → Usage / Budgets** y la cuenta pagadora. La disponibilidad y el consumo restante dependen de tu cuenta. El taller no requiere agregar una tarjeta ni habilitar gasto. Si no tenés cuota, usá el entorno local.
 
-**Local:** autenticá y cloná tu repo:
+**Local, si elegiste A web:** abrí una terminal y entrá en una carpeta de proyectos de tu equipo, **fuera del material descomprimido y de su `hackerspace-site/`**. Reemplazá la ruta de ejemplo por esa carpeta antes de clonar tu propio repo:
 
 ```bash
+cd /ruta/a/tus/proyectos
 gh auth login
 gh auth status
 gh repo clone TU_USUARIO/REPO
 cd REPO
 ```
 
-Si ya estás dentro de la carpeta que enviaste en el paso anterior, no necesitás clonar otra copia.
+**Local, si elegiste B CLI:** omití el clon y quedate en el `hackerspace-site/` donde hiciste el commit y `gh repo create`. Esa carpeta ya tiene el remoto de tu propio repo.
 
-**Punto de encuentro de ambos caminos:** abrí una terminal en la raíz y ejecutá:
+**Punto de encuentro:** la terminal debe estar en la raíz de **tu copia Git de la aplicación**, con `package.json`, `app/`, `public/` y `Dockerfile` a la vista. En Codespaces es la raíz de tu repo abierto; en local es `REPO/` para A o el `hackerspace-site/` inicializado para B. Los comandos restantes parten de esa raíz, sin agregar `hackerspace-site/` a las rutas. Cuando Docker use `$PWD` como origen del bind mount, debe apuntar a esta misma raíz, nunca a la carpeta del material completo.
+
+Comprobá las herramientas:
 
 ```bash
 node --version
@@ -147,7 +175,7 @@ Comprobá la configuración antes de pulsar **Deploy**:
 | Campo | Valor de este proyecto |
 | --- | --- |
 | Framework Preset | Next.js |
-| Root Directory | Raíz del repositorio |
+| Root Directory | `.`: raíz de tu propio repositorio de la aplicación, no del material del taller |
 | Install Command | Dejar la autodetección por `pnpm-lock.yaml`, sin activar Override |
 | Build Command | `pnpm build` |
 | Node.js | 22.x, en la configuración disponible del proyecto |
@@ -183,7 +211,7 @@ git log -1 --oneline
 git rev-parse --short HEAD
 ```
 
-Si Git pide identidad, configurá tu nombre y un email verificado o tu dirección privada de GitHub con `git config user.name "Tu nombre"` y `git config user.email "TU_EMAIL"`. Repetí el commit después.
+Si Git pide identidad en esta copia de trabajo, usá la configuración local explicada en 1.1, camino B, con tus datos reales. Repetí el commit después.
 
 **Alternativa web:** en GitHub, selector de branches → crear `development` desde `main`; abrí `app/page.tsx`, pulsá el lápiz, editá y confirmá el cambio en `development`. Conservá esta rama para los siguientes ejercicios.
 
@@ -318,7 +346,7 @@ Desde otra terminal del host, `docker exec -it herramientas bash` abre otra shel
 
 GitHub Actions organiza el trabajo en **workflow → jobs → steps**. Un runner ejecuta los steps de un job. El check del ejemplo instala el lockfile, corre Biome y revisa tipos de TypeScript.
 
-El archivo está provisto en [`snippets/checks.yml`](snippets/checks.yml). Leelo. Todavía no está activado en `.github/workflows/` para que lo incorpores durante el ejercicio.
+El archivo está provisto en [`../hackerspace-site/docs/snippets/checks.yml`](../hackerspace-site/docs/snippets/checks.yml) dentro del material descargado. En tu repo de la aplicación está en `docs/snippets/checks.yml`. Leelo. Todavía no está activado en `.github/workflows/` para que lo incorpores durante el ejercicio.
 
 La parte inicial dice:
 
@@ -797,7 +825,7 @@ Antes de gastar tokens se aplican filtros sobre datos del evento: repo propio, r
 
 ### 6.2 Configurar la ruta provista
 
-La configuración está en [`snippets/hermes-webhook.yaml`](snippets/hermes-webhook.yaml). Es un fragmento que se **fusiona bajo `platforms`** del perfil de Hermes; no es un reemplazo de todo el archivo. Conservá modelo, proveedor y Telegram.
+La configuración está en [`../hackerspace-site/docs/snippets/hermes-webhook.yaml`](../hackerspace-site/docs/snippets/hermes-webhook.yaml) dentro del material descargado. En tu repo de la aplicación está en `docs/snippets/hermes-webhook.yaml`. Es un fragmento que se **fusiona bajo `platforms`** del perfil de Hermes; no es un reemplazo de todo el archivo. Conservá modelo, proveedor y Telegram.
 
 En el host:
 

@@ -4,9 +4,9 @@ Actualizado el 31 de octubre de 2026. Este archivo contiene el estado técnico d
 
 ## Punto de entrada y estructura
 
-El participante abre `README.md` y sigue únicamente `docs/guia.md`. La app Next.js está en la raíz. `slides/workshop.pptx` es una sola presentación de 178 diapositivas con notas nativas, para importar en Google Slides. No se entrega ni se mantiene un PDF por ahora.
+El participante abre `README.md` y sigue únicamente `docs/guia.md`. La app Next.js autocontenida está en `hackerspace-site/`, separada de esta documentación y de `slides/`. El participante descarga el material como ZIP y sube sólo el contenido de esa carpeta a su repo propio: allí `package.json`, `app/` y `Dockerfile` quedan en la raíz. No clona el repo del material. `slides/workshop.pptx` es una sola presentación de 178 diapositivas con notas nativas, para importar en Google Slides. No se entrega ni se mantiene un PDF por ahora.
 
-Codespaces es una alternativa de preparación, no un segundo plan. Se conserva la configuración `.devcontainer/devcontainer.json` del proyecto anterior. Los seis ejercicios y sus comandos posteriores son los mismos en ambos entornos.
+Codespaces es una alternativa de preparación, no un segundo plan. Su configuración se entrega en `hackerspace-site/.devcontainer/devcontainer.json` y queda como `.devcontainer/devcontainer.json` en el repo propio del participante. Los seis ejercicios y sus comandos posteriores son los mismos en ambos entornos. Las plantillas consumidas por los ejercicios están en `hackerspace-site/docs/snippets/`; no incluyen otra guía.
 
 El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded y Poppins. El código ahora usa Courier New explícita y colores por sintaxis. No se entrega un paquete de fuentes tipográficas.
 
@@ -16,6 +16,7 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 - Seis ejercicios: landing y Vercel; Docker y runner; Hermes y Telegram; túnel; webhook sin IA; review solicitada por etiqueta.
 - Empezar haciendo: dos diapositivas de apertura y el primer ejercicio. Enseñar Git, virtualización, redes y webhooks justo al necesitarlos.
 - App de ejemplo: landing Next.js del HackerSpace de NodoSerrano.org. Hacer build real y deploy de main y development; el código de la landing es secundario al proceso.
+- Separar el material del taller de la app en `hackerspace-site/`. Descargar el ZIP del material y crear un solo repo propio por web o CLI; clonar únicamente ese repo cuando corresponda, sin subir guía ni presentación.
 - Comandos nativos y alternativa web donde existe. Usar `gh auth login`, sin exportar ni borrar variables de tokens. Delegar llamadas repetitivas a la API al agente o usar los formularios web.
 - Mantener suficiente contenido para presentar detenidamente: pasos, comandos, salidas relevantes, capturas reales, explicaciones, diagramas y notas nativas. No reemplazar el taller por un resumen de pocas diapositivas.
 - Historial Git con carriles y curvas; usar main y development en el ejercicio. Explicar merge commit, squash y rebase, y mostrar la interfaz real de PR.
@@ -31,19 +32,19 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 
 | Área | Resultado y alcance |
 | --- | --- |
-| Código de aplicación | Se conservó el código del ZIP anterior: Next.js 16.4.3, React 19.3.0, Node objetivo 22.x, pnpm objetivo 10.20.0 y Biome 2.4.2. No se sustituyó la app por una nueva. |
-| Formato y lint | `pnpm lint` pasó dentro del container Node 22 después de reinstalar dependencias existentes: 15 archivos, sin cambios de formato. El store está fuera del proyecto y `.pnpm-store/` también está excluido de Git y del contexto Docker. |
-| TypeScript | `pnpm typecheck` terminó con código 0 en el runtime objetivo Node 22.23.4. |
-| Receptor y funciones | `pnpm test` pasó sus 23 comprobaciones. Además se ejercitó el servidor Next de producción por HTTP: health, evento firmado UTF-8, duplicado, firma ausente, repo incorrecto, body alterado, exceso de tamaño, JSON inválido, tipo de contenido incorrecto y evento ignorado. Los 10 escenarios dieron el estado y body esperados. |
-| Entorno de estas comprobaciones | Imagen Linux amd64 con Node 22.23.4 y pnpm 10.20.0. `pnpm install --frozen-lockfile` pasó sobre `node_modules` existente, aceptando su pregunta de recreación en una TTY real, sin `CI=true`. Store confirmado en `/home/node/.local/share/pnpm/store/v10`. |
-| Build de producción | `pnpm build` pasó con Cache Components y Partial Prefetching habilitados tras quitar el export redundante de `runtime`. `pnpm start --hostname 0.0.0.0` arrancó y sirvió landing, health y webhook. Landing revisada en navegador, sin errores de página. `.env.local` creado después del build se cargó al arrancar, probado en una carpeta temporal sin tocar secretos del proyecto. |
+| Código de aplicación | App autocontenida en `hackerspace-site/`, sin duplicado en la raíz del material. Se conservan Next.js 16.4.3, React 19.3.0, Node objetivo 22.x, pnpm 10.20.0 y Biome 2.4.2. La exportación de sus 23 archivos versionados incluye dotfiles, Dockerfile, devcontainer y ambas plantillas, pero no guía, slides, caches ni instrucciones del mantenedor. |
+| Formato y lint | `pnpm lint` pasó desde la app anidada y desde un repo independiente creado con su exportación: 14 archivos, sin cambios de formato. Biome conserva exclusiones Git en ambos casos. Se quitó sólo la exclusión de slides, porque ya no están dentro de la app. |
+| TypeScript | `pnpm typecheck` terminó con código 0 desde la app anidada y desde el repo independiente en Node 22.23.4. |
+| Receptor y funciones | `pnpm test` pasó sus 23 comprobaciones en ambas ubicaciones. El servidor de producción exportado respondió health 200, evento firmado UTF-8 `received`, reentrega `duplicate` y evento sin firma 401. Los otros límites HTTP se habían probado en la corrección anterior; no se cambiaron sus handlers al moverlos. |
+| Entorno de estas comprobaciones | Exportación limpia: Linux amd64, Node 22.23.4 y pnpm 10.20.0; install frozen, lint, typecheck, tests y build pasaron sin depender del material padre. Checkout anidado: host Node 26.10.0 emitió el aviso de engines y pasó lint, typecheck, tests y build; no sustituye el ensayo Node 22. En la corrección anterior también se comprobó la recreación interactiva de dependencias existentes y el store fuera del proyecto. |
+| Build de producción | `pnpm build` pasó tanto anidado como independiente. En el repo exportado se arrancaron `pnpm dev` y `pnpm start --hostname 0.0.0.0`; landing revisada visualmente en ambos, producción sin errores de página. La primera navegación dev registró `net::ERR_ABORTED` para una fuente del overlay de Next; su endpoint respondió luego HTTP 200. La carga de `.env.local` tras el build se comprobó en la corrección anterior, sin cambiar ese comportamiento en esta reorganización. |
 | Dependencias | El lockfile se conserva. La consulta de advisories de producción de la revisión anterior, del mismo 31 de octubre, no encontró vulnerabilidades conocidas. No es una certificación de seguridad. |
-| Dockerfile | Build nativo y build con UID 12345/GID 20 pasaron. Imagen predeterminada `sha256:4bdd0f2f053e3904c546cbe9e39042a503b45b58673a59c15f1712bf157a18ea`. Versiones conservadas: Node 22.23.4, pnpm 10.20.0, gh 2.103.3, cloudflared 2026.10.3 y runner 2.338.2. Cero, IDs vacíos/no numéricos y colisión de UID fueron rechazados. GID 20 ya existente fue admitido sin ejecutar el agente como root. Arm64, Desktop y rootless no ejecutados. |
+| Dockerfile | `docker build -t workshop-tools:2026-10 .` pasó usando como único contexto el repo exportado. Imagen conservada `sha256:4bdd0f2f053e3904c546cbe9e39042a503b45b58673a59c15f1712bf157a18ea`; Dockerfile y versiones no cambiaron. Las pruebas anteriores de UID 12345/GID 20 y rechazo de IDs inválidos siguen documentadas; no se repitieron por el cambio de carpeta. Arm64, Desktop y rootless no ejecutados. |
 | Codespaces | Configuración conservada y revisión estática. No se creó un Codespace. Comprobar imagen, features, pnpm, daemon Docker y permisos de bind mount en una instancia real. |
 | Hermes y canales | Revisión estática contrastada con código upstream de Hermes v0.22.5: instalación, allowlist numérica de Telegram, YAML, filtros previos al modelo, HMAC de GitHub, bind/puerto y entrega `github_comment` mediante sesión guardada de `gh`. No se instaló Hermes aquí, no se cargaron credenciales, no se llamó a modelos ni se enviaron mensajes a Telegram. |
-| Presentación | PPTX parcheado sin regenerar el deck: 178 diapositivas, 178 notas nativas, 16 tablas, 1999 formas y 20 imágenes conservadas. Sólo cambiaron 17 partes XML de slides/notas; las otras 742 entradas ZIP conservaron su contenido byte a byte. Se renderizó el PPTX real con LibreOffice 7.4 y se revisaron las 12 slides afectadas, sin recortes observados. Fuentes Poppins/Unbounded temporales fuera del repo; Courier New se sustituyó por Liberation Mono en ese renderer. No es verificación en PowerPoint ni Google Slides. |
+| Presentación | En esta reorganización se ajustaron slides 3, 5–8, 10, 15, 17 y 23, conservando 178 diapositivas, 178 notas y las 759 partes del PPTX. Sólo cambiaron 17 partes XML de texto/notas; las otras 742 y la estructura no textual permanecieron idénticas. El PPTX real se renderizó con LibreOffice 7.4.7.2 y se revisaron las 9 slides afectadas, sin recortes ni solapamientos observados. Fuentes temporales fuera del repo; no es verificación en PowerPoint ni Google Slides. |
 | Google Slides | No se importó en una cuenta de Google. Revisar tipografías, resaltado, conectores, recortes y conservación de las 178 notas después de convertir. No afirmar que esa importación se probó. |
-| Documentación | 19 enlaces locales sin faltantes, incluido el anchor de migración; 48 bloques Bash de la guía y 59 de slides pasan `bash -n`. Los 59 bloques de slides coinciden con el texto del PPTX. El PDF anterior queda local, fuera de la entrega y sin obligación de actualizarlo. |
+| Documentación | 21 enlaces locales sin faltantes, incluido el anchor de migración y las plantillas trasladadas; 50 bloques Bash de la guía y 59 de slides pasan `bash -n`. Los 59 bloques de slides coinciden con el texto del PPTX. El PDF anterior queda local, fuera de la entrega y sin obligación de actualizarlo. |
 | Capturas | Referencias reales de documentación oficial de GitHub, Cloudflare, Vercel y OpenRouter/Hermes; foto publicada por Nodo Serrano. No son capturas de nuestras integraciones. Los ejemplos de salida se rotulan como ejemplos. |
 | DeepSec | Sigue pendiente una captura real y acceso al producto. No se inventó una pantalla ni se agregó una demo ficticia al recorrido de seis ejercicios. |
 | Publicación | El usuario autorizó el historial en el repo privado `theredguild/github-ai-automation-lab` y la incorporación de `slides/workshop.pptx` para continuar editándolo. Los archivos de autoría adicionales y `docs/consulta.pdf` quedan locales y excluidos de Git. No se crearon findings ni se consumieron servicios pagos. |
@@ -57,6 +58,14 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 - **Review inmutable.** El prompt compara base/head del evento y base `main` antes de obtener el diff y antes de devolver la respuesta. Usa `gh api` con comparación entre ambos SHA, no un diff de rama mutable. Una consulta de sólo lectura a GitHub sobre dos commits ya existentes devolvió los cambios esperados. Un repo Git temporal con historias divergentes comprobó que la comparación de tres puntos excluye cambios exclusivos de base y conserva el diff solicitado tras mover head, base y merge-base. Esto no prueba que un modelo siga las instrucciones ni hace atómica la publicación.
 - **Red.** El servidor de producción respondió el mismo health desde loopback del host y desde otro container por el alias `lab-app`. La publicación quedó limitada a `127.0.0.1`; no se abrió un túnel público.
 - **Integraciones pendientes.** No se registró un runner, ejecutó un job, creó un Codespace ni publicó un deployment de Vercel. No se configuraron cuentas de Hermes, OpenRouter o Telegram ni se consumieron modelos. La revisión estática de Hermes v0.22.5 no sustituye esos recorridos. Los recursos y fixtures temporales de ejecución se retiraron.
+
+### Separación del starter y del material
+
+El recorrido crea un solo repo propio por un camino elegido antes de empezar. La vía web sube el contenido de `hackerspace-site/` y luego abre Codespaces o clona ese repo desde una carpeta de proyectos. La vía CLI inicializa esa carpeta extraída, configura identidad Git antes del primer commit, publica y continúa allí sin clonar otra copia. La guía permanece fuera del repo de la app.
+
+Se exportó únicamente el árbol versionado de `hackerspace-site/`, se hizo un commit Git local y se clonó a otra carpeta temporal. Ese checkout tuvo su propio `.git`, ejecutó todas las comprobaciones y sirvió la app sin montar el material del taller. No se creó un repo real en una cuenta de GitHub para simular este paso.
+
+Los comandos `cp docs/snippets/checks.yml ...` y las instrucciones de Hermes sobre `docs/snippets/hermes-webhook.yaml` siguen siendo relativos a la raíz del repo del participante. Sólo los enlaces de la guía apuntan a la ubicación dentro del material. `next dev` puede generar instrucciones propias de Next en el proyecto; no se copia allí el handoff ni el `AGENTS.md` del mantenedor.
 
 ## Cambios que afectan al ensayo
 
@@ -97,15 +106,18 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 
 ## Continuación recomendada en el entorno local
 
-1. Con Node 22 y pnpm 10.20.0, ejecutar desde la raíz:
+1. Con Node 22 y pnpm 10.20.0, entrar en `hackerspace-site/` desde la raíz del material y ejecutar:
 
    ```bash
+   cd hackerspace-site
    pnpm install --frozen-lockfile
    pnpm lint
    pnpm typecheck
    pnpm test
    pnpm build
    ```
+
+   Los comandos siguientes de aplicación y Docker usan esa carpeta como directorio actual. En el repo independiente del participante se ejecutan desde su propia raíz, sin otro `cd hackerspace-site`.
 
 2. Construir y abrir la imagen:
 
@@ -129,7 +141,7 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 
 7. Seguir las pruebas local/interna/pública del túnel, caída y recuperación. Después recibir un PR real en Next, verificar firma inválida, `received` y `duplicate`.
 
-8. Fusionar `docs/snippets/hermes-webhook.yaml`, comprobarlo contra la versión instalada y habilitar Webhooks. Confirmar el caso negativo de etiqueta sin llamada al modelo, el caso positivo con comentario, el control del SHA y una segunda revisión tras la corrección. Si `github_comment` requiere autenticación adicional en esa versión, resolverlo con el flujo nativo y actualizar guía y slides juntos.
+8. Fusionar la plantilla `hackerspace-site/docs/snippets/hermes-webhook.yaml` del material, que en el repo del participante queda como `docs/snippets/hermes-webhook.yaml`. Comprobarla contra la versión instalada y habilitar Webhooks. Confirmar el caso negativo de etiqueta sin llamada al modelo, el caso positivo con comentario, el control del SHA y una segunda revisión tras la corrección. Si `github_comment` requiere autenticación adicional en esa versión, resolverlo con el flujo nativo y actualizar guía y slides juntos.
 
 9. Importar la presentación en Google Slides. Revisar notas de una slide de código, una de captura y una de gráfico, y luego recorrer las 178. Si hay sustitución de fuente, corregir el estilo de los comandos en Slides manteniéndolo monoespaciado.
 
