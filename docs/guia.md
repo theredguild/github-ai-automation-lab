@@ -2,7 +2,7 @@
 
 Construí una landing, publicá dos versiones y conectá GitHub con un runner, un agente y una revisión solicitada por webhook. El ejemplo es el HackerSpace de Nodo Serrano. En cada ejercicio se explica cómo trasladarlo a tu proyecto.
 
-**Un solo recorrido.** Codespaces y tu computadora son dos lugares donde abrir los mismos archivos. Una vez abierto el proyecto, seguí los mismos seis ejercicios.
+**Recorrido recomendado: tu equipo y containers.** Los seis ejercicios se siguen desde el host, usando Docker cuando aparece en el ejercicio 2. Codespaces queda como demo opcional de la landing; no está validado de punta a punta para runner, Hermes, Telegram, túnel y reviews. No es el plan alternativo para completar la clase.
 
 | Ejercicio | Resultado que vas a comprobar |
 | --- | --- |
@@ -17,7 +17,7 @@ Las capturas son interfaces reales publicadas en la documentación de sus provee
 
 ## Cómo leer los comandos
 
-Usá Bash: la terminal de Codespaces, Linux, macOS o WSL2. En Windows con Docker Desktop, abrí el proyecto dentro de WSL2. No copies estos bloques directamente a PowerShell.
+Usá Bash en Linux, macOS o [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install). En Windows con Docker Desktop, abrí el proyecto dentro de WSL2. No copies estos bloques directamente a PowerShell.
 
 - `TU_USUARIO/REPO`: reemplazalo por el propietario y nombre de **tu** repositorio.
 - `NUMERO`: número real del PR; no lleva `#` en los comandos.
@@ -27,7 +27,7 @@ Usá Bash: la terminal de Codespaces, Linux, macOS o WSL2. En Windows con Docker
 - Las líneas que empiezan con `#` son comentarios.
 - El texto bajo `text` muestra una salida o una tarea para el agente; no es un comando de Bash.
 
-Las etiquetas **host**, **lab-agent** y **lab-app** indican dónde ejecutar cada comando. En Codespaces, *host del taller* significa su terminal principal. No significa tu laptop.
+Las etiquetas **host**, **lab-agent** y **lab-app** indican dónde ejecutar cada comando. En el recorrido recomendado, **host** es tu equipo o WSL2; las otras dos etiquetas son containers que crearemos más adelante. La demo opcional de Codespaces usa su terminal remota sólo para el alcance indicado.
 
 Cuando un proceso ocupa la terminal, abrí otra terminal para el siguiente comando. Para detenerlo usá `Ctrl+C` en esa terminal. No hace falta cerrar el entorno.
 
@@ -35,30 +35,28 @@ Cuando un proceso ocupa la terminal, abrí otra terminal para el siguiente coman
 
 **Objetivo:** publicar la landing primero y aprender branches y PR sobre un cambio visible.
 
-### 1.1 Clonar el material y separar la app
+### 1.1 Preparar y publicar tu repo desde el host
 
-Desde una terminal Bash en tu carpeta de proyectos, cloná el repositorio del taller. Necesitás Git y acceso a ese repo. Si requiere autenticación, comprobá `gh auth status` y usá `gh auth login` sólo si falta una sesión válida:
-
-Estos primeros pasos sólo preparan y publican tu repo con Git y GitHub CLI. Todavía no necesitás Node ni Docker en tu equipo. Después de publicar, en 1.2 elegís dónde ejecutar la app: Codespaces o local.
+Necesitás [Git](https://git-scm.com/install/), [GitHub CLI](https://cli.github.com/) y acceso al repositorio del taller. En una terminal Bash de tu equipo, comprobá `gh auth status`; si falta una sesión válida, usá `gh auth login`. Estos pasos no se hacen dentro de Codespaces y todavía no requieren Node ni Docker.
 
 ```bash
 git clone https://github.com/theredguild/github-ai-automation-lab.git
 cd github-ai-automation-lab
 ```
 
-Dentro de ese checkout, `hackerspace-site/` contiene la aplicación inicial. Copiá **su contenido** a una carpeta nueva, al lado del material, antes de instalar dependencias:
+Copiá el contenido del starter a una carpeta **inicial** nueva, al lado del material:
 
 ```bash
-mkdir ../nodoserrano-hackerspace \
-  && cp -R hackerspace-site/. ../nodoserrano-hackerspace/ \
-  && cd ../nodoserrano-hackerspace
+mkdir ../nodoserrano-hackerspace-inicial \
+  && cp -R hackerspace-site/. ../nodoserrano-hackerspace-inicial/ \
+  && cd ../nodoserrano-hackerspace-inicial
 ```
 
-El destino debe ser nuevo. Si `mkdir` dice que ya existe, detenete y elegí otro nombre; no copies encima de un proyecto existente. `hackerspace-site/.` incluye los archivos ocultos, como `.gitignore`, `.dockerignore`, `.env.example` y `.devcontainer/`.
+Si el destino ya existe, detenete y elegí otro nombre. `hackerspace-site/.` incluye archivos ocultos; `hackerspace-site/*` no los incluye. La `.git` del material queda fuera de la copia: no hace falta borrarla ni copiarla. Guía y presentación también quedan en el checkout del material.
 
-La carpeta `.git` del taller está en la raíz del checkout del material, **no dentro de `hackerspace-site/`**, por lo que no se copia. No hace falta borrarla: queda con la guía y la presentación en `github-ai-automation-lab/`. No copies toda esa carpeta ni inicialices tu proyecto dentro de ella.
+Si ya tenés un sitio propio con archivos generados versionados, no lo reemplaces ni hagas otro `git init`: usá [la reparación de seguimiento](#si-tu-repo-ya-incluye-archivos-generados).
 
-Ahora estás en `nodoserrano-hackerspace/`, fuera del checkout del taller, con `package.json`, `app/`, `public/`, `Dockerfile` y las plantillas de los ejercicios. Iniciá un historial propio:
+Iniciá el historial de esta copia nueva y comprobá la identidad Git:
 
 ```bash
 git init -b main
@@ -66,32 +64,57 @@ git config user.name
 git config user.email
 ```
 
-Antes del primer commit, verificá que Git muestre tu nombre y tu email verificado o dirección privada de GitHub. La sesión de `gh` no configura la identidad de Git. Si falta algún valor o corresponde a otra persona, configurá la identidad **local de este repo** con tus datos reales:
+Si falta algún valor o corresponde a otra persona, configurá sólo este repo con tus datos reales:
 
 ```bash
 git config user.name "Tu nombre"
 git config user.email "TU_EMAIL"
 ```
 
-Reemplazá los ejemplos antes de ejecutar esos dos comandos. Luego revisá y guardá los archivos:
+La sesión de GitHub y la identidad de los commits son cosas distintas. Reemplazá los ejemplos antes de ejecutar esos dos comandos.
+
+#### Revisar `.gitignore` antes del primer commit
+
+El starter incluye [`.gitignore`](../hackerspace-site/.gitignore). Es un archivo de reglas que Git usa para no añadir archivos locales que todavía no sigue: dependencias en `node_modules/`, build y cache en `.next/`, store de pnpm y archivos temporales de TypeScript. También excluye `.env.local`; `.env.example` sí se versiona porque no lleva secretos.
+
+Desde la raíz de tu app, asegurate de conservar ese archivo. Si falta, copialo desde el material; si ya existe, no sobrescribas tus reglas:
 
 ```bash
-git status
+test -f .gitignore \
+  || cp ../github-ai-automation-lab/hackerspace-site/.gitignore .gitignore
+git check-ignore -v --no-index node_modules/ .next/ .pnpm-store/ \
+  .vercel/ tsconfig.tsbuildinfo .env.local
+```
+
+Cada ruta del ejemplo debe mostrar la regla que la excluye. Si faltan reglas, completalas con las del starter antes de seguir. `--no-index` permite diagnosticar las reglas incluso si algún archivo ya está seguido.
+
+Prepará el commit y **revisá qué se va a guardar**:
+
+```bash
+git add .gitignore
 git add .
+git ls-files -ci --exclude-standard
+git diff --cached --name-status
+```
+
+`git ls-files -ci --exclude-standard` debe quedar sin salida. Si lista archivos, Git ya los sigue aunque ahora estén ignorados: corregilo con la sección de reparación antes de hacer commit. En el diff deben aparecer código, configuración, lockfile y `.gitignore`, no dependencias, builds ni secretos.
+
+```bash
 git commit -m "Agrega la landing del HackerSpace"
 ```
 
-No incluyas documentos ni diapositivas del taller, `node_modules`, `.next`, `.env.local`, credenciales o perfiles de Hermes. Para publicar tu proyecto, elegí **una sola** de estas opciones:
+#### Publicar antes de clonar el sitio
 
-**CLI:** autenticá tu cuenta y creá un repo privado nuevo desde esta carpeta:
+Elegí **una sola** opción desde este host:
+
+**CLI:** usá la sesión de tu equipo y creá un repo privado nuevo:
 
 ```bash
-gh auth login
 gh auth status
 gh repo create TU_USUARIO/REPO --private --source=. --remote=origin --push
 ```
 
-**Alternativa web:** en GitHub, **+ → New repository**, elegí tu cuenta, un nombre como `nodoserrano-hackerspace` y visibilidad privada. Crealo **vacío, sin README, licencia ni `.gitignore`**, para no crear un historial inicial distinto del commit local. En lugar de `gh repo create`, conectá ese repo vacío y enviá tu commit:
+**Alternativa web:** abrí [New repository](https://github.com/new), elegí tu cuenta y un nombre como `nodoserrano-hackerspace`. Crealo privado y **vacío, sin README, licencia ni `.gitignore`**, para no crear otro historial inicial. En lugar de `gh repo create`, conectá ese repo vacío:
 
 ```bash
 git remote add origin https://github.com/TU_USUARIO/REPO.git
@@ -100,31 +123,65 @@ git push -u origin main
 
 ![Creación de un repositorio en GitHub](assets/github-new-repo.png)
 
-Seguí trabajando en `nodoserrano-hackerspace/`; no clones otra copia de tu repo. Mantené esta guía abierta desde el checkout del material, que queda separado.
+Esperá que el push termine sin error y comprobá en GitHub que estén `package.json`, `app/` y `.gitignore`, sin `.next/` ni `node_modules/`. **Sólo después** pasá a 1.2 para clonar el sitio publicado. Un push fallido no es una publicación terminada.
 
-### 1.2 Elegir dónde ejecutar la aplicación
+#### Si tu repo ya incluye archivos generados
 
-Tu repo ya está publicado. **Elegí un solo entorno para continuar:** Codespaces o tu equipo. No ejecutes la app en ambos a la vez.
+Esta reparación se hace en el **repo de tu app en el host**, no en el material del taller. No crea otro repo ni borra archivos de trabajo. Primero ubicá la raíz y revisá el estado:
 
-| Codespaces | Tu computadora |
-| --- | --- |
-| Abrís tu repo en el navegador y usás su terminal remota | Seguís en `nodoserrano-hackerspace/` con una terminal de tu equipo o WSL2 |
-| La configuración del repo prepara Node 22, pnpm 10.20.0 y `gh` | Necesitás Node 22, pnpm 10.20.0 y `gh` preparados localmente |
-| No instalás Node ni Docker en tu equipo; revisá cuota y cuenta pagadora | Docker se prepara al empezar el ejercicio 2, no para ver la landing |
+```bash
+git rev-parse --show-toplevel
+git status
+```
 
-En el ejercicio 1 ejecutás `pnpm dev` en la terminal elegida: no creás containers del taller. Codespaces prepara por su cuenta el entorno remoto; no tenés que reproducirlo localmente. Docker se explica en el ejercicio 2, justo antes de construir la imagen y ejecutar el primer container de la práctica.
+Entrá en esa raíz. Restaurá `.gitignore` sólo si falta, como arriba, y comprobá sus reglas. Para el layout de esta app, quitá del índice sólo las carpetas y el cache conocidos:
 
-**Si elegiste Codespaces:** abrí **tu propio repositorio**, no el del material del taller, y elegí **Code → Codespaces → Create codespace on main**. Si aparece configuración avanzada, elegí una máquina de dos núcleos disponible. Esperá a que la configuración del repo termine de preparar las herramientas; la primera vez descarga su entorno.
+```bash
+git rm -r --cached --ignore-unmatch node_modules .next .pnpm-store .vercel
+git rm --cached --ignore-unmatch tsconfig.tsbuildinfo
+```
 
-![Abrir Codespaces desde el repositorio](assets/codespaces-machine.png)
+`--cached` deja esos archivos en tu disco y deja de versionarlos. Si Git rechaza la operación, detenete y revisá el estado; no agregues `-f` ni quites todo el repo del índice.
 
-GitHub puede incluir una cuota de Codespaces según la cuenta. Revisá **Settings → Billing and licensing → Usage / Budgets** y la cuenta pagadora. La disponibilidad y el consumo restante dependen de tu cuenta. El taller no requiere agregar una tarjeta ni habilitar gasto. Si no tenés cuota, usá el entorno local.
+```bash
+git add .gitignore
+git ls-files -ci --exclude-standard
+git diff --cached --name-status
+```
 
-**Si elegiste local:** continuá en `nodoserrano-hackerspace/`, la carpeta separada donde hiciste `git init` y el primer commit. Ya tiene el remoto de tu propio repo; no necesitás clonarla de nuevo. Para el ejercicio 1 instalá o verificá Node 22 y pnpm 10.20.0; todavía no hace falta arrancar Docker.
+La lista de archivos seguidos e ignorados debe quedar vacía. Si queda alguna ruta anidada, revisala y quitá **esa ruta concreta** del índice. Las entradas `D` de artefactos en el diff son las eliminaciones de seguimiento esperadas; no implican borrarlos del disco. Revisá el resto de tus cambios antes de confirmar y publicar la reparación.
 
-**Punto de encuentro:** la terminal debe estar en la raíz de **tu copia Git de la aplicación**, con `package.json`, `app/`, `public/` y `Dockerfile` a la vista. En Codespaces es la raíz de tu repo abierto; en local es la carpeta que acabás de crear. Los comandos restantes parten de esa raíz, sin agregar `hackerspace-site/` a las rutas. Cuando Docker use `$PWD` como origen del bind mount, debe apuntar a esta misma raíz, nunca al checkout del material completo.
+Esto evita seguir versionándolos, pero **no los elimina de commits anteriores**. Si un push fue rechazado por un archivo grande que ya está en el historial, un commit que lo borre no alcanza: detené la publicación y revisá ese historial con el instructor. No hagas force-push ni reescrituras a ciegas. Si se publicó una credencial, revocala o rotala; ignorarla o quitarla del índice no la vuelve segura. [Referencia oficial de `.gitignore`](https://docs.github.com/en/get-started/git-basics/ignoring-files).
 
-Comprobá las herramientas:
+### 1.2 Clonar el sitio publicado y trabajar en tu equipo
+
+El recorrido completo usa **tu host + containers**, no Codespaces ni Gitpod. Después del push correcto de 1.1, volvé a la carpeta de proyectos y cloná **tu propio repo** en otra carpeta:
+
+```bash
+cd ..
+git clone https://github.com/TU_USUARIO/REPO.git nodoserrano-hackerspace
+cd nodoserrano-hackerspace
+```
+
+El destino debe estar libre. La carpeta `nodoserrano-hackerspace-inicial/` queda como preparación; continuá en este clon nuevo, que trae el historial y `.gitignore` ya publicados. No clones el sitio antes de su primer push correcto.
+
+El clon no trae la configuración local de `.git/config` de la carpeta inicial. Comprobá de nuevo tu identidad, aunque Git permita hacer commits sin preguntar:
+
+```bash
+git config user.name
+git config user.email
+```
+
+Si falta algún valor o corresponde a otra persona, configurá **este clon** con tus datos reales:
+
+```bash
+git config user.name "Tu nombre"
+git config user.email "TU_EMAIL"
+```
+
+Reemplazá ambos ejemplos. Estos comandos sólo cambian este repo; una identidad global incorrecta no se corrige al clonar.
+
+Para el ejercicio 1 prepará [Node 22](https://nodejs.org/en/download), [pnpm 10.20.0](https://pnpm.io/installation) y [GitHub CLI](https://cli.github.com/) en tu equipo. Elegí esas versiones, no otra versión por ser la que aparece primero en una descarga. Todavía no hace falta arrancar Docker.
 
 ```bash
 node --version
@@ -132,15 +189,21 @@ pnpm --version
 gh auth status
 ```
 
-Ejemplo de salida abreviada:
+Si la sesión del **host** no es válida, completá `gh auth login` en tu equipo. No copies ni exportes tokens manualmente. En 1.3 ejecutarás `pnpm dev` directamente con Node; Docker aparece en el ejercicio 2.
 
-```text
-v22.x.x
-10.20.0
-github.com · cuenta TU_USUARIO
-```
+Las terminales siguientes deben abrirse en la raíz de este clon de la app, con `package.json`, `app/`, `public/` y `Dockerfile` a la vista. Cuando Docker use `$PWD`, debe apuntar a esta raíz, nunca al checkout del material.
 
-Si `gh` no tiene una sesión válida, ejecutá `gh auth login`, elegí **GitHub.com → HTTPS → Login with a web browser** y completá la autorización en el navegador. Codespaces puede traer una sesión ya disponible: comprobala con `gh auth status` y evitá reemplazarla innecesariamente. No copies ni exportes tokens manualmente.
+#### Demo opcional de la landing en Codespaces, sin garantía del taller completo
+
+Si el instructor quiere mostrar sólo la app desde el navegador, puede abrir [GitHub Codespaces](https://github.com/codespaces) o **Code → Codespaces** en el repo **propio ya publicado**. [Procedimiento oficial](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository). El enlace puede pedir iniciar sesión en GitHub; no es una URL pública de una app.
+
+Codespaces hace el checkout de ese repo al crearse: no crees otro repo, no clones el material ni clones de nuevo la app dentro de él. La configuración entregada está en `.devcontainer/devcontainer.json`, pero el recorrido completo no está certificado allí. Si faltan herramientas o permisos, no conviertas la clase en una depuración de ese entorno: volvé al host.
+
+No ejecutes `gh auth login` ni `gh auth refresh` para reemplazar la autenticación de Codespaces, y no borres ni exportes sus variables de tokens. Codespaces provee credenciales para su repo, con permisos que pueden no alcanzar para crear repos, administrar hooks o autenticar un agente dentro de otro container. [Autenticación y límites del entorno](https://docs.github.com/en/codespaces/reference/security-in-github-codespaces). Las operaciones que requieran esos permisos se hacen en el host o en la web, no suponiendo que un nuevo login remoto lo soluciona.
+
+Antes de abrir una instancia, revisá [cuota y facturación](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces). La demo se limita a instalar, ejecutar y ver la landing de 1.3; los ejercicios 2–6 continúan en el host.
+
+![Abrir Codespaces desde el repositorio](assets/codespaces-machine.png)
 
 ### 1.3 Instalar y ver la landing
 
@@ -156,7 +219,7 @@ Local: http://localhost:3000
 Ready in …
 ```
 
-En local abrí `http://localhost:3000`. En Codespaces, abrí **Ports → 3000 → Open in Browser**. Conservá el puerto privado: el navegador usa el reenvío de Codespaces para mostrarlo. Todavía no es el deployment de Vercel.
+En tu equipo abrí `http://localhost:3000`. Sólo para la demo opcional de Codespaces, usá **Ports → 3000 → Open in Browser** y conservá el puerto privado. Todavía no es el deployment de Vercel.
 
 Comprobá que se vean el título del HackerSpace, sus actividades y la imagen. Si no carga, volvé a la terminal: el primer error visible suele ser más útil que recargar muchas veces.
 
@@ -179,7 +242,7 @@ Un build prepara la aplicación de producción. Una salida exitosa termina sin e
 
 ### 1.4 Conectar Vercel
 
-En Vercel, iniciá sesión y elegí **Add New → Project → Import Git Repository**. Conectá GitHub y concedé acceso al repo de la práctica. Si no aparece, revisá los permisos de la integración.
+Abrí [Vercel → New Project](https://vercel.com/new), iniciá sesión y elegí **Import Git Repository**. Conectá GitHub y concedé acceso al repo de la práctica. Si no aparece, revisá los permisos de la integración.
 
 ![Deployment de referencia en Vercel](assets/vercel-deployment.png)
 
@@ -224,7 +287,7 @@ git log -1 --oneline
 git rev-parse --short HEAD
 ```
 
-Si Git pide identidad en esta copia de trabajo, usá la configuración local explicada en 1.1 con tus datos reales. Repetí el commit después.
+Si Git pide identidad en esta copia de trabajo, repetí la comprobación y configuración local de 1.2 con tus datos reales. Repetí el commit después.
 
 **Alternativa web:** en GitHub, selector de branches → crear `development` desde `main`; abrí `app/page.tsx`, pulsá el lápiz, editá y confirmá el cambio en `development`. Conservá esta rama para los siguientes ejercicios.
 
@@ -300,13 +363,13 @@ Si una regla exige checks o aprobación, atendé ese requisito. No uses bypass. 
 
 ### 2.1 Ubicar Host, VM y container
 
-**Host** es la máquina que aloja procesos. Puede ser física o una VM. Una **VM** tiene su propio kernel y se ejecuta sobre un hipervisor. Un **container Linux** aísla procesos y filesystem y comparte el kernel Linux de su host. En Docker Desktop, ese host Linux suele estar dentro de una VM. Codespaces también usa infraestructura remota; su dev container no corre en tu laptop.
+**Host** es la máquina que aloja procesos. Puede ser física o una VM. Una **VM** tiene su propio kernel y se ejecuta sobre un hipervisor. Un **container Linux** aísla procesos y filesystem y comparte el kernel Linux de su host. En Docker Desktop, ese host Linux suele estar dentro de una VM.
 
 El **Dockerfile** es la receta, la **imagen** es el resultado de construirla y un **container** es una instancia en ejecución. Reutilizaremos una imagen de herramientas con instancias separadas para runner, agente y aplicación.
 
 ### 2.2 Construir la imagen común
 
-En la terminal principal, raíz del proyecto:
+Estos ejercicios continúan en **tu host**, no en Codespaces. Prepará [Docker Desktop o Docker Engine](https://docs.docker.com/get-started/get-docker/) para tu sistema e iniciá su servicio. En la terminal principal, raíz del clon de tu app:
 
 ```bash
 docker version
@@ -319,7 +382,7 @@ docker network create workshop-net
 docker network ls
 ```
 
-`docker version` debe mostrar **Client y Server**. Un error al conectar con el daemon no se arregla reinstalando el cliente. Iniciá Docker Desktop/Engine o comprobá la creación del Codespace. Si la red ya existe, reutilizala.
+`docker version` debe mostrar **Client y Server**. Un error al conectar con el daemon no se arregla reinstalando el cliente. Iniciá Docker Desktop/Engine en tu equipo. Si la red ya existe, reutilizala.
 
 Los argumentos hacen coincidir el usuario `node` de la imagen con tus IDs, sin ejecutar el agente como root. En Linux con Docker Engine convencional, esto permite escribir el bind mount del proyecto. Construí desde una cuenta normal, no con una sesión de usuario root. Si el proyecto pertenece a otra cuenta, prepará sus permisos con el instructor antes de continuar. Docker Desktop y Docker rootless pueden traducir propietarios de otra forma; comprobá escritura en el paso 3.1.
 
@@ -391,7 +454,7 @@ git commit -m "Agrega checks manuales"
 git push origin main
 ```
 
-Si GitHub rechaza específicamente la edición de workflows por el alcance de la sesión OAuth, completá el consentimiento nativo `gh auth refresh --scopes workflow` y repetí el push. No hace falta editar tokens ni llamar a la API. Si preferís cambiar al camino web, conservá tu commit local y resolvé la sincronización antes de volver a hacer pull; no crees otra copia del mismo cambio sin revisar `git status`.
+Si GitHub rechaza específicamente la edición de workflows por el alcance de la sesión OAuth de **tu host**, completá allí el consentimiento nativo `gh auth refresh --scopes workflow` y repetí el push. Esto no es una instrucción para Codespaces ni para ampliar su token automático. No hace falta editar tokens ni llamar a la API. Si preferís cambiar al camino web, conservá tu commit local y resolvé la sincronización antes de volver a hacer pull; no crees otra copia del mismo cambio sin revisar `git status`.
 
 Con el workflow ya en `main`, actualizá ambas ramas en tu copia:
 
@@ -525,7 +588,7 @@ Con `hermes` disponible:
 hermes setup
 ```
 
-En el wizard elegí **OpenRouter**, cargá tu credencial de ese proveedor y seleccioná un modelo gratuito disponible que permita herramientas. Verificá el precio y los límites que muestra tu cuenta en ese momento. No hay un modelo gratuito fijo garantizado. Si no hay uno disponible, podés usar tu proveedor ya configurado, con sus límites y tu consentimiento antes de consumo pago.
+En el wizard elegí [OpenRouter](https://openrouter.ai/), cargá tu credencial de ese proveedor y seleccioná un modelo gratuito disponible que permita herramientas. Verificá el precio y los límites que muestra tu cuenta en ese momento. No hay un modelo gratuito fijo garantizado. Si no hay uno disponible, podés usar tu proveedor ya configurado, con sus límites y tu consentimiento antes de consumo pago.
 
 ![Selección de OpenRouter en la interfaz oficial de referencia](assets/hermes-openrouter-provider.png)
 
@@ -539,7 +602,7 @@ Pedile que se presente en español y que explique qué herramientas tiene dispon
 
 ### 3.3 Crear el bot de Telegram
 
-En Telegram buscá el **@BotFather oficial**, enviá `/newbot`, elegí nombre y username y guardá el bot token de forma privada. Obtené tu **ID numérico de usuario** mediante el procedimiento indicado por la guía de Telegram de Hermes; un `@username` no equivale a ese ID.
+En Telegram abrí el [@BotFather oficial](https://t.me/BotFather), enviá `/newbot`, elegí nombre y username y guardá el bot token de forma privada. Obtené tu **ID numérico de usuario** mediante el procedimiento indicado por la guía de Telegram de Hermes; un `@username` no equivale a ese ID.
 
 En otra shell de **lab-agent**:
 
@@ -726,7 +789,7 @@ cd /workspace
 gh auth status
 ```
 
-Si no tiene sesión válida, ejecutá **dentro del agente** `gh auth login` y completá el flujo del navegador. Tu login del host no se comparte automáticamente con el container. Revisá qué cuenta y permisos autorizás: este flujo puede conceder más acceso que un único repositorio. El taller no lo presenta como un token de acceso mínimo a un solo repo.
+Si no tiene sesión válida, ejecutá **dentro de lab-agent en Docker de tu host** `gh auth login` y completá el flujo del navegador. Esto no se ejecuta en la terminal de Codespaces. Tu login del host no se comparte automáticamente con el container. Revisá qué cuenta y permisos autorizás: este flujo puede conceder más acceso que un único repositorio. El taller no lo presenta como un token de acceso mínimo a un solo repo.
 
 Con `hermes chat`, podés delegar las tareas repetitivas. Usá tu repo y tu URL reales; no pegues secretos en el mensaje.
 
@@ -1021,16 +1084,16 @@ docker ps
 
 El runner efímero debe haber terminado tras su job. Si sigue esperando, detenelo en su terminal y revisá su registro en GitHub. No elimines por rutina el volumen `hermes-home`: contiene tu progreso y credenciales. Para reutilizarlo, arrancá su container; para descartarlo, decidilo conscientemente después de guardar lo necesario.
 
-En Codespaces elegí **Stop codespace** desde la lista de Codespaces. Cerrar la pestaña no garantiza detenerlo. Un Codespace detenido puede seguir consumiendo almacenamiento; eliminá sólo el que ya no necesites y cuyo trabajo hayas enviado al repo.
+Si usaste la demo opcional de Codespaces, elegí **Stop codespace** desde [tu lista de Codespaces](https://github.com/codespaces). Cerrar la pestaña no garantiza detenerlo. Un Codespace detenido puede seguir consumiendo almacenamiento; eliminá sólo el que ya no necesites y cuyo trabajo hayas enviado al repo.
 
 ## Documentación para profundizar
 
 - [Login nativo de GitHub CLI](https://cli.github.com/manual/gh_auth_login), [PR create](https://cli.github.com/manual/gh_pr_create), [PR review](https://cli.github.com/manual/gh_pr_review) y [PR merge](https://cli.github.com/manual/gh_pr_merge).
 - [Crear Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository) y [facturación de Codespaces](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces).
 - [Integración Git de Vercel](https://vercel.com/docs/git) y [deployments](https://vercel.com/docs/deployments).
-- [Métodos de merge](https://docs.github.com/en/pull-requests/concepts/merge-methods) y [merge desde web o CLI](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request).
+- [Métodos de merge](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github) y [merge desde web o CLI](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request).
 - [Containers en Docker](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/) y [docker run](https://docs.docker.com/reference/cli/docker/container/run/).
-- [Runners efímeros](https://docs.github.com/en/actions/concepts/runners/autoscaling-with-self-hosted-runners) y [seguridad en Actions](https://docs.github.com/en/actions/how-tos/security-for-github-actions/security-guides/security-hardening-for-github-actions).
+- [Runners efímeros](https://docs.github.com/en/actions/reference/runners/self-hosted-runners) y [seguridad en Actions](https://docs.github.com/en/actions/reference/security/secure-use).
 - [Hermes: instalación](https://hermes-agent.nousresearch.com/docs/getting-started/installation), [CLI](https://hermes-agent.nousresearch.com/docs/reference/cli-commands), [Telegram](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram), [Webhooks](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/webhooks) y [review de PR](https://hermes-agent.nousresearch.com/docs/guides/webhook-github-pr-review).
 - [Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/) y [validación de webhooks de GitHub](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries).
 - [Modelos gratuitos en OpenRouter](https://openrouter.ai/docs/guides/routing/model-variants/free).
