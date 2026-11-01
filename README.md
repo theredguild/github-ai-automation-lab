@@ -2,9 +2,9 @@
 
 Seis ejercicios sobre la landing Next.js del HackerSpace de Nodo Serrano. Este repositorio contiene el material del taller; la aplicación está separada en [`hackerspace-site/`](hackerspace-site/).
 
-**Empezá por [la guía completa](docs/guia.md)**. Incluye la preparación con Codespaces o tu equipo, comandos nativos, alternativas web, capturas, resultados esperados y diagnóstico. Ambos entornos siguen los mismos ejercicios.
+**Empezá por [la guía completa](docs/guia.md)**. El recorrido usa tu equipo y, desde el ejercicio 2, containers. Codespaces queda como una demo opcional de la landing al final del ejercicio 1, después del push y de comprobar los deployments.
 
-Descargá el material con **Code → Download ZIP** y seguí la guía antes de crear tu repositorio. Vas a copiar sólo el contenido de `hackerspace-site/`, no el taller completo. La guía y la presentación quedan en la carpeta del material descargado.
+Cloná este repositorio y copiá sólo el contenido de `hackerspace-site/`, incluidos los archivos ocultos, a una carpeta nueva. Revisá `.gitignore`, iniciá Git y publicá tu repo propio. Sólo después de un push correcto cloná ese sitio para trabajar, como indica la guía. Guía y presentación quedan en el checkout del material.
 
 | Material | Ubicación |
 | --- | --- |

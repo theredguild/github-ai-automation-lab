@@ -2,7 +2,7 @@
 
 Construí una landing, publicá dos versiones y conectá GitHub con un runner, un agente y una revisión solicitada por webhook. El ejemplo es el HackerSpace de Nodo Serrano. En cada ejercicio se explica cómo trasladarlo a tu proyecto.
 
-**Recorrido recomendado: tu equipo y containers.** Los seis ejercicios se siguen desde el host, usando Docker cuando aparece en el ejercicio 2. Codespaces queda como demo opcional de la landing; no está validado de punta a punta para runner, Hermes, Telegram, túnel y reviews. No es el plan alternativo para completar la clase.
+**Recorrido recomendado: tu equipo y containers.** Los seis ejercicios se siguen desde el host, usando Docker cuando aparece en el ejercicio 2. La [demo opcional de la landing en Codespaces](#19-demo-opcional-la-landing-en-codespaces) queda al final del ejercicio 1, después de publicar y comprobar el repo. No valida de punta a punta runner, Hermes, Telegram, túnel y reviews ni es un plan alternativo para completar la clase.
 
 | Ejercicio | Resultado que vas a comprobar |
 | --- | --- |
@@ -193,18 +193,6 @@ Si la sesión del **host** no es válida, completá `gh auth login` en tu equipo
 
 Las terminales siguientes deben abrirse en la raíz de este clon de la app, con `package.json`, `app/`, `public/` y `Dockerfile` a la vista. Cuando Docker use `$PWD`, debe apuntar a esta raíz, nunca al checkout del material.
 
-#### Demo opcional de la landing en Codespaces, sin garantía del taller completo
-
-Si el instructor quiere mostrar sólo la app desde el navegador, puede abrir [GitHub Codespaces](https://github.com/codespaces) o **Code → Codespaces** en el repo **propio ya publicado**. [Procedimiento oficial](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository). El enlace puede pedir iniciar sesión en GitHub; no es una URL pública de una app.
-
-Codespaces hace el checkout de ese repo al crearse: no crees otro repo, no clones el material ni clones de nuevo la app dentro de él. La configuración entregada está en `.devcontainer/devcontainer.json`, pero el recorrido completo no está certificado allí. Si faltan herramientas o permisos, no conviertas la clase en una depuración de ese entorno: volvé al host.
-
-No ejecutes `gh auth login` ni `gh auth refresh` para reemplazar la autenticación de Codespaces, y no borres ni exportes sus variables de tokens. Codespaces provee credenciales para su repo, con permisos que pueden no alcanzar para crear repos, administrar hooks o autenticar un agente dentro de otro container. [Autenticación y límites del entorno](https://docs.github.com/en/codespaces/reference/security-in-github-codespaces). Las operaciones que requieran esos permisos se hacen en el host o en la web, no suponiendo que un nuevo login remoto lo soluciona.
-
-Antes de abrir una instancia, revisá [cuota y facturación](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces). La demo se limita a instalar, ejecutar y ver la landing de 1.3; los ejercicios 2–6 continúan en el host.
-
-![Abrir Codespaces desde el repositorio](assets/codespaces-machine.png)
-
 ### 1.3 Instalar y ver la landing
 
 ```bash
@@ -219,7 +207,7 @@ Local: http://localhost:3000
 Ready in …
 ```
 
-En tu equipo abrí `http://localhost:3000`. Sólo para la demo opcional de Codespaces, usá **Ports → 3000 → Open in Browser** y conservá el puerto privado. Todavía no es el deployment de Vercel.
+En tu equipo abrí `http://localhost:3000`. Todavía no es el deployment de Vercel.
 
 Comprobá que se vean el título del HackerSpace, sus actividades y la imagen. Si no carga, volvé a la terminal: el primer error visible suele ser más útil que recargar muchas veces.
 
@@ -356,6 +344,45 @@ gh pr view NUMERO --json state,mergeCommit
 Si una regla exige checks o aprobación, atendé ese requisito. No uses bypass. Después del merge, Vercel debe construir un nuevo Production de `main`. Abrí esa URL y comprobá el título nuevo y el SHA del deployment.
 
 **Antes de seguir:** identificá tu repo, el PR integrado, la URL de Production y la de Preview. Si usás otro proyecto, reemplazá sólo framework, comandos y carpeta raíz; Git, branches, PR y la integración Git siguen el mismo recorrido.
+
+### 1.9 Demo opcional: la landing en Codespaces
+
+Esta demo breve viene **después** del push correcto, el build local, Production y Preview funcionando y el PR integrado. No reemplaza el recorrido del host ni habilita los ejercicios 2–6 en Codespaces.
+
+Abrí [GitHub Codespaces](https://github.com/codespaces) o **Code → Codespaces** en tu repo **propio ya publicado**, con `main` funcionando. Preferí una instancia existente de tu cuenta. Antes de crear una, revisá [cuota y cuenta pagadora](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces); no actives pagos para esta demo. Si decidís crearla, elegí `main` y 2 núcleos si están disponibles. [Procedimiento oficial](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository).
+
+Codespaces hace el checkout del repo automáticamente. No crees otro repo ni clones de nuevo la app o el material dentro de él. En una instancia existente, comprobá primero:
+
+```bash
+git status
+git branch --show-current
+```
+
+Sólo si el checkout está limpio y la branch es `main`, sincronizá y compará los dos SHA:
+
+```bash
+git pull --ff-only
+git rev-parse HEAD origin/main
+```
+
+Los SHA deben coincidir. Si hay cambios locales, otra branch, falla el pull o los SHA difieren, omití la demo sin reset, force-push ni depuración en clase.
+
+Comprobá Node 22 y pnpm 10.20.0. Si están disponibles, instalá y ejecutá la misma landing:
+
+```bash
+node --version
+pnpm --version
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+En **Ports → 3000 → Open in Browser**, usá el puerto que muestre Next y mantenelo **privado**. Reconocé la landing; esa URL remota no es Production de Vercel ni un endpoint de webhook.
+
+![Abrir Codespaces desde el repositorio](assets/codespaces-machine.png)
+
+No ejecutes `gh auth login` ni `gh auth refresh`, ni borres o exportes variables de tokens. La autenticación automática tiene [permisos limitados](https://docs.github.com/en/codespaces/reference/security-in-github-codespaces). Si faltan acceso, herramientas o permisos, omití la demo y seguí en el host. La configuración `.devcontainer/devcontainer.json` no certifica el taller completo.
+
+Al terminar, **Ctrl+C** detiene Next, pero no el entorno remoto. En [tu lista de Codespaces](https://github.com/codespaces), elegí **Stop codespace** para esa instancia. No la borres. Volvé a la terminal del host, raíz de `nodoserrano-hackerspace/`, antes del ejercicio 2.
 
 ## 2. Docker y runner
 
