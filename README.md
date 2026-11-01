@@ -23,4 +23,4 @@ pnpm dev
 
 Abrí el puerto 3000. Los comandos habituales del proyecto son `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build`.
 
-Para Google Slides, importá **slides/workshop.pptx** y revisá las notas después de convertirlo. No hay que instalar ni importar un paquete de fuentes. El código utiliza Courier New y resaltado de sintaxis editable. La regeneración opcional de los slides se explica sólo en el handoff del instructor.
+Para Google Slides, importá **slides/workshop.pptx** y revisá las notas y posibles sustituciones de fuentes. El código editable usa **Inconsolata**, con resaltado de sintaxis. Para PowerPoint de escritorio, la fuente debe estar instalada en ese equipo; no se entrega un paquete tipográfico. La regeneración opcional de los slides se explica sólo en el handoff del instructor.
