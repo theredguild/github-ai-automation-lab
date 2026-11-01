@@ -37,9 +37,24 @@ RUN set -eu; \
     tar -xzf /tmp/runner.tgz -C /opt/actions-runner; \
     rm -rf /tmp/gh.tgz "/tmp/gh_${GH_VERSION}_linux_${TARGETARCH}" /tmp/cloudflared /tmp/runner.tgz
 
-RUN mkdir -p /workspace /home/node/.hermes \
-    && chown -R node:node /workspace /home/node/.hermes /opt/actions-runner
-ENV PATH="/home/node/.local/bin:${PATH}"
+ARG WORKSHOP_UID=1000
+ARG WORKSHOP_GID=1000
+RUN set -eu; \
+    for value in "$WORKSHOP_UID" "$WORKSHOP_GID"; do \
+      case "$value" in \
+        ''|*[!0-9]*) echo "WORKSHOP_UID y WORKSHOP_GID deben ser enteros positivos." >&2; exit 1 ;; \
+      esac; \
+      case "$value" in \
+        *[1-9]*) ;; \
+        *) echo "WORKSHOP_UID y WORKSHOP_GID deben ser mayores que cero." >&2; exit 1 ;; \
+      esac; \
+    done; \
+    groupmod --non-unique --gid "$WORKSHOP_GID" node; \
+    usermod --uid "$WORKSHOP_UID" --gid node node; \
+    mkdir -p /workspace /home/node/.hermes /home/node/.local/share/pnpm/store; \
+    chown -R node:node /home/node /workspace /opt/actions-runner
+ENV PATH="/home/node/.local/bin:${PATH}" \
+    npm_config_store_dir="/home/node/.local/share/pnpm/store"
 WORKDIR /workspace
 USER node
 RUN node --version && pnpm --version && gh --version && cloudflared --version

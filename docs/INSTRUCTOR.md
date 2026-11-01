@@ -32,21 +32,31 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 | Área | Resultado y alcance |
 | --- | --- |
 | Código de aplicación | Se conservó el código del ZIP anterior: Next.js 16.4.3, React 19.3.0, Node objetivo 22.x, pnpm objetivo 10.20.0 y Biome 2.4.2. No se sustituyó la app por una nueva. |
-| Formato y lint | Ejecutados sobre el proyecto consolidado. Biome terminó sin errores ni avisos informativos tras corregir el estilo de los tests. La carpeta de autoría de slides se excluye del lint de la app. |
-| TypeScript | `tsc --noEmit` terminó con código 0 sobre el proyecto consolidado. |
-| Receptor y funciones | 23 comprobaciones locales pasan en `tests/webhook.test.mjs`: HMAC, alteración del body, UTF-8, JSON inválido, tamaño, repo, delivery, duplicados, eventos, configuración, health y capacidad. Se importan los handlers directamente. No prueban un servidor Next ni entregas reales de GitHub. |
-| Entorno de estas comprobaciones | Host Node 24.22.1 y pnpm 11.25.0. Para ejecutar scripts con las dependencias ya disponibles se desactivó la verificación/gestión automática de pnpm en esta sesión. No sustituye una instalación limpia con Node 22 y pnpm 10.20.0. |
-| Build de producción | Intentado de nuevo desde la raíz consolidada. Falla con `ENOENT`, syscall `uv_resident_set_memory`. El mismo problema del host se había reproducido con `process.memoryUsage()`. Es una función de libuv, no el instalador Python uv ni una instalación de Hermes. Build pendiente en el runtime objetivo. |
+| Formato y lint | `pnpm lint` pasó dentro del container Node 22 después de reinstalar dependencias existentes: 15 archivos, sin cambios de formato. El store está fuera del proyecto y `.pnpm-store/` también está excluido de Git y del contexto Docker. |
+| TypeScript | `pnpm typecheck` terminó con código 0 en el runtime objetivo Node 22.23.4. |
+| Receptor y funciones | `pnpm test` pasó sus 23 comprobaciones. Además se ejercitó el servidor Next de producción por HTTP: health, evento firmado UTF-8, duplicado, firma ausente, repo incorrecto, body alterado, exceso de tamaño, JSON inválido, tipo de contenido incorrecto y evento ignorado. Los 10 escenarios dieron el estado y body esperados. |
+| Entorno de estas comprobaciones | Imagen Linux amd64 con Node 22.23.4 y pnpm 10.20.0. `pnpm install --frozen-lockfile` pasó sobre `node_modules` existente, aceptando su pregunta de recreación en una TTY real, sin `CI=true`. Store confirmado en `/home/node/.local/share/pnpm/store/v10`. |
+| Build de producción | `pnpm build` pasó con Cache Components y Partial Prefetching habilitados tras quitar el export redundante de `runtime`. `pnpm start --hostname 0.0.0.0` arrancó y sirvió landing, health y webhook. Landing revisada en navegador, sin errores de página. `.env.local` creado después del build se cargó al arrancar, probado en una carpeta temporal sin tocar secretos del proyecto. |
 | Dependencias | El lockfile se conserva. La consulta de advisories de producción de la revisión anterior, del mismo 31 de octubre, no encontró vulnerabilidades conocidas. No es una certificación de seguridad. |
-| Dockerfile | Mantiene versiones y SHA-256 contrastados con los releases oficiales en la revisión anterior para amd64 y arm64. No hay Docker disponible aquí: no se construyó ni arrancó la imagen. |
+| Dockerfile | Build nativo y build con UID 12345/GID 20 pasaron. Imagen predeterminada `sha256:4bdd0f2f053e3904c546cbe9e39042a503b45b58673a59c15f1712bf157a18ea`. Versiones conservadas: Node 22.23.4, pnpm 10.20.0, gh 2.103.3, cloudflared 2026.10.3 y runner 2.338.2. Cero, IDs vacíos/no numéricos y colisión de UID fueron rechazados. GID 20 ya existente fue admitido sin ejecutar el agente como root. Arm64, Desktop y rootless no ejecutados. |
 | Codespaces | Configuración conservada y revisión estática. No se creó un Codespace. Comprobar imagen, features, pnpm, daemon Docker y permisos de bind mount en una instancia real. |
-| Hermes y canales | Documentación y configuración provista. No se instaló Hermes aquí, no se cargaron credenciales y no se llamó a modelos ni se enviaron mensajes a Telegram. |
-| Presentación | Validación estructural e importación en el motor de autoría completadas: 178 slides, 178 notas que coinciden con la fuente, 16 tablas nativas y sin hallazgos de geometría. Una secuencia de 178 diapositivas; notas nativas, texto de código y tablas editables. El código tiene Courier New explícita en sus runs y varios colores en el XML exportado. Renders generados para todas las diapositivas y revisión visual del recorrido y de los layouts modificados. |
+| Hermes y canales | Revisión estática contrastada con código upstream de Hermes v0.22.5: instalación, allowlist numérica de Telegram, YAML, filtros previos al modelo, HMAC de GitHub, bind/puerto y entrega `github_comment` mediante sesión guardada de `gh`. No se instaló Hermes aquí, no se cargaron credenciales, no se llamó a modelos ni se enviaron mensajes a Telegram. |
+| Presentación | PPTX parcheado sin regenerar el deck: 178 diapositivas, 178 notas nativas, 16 tablas, 1999 formas y 20 imágenes conservadas. Sólo cambiaron 17 partes XML de slides/notas; las otras 742 entradas ZIP conservaron su contenido byte a byte. Se renderizó el PPTX real con LibreOffice 7.4 y se revisaron las 12 slides afectadas, sin recortes observados. Fuentes Poppins/Unbounded temporales fuera del repo; Courier New se sustituyó por Liberation Mono en ese renderer. No es verificación en PowerPoint ni Google Slides. |
 | Google Slides | No se importó en una cuenta de Google. Revisar tipografías, resaltado, conectores, recortes y conservación de las 178 notas después de convertir. No afirmar que esa importación se probó. |
-| Documentación | En esta incorporación se verificaron 18 enlaces locales sin faltantes, integridad ZIP del PPTX, 178 diapositivas y 178 notas. En la preparación anterior, 59 bloques Bash de la fuente pasaron bash -n y se generó un PDF de 178 páginas con muestras renderizadas con Poppler. Ese export queda local, fuera de la entrega y sin obligación de actualizarlo. |
+| Documentación | 19 enlaces locales sin faltantes, incluido el anchor de migración; 48 bloques Bash de la guía y 59 de slides pasan `bash -n`. Los 59 bloques de slides coinciden con el texto del PPTX. El PDF anterior queda local, fuera de la entrega y sin obligación de actualizarlo. |
 | Capturas | Referencias reales de documentación oficial de GitHub, Cloudflare, Vercel y OpenRouter/Hermes; foto publicada por Nodo Serrano. No son capturas de nuestras integraciones. Los ejemplos de salida se rotulan como ejemplos. |
 | DeepSec | Sigue pendiente una captura real y acceso al producto. No se inventó una pantalla ni se agregó una demo ficticia al recorrido de seis ejercicios. |
 | Publicación | El usuario autorizó el historial en el repo privado `theredguild/github-ai-automation-lab` y la incorporación de `slides/workshop.pptx` para continuar editándolo. Los archivos de autoría adicionales y `docs/consulta.pdf` quedan locales y excluidos de Git. No se crearon findings ni se consumieron servicios pagos. |
+
+### Correcciones verificadas para el ensayo
+
+- **Build y producción.** El Route Handler usa el runtime Node predeterminado, compatible con Cache Components. Las comprobaciones unitarias se complementaron con navegador y requests al servidor de producción, no sólo imports directos.
+- **Store y permisos.** La imagen define el store de pnpm fuera del bind mount y permite preparar `node` con UID/GID del participante. Se probó escritura en proyecto, home, store e instalación del runner con UID 12345/GID 20. La guía comprueba permisos antes de cargar credenciales.
+- **Perfil existente.** La migración documentada copia a otro volumen y cambia sólo sus propietarios. En el ensayo, el marcador y propietario originales siguieron en 1000:1000 y la copia quedó escribible en 12345:20. También se comprobó que un container existente conserva su UID original aunque se cambie el destino de la etiqueta de imagen.
+- **Vercel.** Guía y presentación conservan autodetección de Install Command; no ofrecen un override genérico incompatible con el lockfile. La selección se contrastó con documentación oficial, no con un deployment real.
+- **Review inmutable.** El prompt compara base/head del evento y base `main` antes de obtener el diff y antes de devolver la respuesta. Usa `gh api` con comparación entre ambos SHA, no un diff de rama mutable. Una consulta de sólo lectura a GitHub sobre dos commits ya existentes devolvió los cambios esperados. Un repo Git temporal con historias divergentes comprobó que la comparación de tres puntos excluye cambios exclusivos de base y conserva el diff solicitado tras mover head, base y merge-base. Esto no prueba que un modelo siga las instrucciones ni hace atómica la publicación.
+- **Red.** El servidor de producción respondió el mismo health desde loopback del host y desde otro container por el alias `lab-app`. La publicación quedó limitada a `127.0.0.1`; no se abrió un túnel público.
+- **Integraciones pendientes.** No se registró un runner, ejecutó un job, creó un Codespace ni publicó un deployment de Vercel. No se configuraron cuentas de Hermes, OpenRouter o Telegram ni se consumieron modelos. La revisión estática de Hermes v0.22.5 no sustituye esos recorridos. Los recursos y fixtures temporales de ejecución se retiraron.
 
 ## Cambios que afectan al ensayo
 
@@ -56,11 +66,34 @@ Para agregar el workflow hay dos alternativas explícitas: web o CLI. La CLI act
 
 El runner no recibe mounts, sesión de gh, perfil del agente ni socket Docker, y usa la red predeterminada. El agente comparte únicamente la carpeta del proyecto por un bind mount **con escritura**. Esa carpeta también la usa lab-app. Esto permite delegar la edición de `.env.local`; no equivale a aislamiento completo ni a acceso de sólo lectura.
 
-La sesión de `gh auth login` del host no se monta dentro del agente. Se inicia una sesión propia cuando el ejercicio 5 la necesita. El flujo OAuth puede conceder más alcance que un repo; no afirmar restricciones propias de un fine-grained PAT. El gateway debe poder usar esa misma sesión guardada para `gh pr view`, `gh pr diff` y `github_comment` sin exportar tokens. **Este punto requiere ensayo end-to-end.**
+La sesión de `gh auth login` del host no se monta dentro del agente. Se inicia una sesión propia cuando el ejercicio 5 la necesita. El flujo OAuth puede conceder más alcance que un repo; no afirmar restricciones propias de un fine-grained PAT. El gateway debe poder usar esa misma sesión guardada para `gh pr view`, `gh api` y `github_comment` sin exportar tokens. **Este punto requiere ensayo end-to-end.**
 
 El agente configura archivos y hooks desde `hermes chat`, en otra shell. No se le pide reiniciar por Telegram el gateway que transporta su propia conversación. La persona reinicia el proceso de Next o del gateway en su terminal. No se monta el socket Docker para evitar esa acción humana.
 
 El receptor Next responde `received` al evento aceptado y no invoca IA. La deduplicación es local, acotada y se pierde al reiniciar. El receptor nativo del ejercicio 6 tiene otra ruta, otro secret y una respuesta asíncrona: verificar el comentario final además del acuse HTTP.
+
+### Migrar una instancia y su perfil
+
+Para un proyecto nuevo, construir la imagen con los UID/GID del participante antes de crear `lab-agent` y `lab-app`. Los argumentos predeterminados son 1000; no representan a cualquier host. El usuario final sigue siendo `node`. La coincidencia de IDs se aplica a permisos Linux convencionales; verificar por separado Docker Desktop, rootless y user namespaces.
+
+Reconstruir una etiqueta no modifica containers existentes. Si sólo se retoma la misma imagen e IDs, usar `docker start` como indica la guía. Si cambian IDs o se necesita la imagen nueva, primero detener tareas y gateway, conservar el container viejo y copiar el perfil a **otro volumen**. No borrar el original:
+
+```bash
+docker stop lab-agent
+docker rename lab-agent lab-agent-anterior
+docker volume create hermes-home-migrado
+docker run --rm --user 0 \
+  -v hermes-home:/origen:ro \
+  -v hermes-home-migrado:/destino \
+  workshop-tools:2026-10 \
+  bash -c 'cp -a /origen/. /destino/ && chown -R node:node /destino'
+```
+
+Usar nombres de destino libres; si ya existen, elegir otros sin sobrescribirlos. El container administrativo sólo copia y prepara propietarios de ese volumen, no ejecuta Hermes ni la app y no recibe el proyecto, home del host o socket Docker.
+
+Repetir el comando de 3.1 con `-v hermes-home-migrado:/home/node/.hermes` en lugar de `hermes-home`, comprobar escritura y verificar o reinstalar Hermes siguiendo 3.2, conservando la configuración del perfil. La instalación, sus entornos y el launcher pueden depender de archivos de la capa anterior. El login de `gh` está fuera del volumen del perfil: iniciar sesión de nuevo mediante 5.2. El container anterior conserva sus archivos y el volumen original queda intacto para recuperación. No arrancar simultáneamente los dos gateways.
+
+Para reemplazar `lab-app`, conservar también la instancia anterior con otro nombre y repetir 4.2 con la imagen nueva. El bind mount conserva el proyecto y `.env.local`; no copiar credenciales al runner. Revisar permisos del proyecto antes de instalar dependencias, sin aplicar `chmod 777`.
 
 ## Continuación recomendada en el entorno local
 
@@ -77,7 +110,9 @@ El receptor Next responde `received` al evento aceptado y no invoca IA. La dedup
 2. Construir y abrir la imagen:
 
    ```bash
-   docker build -t workshop-tools:2026-10 .
+   docker build -t workshop-tools:2026-10 \
+     --build-arg WORKSHOP_UID="$(id -u)" \
+     --build-arg WORKSHOP_GID="$(id -g)" .
    docker run --rm workshop-tools:2026-10 \
      bash -lc 'node --version; pnpm --version; gh --version; cloudflared --version'
    ```

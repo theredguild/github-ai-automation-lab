@@ -1,7 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-export const runtime = "nodejs";
-
 const MAX_BODY_BYTES = 128 * 1024;
 const DELIVERY_TTL_MS = 60 * 60 * 1000;
 const deliveries = new Map<string, number>();

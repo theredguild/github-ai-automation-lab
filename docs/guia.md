@@ -148,12 +148,14 @@ Comprobá la configuración antes de pulsar **Deploy**:
 | --- | --- |
 | Framework Preset | Next.js |
 | Root Directory | Raíz del repositorio |
-| Install Command | Detección por `pnpm-lock.yaml`, o `pnpm install --frozen-lockfile` |
+| Install Command | Dejar la autodetección por `pnpm-lock.yaml`, sin activar Override |
 | Build Command | `pnpm build` |
 | Node.js | 22.x, en la configuración disponible del proyecto |
 | Production Branch | `main` |
 
 No hace falta cargar secretos para publicar esta landing. El receptor de webhooks se usará localmente más adelante; sus secretos no deben terminar en variables `NEXT_PUBLIC_*`.
+
+No sobrescribas Install Command con un `pnpm install` genérico: Vercel puede seleccionar otra versión del gestor. Para fijar exactamente `pnpm@10.20.0` en Vercel, habilitá Corepack según su documentación; no hace falta para el camino básico de autodetección.
 
 Abrí el deployment, leé los **Build Logs** y esperá el estado **Ready**. Visitá su URL de Production. Relacioná el commit mostrado por Vercel con el repo; un sitio que se ve bien puede pertenecer a otro deployment.
 
@@ -268,13 +270,19 @@ En la terminal principal, raíz del proyecto:
 ```bash
 docker version
 docker info
-docker build -t workshop-tools:2026-10 .
+docker build -t workshop-tools:2026-10 \
+  --build-arg WORKSHOP_UID="$(id -u)" \
+  --build-arg WORKSHOP_GID="$(id -g)" .
 docker image ls workshop-tools
 docker network create workshop-net
 docker network ls
 ```
 
 `docker version` debe mostrar **Client y Server**. Un error al conectar con el daemon no se arregla reinstalando el cliente. Iniciá Docker Desktop/Engine o comprobá la creación del Codespace. Si la red ya existe, reutilizala.
+
+Los argumentos hacen coincidir el usuario `node` de la imagen con tus IDs, sin ejecutar el agente como root. En Linux con Docker Engine convencional, esto permite escribir el bind mount del proyecto. Construí desde una cuenta normal, no con una sesión de usuario root. Si el proyecto pertenece a otra cuenta, prepará sus permisos con el instructor antes de continuar. Docker Desktop y Docker rootless pueden traducir propietarios de otra forma; comprobá escritura en el paso 3.1.
+
+El store de pnpm queda en `/home/node/.local/share/pnpm/store`, fuera del proyecto. Si usás una imagen preparada por otra persona, sus IDs pueden ser distintos: reconstruí con los tuyos antes de crear las instancias que montan el proyecto.
 
 La imagen contiene Bash, Git, Node, pnpm, GitHub CLI, cloudflared, el runner y utilidades mínimas. No guarda sesiones ni registra runners durante el build. Hermes se incorpora durante el setup en vivo del ejercicio 3, siguiendo su documentación oficial.
 
@@ -454,7 +462,17 @@ docker run -it --name lab-agent \
 
 Este container tiene acceso de lectura y escritura a **este proyecto** por el bind mount. Más adelante Hermes podrá preparar su receptor y `.env.local`. No montes tu carpeta personal ni el socket Docker. El volumen `hermes-home` conserva el perfil del agente; no pertenece al runner.
 
-El nombre debe estar libre. Si ya lo creaste, recuperá esa instancia con `docker start -ai lab-agent` o abrí otra shell con `docker exec -it lab-agent bash` si está en ejecución; no crees otro perfil por accidente.
+Comprobá permisos dentro de **lab-agent**, antes de configurar credenciales:
+
+```bash
+id
+test -w /workspace && test -w /home/node/.hermes \
+  && echo "Proyecto y perfil escribibles"
+```
+
+Si no aparece el mensaje, no continúes con Hermes ni cambies a root: revisá propietario y permisos del proyecto y los IDs usados en el build. Un volumen nuevo hereda el propietario preparado por la imagen; uno existente conserva el suyo.
+
+El nombre debe estar libre. Si ya lo creaste con la misma imagen e IDs, recuperá esa instancia con `docker start -ai lab-agent` o abrí otra shell con `docker exec -it lab-agent bash` si está en ejecución. `docker start` no adopta una imagen reconstruida. Si cambiás los IDs o necesitás reemplazar una instancia que ya guarda credenciales, seguí la migración del [handoff del instructor](INSTRUCTOR.md#migrar-una-instancia-y-su-perfil); no borres el volumen ni descartes el container anterior.
 
 ### 3.2 Instalación guiada y wizard
 
@@ -528,6 +546,11 @@ Dentro de **lab-app**:
 
 ```bash
 pnpm install --frozen-lockfile
+```
+
+Si pnpm detecta un `node_modules` creado antes en el host u otro container, puede pedir permiso para recrearlo con el store actual. En esta terminal interactiva aceptá sólo para el proyecto de la práctica y esperá a que termine. No borres el lockfile ni edites dependencias para resolver esa pregunta. Cada instancia conserva su propio cache del store, fuera del bind mount.
+
+```bash
 pnpm build
 pnpm start --hostname 0.0.0.0
 ```
@@ -809,7 +832,7 @@ si el PR está cerrado o es draft: ignorar
 si coincide: aceptar la tarea y solicitar una review
 ```
 
-El prompt también fija el repo, pide leer el SHA actual y compararlo con el recibido, y trata el diff como **datos no confiables**. No autoriza ejecutar el código del PR, hacer checkout ni merge. Son límites de la tarea; un prompt no sustituye permisos e aislamiento.
+El prompt fija el repo y los SHA **base y head** recibidos. Consulta el estado actual del PR, exige base `main` y ambos SHA coincidentes, obtiene mediante `gh api` un diff de esos commits inmutables y vuelve a comprobar el estado antes de devolver la review. Si algo cambió, devuelve un aviso de solicitud desactualizada, no una revisión de otro commit. El diff sigue siendo **dato no confiable**: no se ejecuta código del PR, no se hace checkout ni merge. Estos controles por instrucciones no hacen atómica la publicación del comentario ni sustituyen permisos e aislamiento.
 
 La entrega `github_comment` publica la respuesta en el PR configurado. No necesitás pedir al modelo que construya llamadas a la API para publicarla. `gh` usa la sesión guardada en ese container. No exportes tokens ni copies la sesión al runner.
 
@@ -899,7 +922,7 @@ Comprobá en orden:
 1. GitHub entregó el evento `labeled` a la URL actual.
 2. El gateway aceptó el evento y los filtros coincidieron.
 3. La tarea consultó el PR y el diff del repo fijado.
-4. El SHA revisado coincide con el commit solicitado; si cambió, la revisión lo indica.
+4. Los SHA base y head revisados coinciden con el evento solicitado y la base sigue siendo `main`; si algo cambió, la respuesta indica solicitud desactualizada.
 5. Aparece un comentario en el PR y describe qué pudo comprobar.
 
 ```bash
