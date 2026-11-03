@@ -1,0 +1,35 @@
+---
+title: "Editar el título de la portada"
+description: "Guardá un cambio reconocible sin publicarlo todavía."
+showAskAi: false
+showFeedback: false
+---
+
+# Editar el título de la portada
+
+**Dónde:** editor del host, `lab/app/page.tsx`, rama `development`. **Antes:** rama comprobada; Production conserva la portada original.
+
+Buscá el título visible y cambiá sólo su texto por una frase reconocible. La guía propone "El HackerSpace de Nodo Serrano"; el ejemplo de las diapositivas usa "Aprender y construir en comunidad". Elegí una frase y recordala para comparar URLs.
+
+Ejemplo ilustrativo antes:
+
+```typescript
+<h1 id="titulo">HackerSpace Nodo Serrano</h1>
+```
+
+Después:
+
+```typescript
+<h1 id="titulo">Aprender y construir en comunidad</h1>
+```
+
+Conservá el resto del archivo real, aunque su formato difiera del ejemplo. Guardá y comprobá:
+
+```bash
+git status
+git diff
+```
+
+El diff debe mostrar sólo el cambio de texto que elegiste en `app/page.tsx`. Guardar modifica tu copia de trabajo. No crea todavía una versión en Git ni envía nada a GitHub.
+
+**No sigas si** editaste otra rama o el diff contiene cambios que no reconocés.

@@ -1,0 +1,51 @@
+---
+title: "Generar un evento real de PR"
+showAskAi: false
+showFeedback: false
+description: "Publicá un cambio visible y elegí entre actualizar el PR abierto o crear uno."
+---
+
+# Generar un evento real de PR
+
+**Dónde:** host, cwd `lab`, branch `development`. **Antes:** [request sin firma rechazada con 401](/webhook/rechazar-sin-firma), hook único activo, túnel actual y sesión de Git del host. Guardá cualquier trabajo pendiente antes de cambiar de branch.
+
+Actualizá la rama existente, sin reset ni force-push:
+
+```bash
+git status
+git switch development
+git pull --ff-only
+```
+
+En el editor de `lab` cambiá el `h1` de `app/page.tsx`, por ejemplo para presentar el HackerSpace de Nodo Serrano, o una descripción visible. Guardá el archivo. Esto es una acción de edición, no un comentario que Bash pueda ejecutar por vos.
+
+```bash
+git diff -- app/page.tsx
+git add app/page.tsx
+git commit -m "Presentar el HackerSpace de Nodo Serrano"
+git push
+gh pr list --base main --head development
+```
+
+Decidí con el resultado de la lista:
+
+- **Ya hay un PR abierto development → main:** usá ese PR. El push produce una actualización `synchronize`; no crees un PR idéntico.
+- **No hay un PR abierto de esa rama:** crealo ahora y dejalo abierto:
+
+```bash
+gh pr create --base main --head development \
+  --title "Presentar el HackerSpace" \
+  --body "Cambio de texto para observar el webhook."
+```
+
+En ambos casos, identificá el número y el head real. Reemplazá `NUMERO` por el valor mostrado:
+
+```bash
+gh pr list --base main --head development
+gh pr view NUMERO --json number,state,isDraft,baseRefName,headRefName,headRefOid
+gh pr view NUMERO --web
+```
+
+**Comprobación:** PR propio abierto de `development` hacia `main`, con el commit recién publicado. Anotá su número y SHA head. No lo integres todavía; continuará en la review.
+
+**No sigas si** falló pull o push, el diff contiene secretos o cambios ajenos, o el PR apunta a otra rama o repo. Un `ping` del alta del hook no sustituye al evento `pull_request` que acabás de provocar.

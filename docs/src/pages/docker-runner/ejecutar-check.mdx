@@ -1,0 +1,45 @@
+---
+title: "Iniciar el check inicial"
+description: "Disparar una ejecución manual sobre development e identificarla."
+showAskAi: false
+showFeedback: false
+---
+
+import dispatch from '../../../assets/workflow-dispatch.png'
+
+# Iniciar el check inicial
+
+**Dónde:** navegador o segunda terminal del host en `lab`, rama `development`. **Antes:** primer `lab-runner` registrado y mostrando `Listening for Jobs`.
+
+Identificá el commit baseline en el host:
+
+```bash
+git rev-parse HEAD
+```
+
+Anotá ese SHA. Confirmá que corresponde al último commit publicado en `development`. **Elegí una sola forma de iniciar el run.**
+
+### Web
+
+Abrí **Actions → Checks del workshop → Run workflow → development → Run workflow**. Abrí la ejecución recién creada y anotá su ID y SHA.
+
+<img src={dispatch} alt="Menú Run workflow permite seleccionar development para iniciar manualmente Checks del workshop" />
+
+Captura de referencia de GitHub, no evidencia de una ejecución propia.
+
+:::details[Alternativa por CLI]
+
+Desde el host, con Actions: Read and write ya autorizado:
+
+```bash
+gh workflow run checks.yml --ref development
+gh run list --workflow checks.yml --limit 5
+```
+
+Anotá el `RUN_ID` de la ejecución recién creada. No selecciones otra sólo porque sea la primera de una lista vieja.
+
+:::
+
+En ambas vías comprobá nombre del workflow, rama `development` y SHA baseline. El push anterior no inició este run: el evento es `workflow_dispatch`.
+
+**No sigas si** seleccionaste otra rama o no podés relacionar la ejecución con el SHA anotado.

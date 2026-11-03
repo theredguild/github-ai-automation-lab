@@ -1,0 +1,48 @@
+---
+title: "Recuperar el origen"
+description: "Restablecer Next y comprobar nuevamente las tres capas."
+showAskAi: false
+showFeedback: false
+---
+
+# Recuperar el origen
+
+**Dónde:** host para recuperar el container; luego shell de `lab-app`, `/workspace`. **Antes:** `lab-app` detenido por la práctica y terminal del túnel aún activa.
+
+Desde el host:
+
+```bash
+docker start -ai lab-app
+```
+
+Cuando vuelva Bash dentro de `lab-app`, iniciá de nuevo Next con el build que ya terminaste:
+
+```bash
+pnpm start --hostname 0.0.0.0
+```
+
+Dejá ese proceso activo. En otra terminal del host repetí las tres consultas:
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+docker run --rm --network red-taller \
+  taller \
+  curl -i http://lab-app:3000/api/health
+curl -i https://TU_URL_PUBLICA/api/health
+```
+
+**Comprobación:** las tres devuelven HTTP 200 y `{"status":"ok","service":"nodoserrano"}`. **No sigas si** alguna capa sigue fallando. Revisá [diagnóstico del túnel](/opcional/diagnostico-tunel).
+
+## Comprobar un cambio de hostname
+
+Con el origen recuperado, detené **sólo el túnel** con `Ctrl+C` en su terminal. Su container se retira por `--rm`. Comprobá desde el host que la app todavía responde:
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Repetí el comando de [abrir el túnel](/tunel/abrir-tunel) en su terminal dedicada. Copiá el hostname que impriman sus nuevos logs y repetí la [consulta pública](/tunel/consultar-publico). Puede ser distinto; la URL anterior no es una dirección reservada. Actualizá tus enlaces y, cuando existan, los webhooks que apuntaban al hostname anterior. Dejá app y túnel activos para el próximo ejercicio.
+
+## Llevar el concepto a otro proyecto
+
+Fuera de esta práctica, identificá el proceso y su puerto, elegí un endpoint sencillo de health y probá primero el origen. Elegí la dirección correcta desde donde corre `cloudflared` y cambiá `--url`. Seguí una request completa y una interrupción. No depende de Next.js ni de estos nombres; no expongas datos privados para repetir la demostración.

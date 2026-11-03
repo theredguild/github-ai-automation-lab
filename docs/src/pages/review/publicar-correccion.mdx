@@ -1,0 +1,29 @@
+---
+title: "Publicar la corrección verificada"
+showAskAi: false
+showFeedback: false
+description: "Creá el commit concreto, hacé push y registrá el SHA nuevo del PR."
+---
+
+# Publicar la corrección verificada
+
+**Dónde:** host, cwd `lab`, branch `development`. **Antes:** [resta corregida y test, lint, typecheck correctos](/review/corregir-error), ningún cambio posterior a los checks, PR propio todavía abierto.
+
+Revisá que sólo publiques la corrección prevista. No agregues el perfil del agente ni `.env.local`:
+
+```bash
+git diff -- app/capacidad.ts
+git add app/capacidad.ts
+git commit -m "Corregir calculo de lugares libres"
+git push
+git rev-parse HEAD
+gh pr view NUMERO --json number,state,baseRefName,baseRefOid,headRefOid
+```
+
+Reemplazá `NUMERO` por tu PR. Anotá el SHA **nuevo** de la corrección y el base actual. El `headRefOid` del PR debe coincidir con `git rev-parse HEAD`, distinto del head de la review anterior.
+
+**Comprobación:** push termina correctamente y el PR Open hacia `main` contiene la resta corregida con el SHA nuevo. La conversación anterior queda conservada como evidencia de otra versión.
+
+Este push **no vuelve a solicitar review**, aunque `ai-review` siga aplicada. Tampoco uses Redeliver sobre el evento viejo: conserva sus SHA y pediría revisar una solicitud desactualizada.
+
+**No sigas si** falló el push, el PR sigue mostrando el SHA anterior o el commit incluye secretos/cambios no comprobados. No hagas force-push ni borres la conversación para ocultar el fallo de práctica.

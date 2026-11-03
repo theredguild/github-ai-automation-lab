@@ -1,0 +1,40 @@
+---
+title: "Corregir y comprobar el cálculo"
+showAskAi: false
+showFeedback: false
+description: "Restaurá la resta y ejecutá las verificaciones existentes antes de publicar."
+---
+
+# Corregir y comprobar el cálculo
+
+**Dónde:** host, editor y terminal en `lab`, branch `development`. **Antes:** [review leída críticamente](/review/leer-review), PR propio todavía abierto, Node 22 y dependencias del proyecto disponibles. La corrección la decide y ejecuta una persona, no el agente revisor.
+
+Confirmá dónde vas a editar:
+
+```bash
+git status
+git branch --show-current
+```
+
+Si no estás en `development`, no edites hasta volver de forma segura a esa rama. En `app/capacidad.ts` reemplazá la suma incorrecta por la resta y guardá:
+
+```typescript
+export function lugaresLibres(capacidad: number, ocupados: number): number {
+  return capacidad - ocupados;
+}
+```
+
+Revisá el cambio y corré los checks incluidos, desde la raíz de `lab`:
+
+```bash
+git diff -- app/capacidad.ts
+pnpm test
+pnpm lint
+pnpm typecheck
+```
+
+Las pruebas existentes comprueban que `lugaresLibres(20, 5)` da 15 y `lugaresLibres(20, 20)` da 0, además del receptor y health. No hace falta otro script de Node. `pnpm test` ejecuta las pruebas unitarias provistas con Node 22, no una integración de Next, Docker o servicios externos. Biome y TypeScript comprueban otras propiedades; tipos correctos no sustituyen las aserciones del cálculo.
+
+**Comprobación:** diff muestra sólo la corrección esperada y **test, lint y typecheck terminan correctamente**. Conservá qué comandos ejecutaste y para qué estado del código; no lo atribuyas a la review del agente.
+
+**No sigas si** falla cualquiera de los tres checks, hay cambios ajenos o estás en otra rama. Corregí la causa y ejecutá los checks otra vez antes de publicar. No cambies tests para tolerar la suma ni ignores un check porque el comentario parezca convincente.

@@ -1,0 +1,31 @@
+---
+title: "Importar el repo en Vercel"
+description: "Autorizá la GitHub App sólo para tu repositorio personal."
+showAskAi: false
+showFeedback: false
+---
+
+import importRepo from '../../../assets/vercel-setup-import-repositories.png'
+import appPermissions from '../../../assets/github-vercel-app-repository-permissions.png'
+
+# Importar el repo en Vercel
+
+**Dónde:** navegador, [Vercel → New Project](https://vercel.com/new). **Antes:** repo propio publicado, build local y landing comprobados.
+
+Iniciá sesión, elegí **Add New → Project → Import Git Repository** e importá tu repo personal.
+
+<img src={importRepo} alt="Import Git Repository en Vercel" />
+
+Referencia oficial de Vercel.
+
+Conectá la GitHub App de Vercel y autorizá sólo tu repo. Es una integración distinta del PAT de la terminal: **no pegues ese token en Vercel**.
+
+Si el repo no aparece, abrí **Configure GitHub App** o GitHub **Settings → Applications → Installed GitHub Apps → Vercel → Configure**. Revisá **Only select repositories**, seleccioná el tuyo y guardá.
+
+<img src={appPermissions} alt="Permisos de repositorios al instalar una GitHub App, distintos de un PAT" />
+
+Ejemplo genérico de GitHub App de documentación oficial de GitHub. No es el formulario de token fino ni evidencia de una instalación propia.
+
+Comprobá que el proyecto que vas a importar corresponde al propietario y repo correctos. Usá tu repo personal: uno privado de organización puede exigir un plan distinto de Hobby. No cambies visibilidad ni actives pagos como arreglo automático.
+
+**No sigas si** aparece otro repo o te exige un plan pago. Consultá [diagnóstico de Vercel](/opcional/diagnostico-vercel) o la [ayuda oficial de repos no visibles](https://vercel.com/kb/guide/unable-to-find-github-repository).

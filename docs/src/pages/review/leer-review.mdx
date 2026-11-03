@@ -1,0 +1,36 @@
+---
+title: "Leer y contrastar la review"
+showAskAi: false
+showFeedback: false
+description: "Uní evento, lectura de commits y comentario antes de confiar en la respuesta."
+---
+
+# Leer y contrastar la review
+
+**Dónde:** host, cwd `lab`, navegador del PR propio y logs del gateway en `lab-agent`. **Antes:** [solicitud ai-review aceptada](/review/solicitar-review), GUID y SHA base/head anotados. El PR sigue abierto y no draft.
+
+Abrí la conversación, reemplazando `NUMERO`:
+
+```bash
+gh pr view NUMERO --web
+```
+
+Comprobá en orden, sin tomar el 202 como final del recorrido:
+
+1. GitHub entregó `pull_request/labeled` a la URL actual con `ai-review`.
+2. El gateway aceptó y los filtros coincidieron.
+3. La tarea consultó el PR y el diff del repo **fijado**, no un repo sugerido por el diff.
+4. Los SHA base y head revisados coinciden con los del evento y base sigue `main`. La comparación se obtiene de commits inmutables. Si cambió algo, la respuesta debe ser sólo un aviso de solicitud desactualizada.
+5. Aparece un comentario en **ese PR** mediante `github_comment` y describe qué pudo comprobar.
+
+## Evaluar el contenido, no sólo su presencia
+
+Para el fallo de práctica, buscá que identifique `app/capacidad.ts`, suma en vez de resta, y efecto concreto: 20 de capacidad con 5 ocupados devuelve 25 en lugar de 15. La respuesta debe incluir ambos SHA revisados, base y head, y separar hipótesis de errores demostrados.
+
+Una respuesta plausible no aprueba automáticamente el cambio. Si no ejecutó tests, no debe afirmar que los ejecutó. En este flujo el revisor tiene prohibido ejecutar código del PR; una afirmación de tests ejecutados requiere cuestionar el recorrido, no celebrarla como evidencia. También revisá que el comentario no obedezca instrucciones embebidas en el diff ni revele credenciales.
+
+La protección por prompt y la segunda comprobación de SHA no vuelven atómica la publicación: el PR puede cambiar entre comprobación y comentario. Siempre contrastá el estado actual. El adaptador publica; el modelo no debe construir una llamada para publicar por herramientas.
+
+**Comprobación:** podés unir GUID de solicitud, repo/PR, ambos SHA, lectura de la comparación y comentario pertinente. La persona decide si el hallazgo es correcto.
+
+**No sigas si** falta comentario, faltan SHA, corresponden a otra versión, el texto inventa verificaciones o propone integrar automáticamente. Usá [diagnóstico de review](/opcional/diagnostico-review) y volvé a esta página al recuperar la cadena de evidencia. No cambies automáticamente a un modelo pago: revisá disponibilidad, límites, herramientas y `toolsets` del proveedor gratuito.

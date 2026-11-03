@@ -1,0 +1,27 @@
+---
+title: "Publicar development"
+description: "Enviá el commit e identificá su SHA."
+showAskAi: false
+showFeedback: false
+---
+
+# Publicar development
+
+**Dónde:** host, `lab`, rama `development`. **Antes:** commit del título creado y revisado.
+
+```bash
+git push -u origin development
+git log -1 --oneline
+git rev-parse --short HEAD
+```
+
+Esperá un push correcto a `development`. Identificá el SHA y el mensaje que acabás de enviar. Ejemplo de salida, no datos de tu ejecución:
+
+```text
+49a1de0 Actualiza la portada del HackerSpace
+49a1de0
+```
+
+Abrí la rama `development` en GitHub y comprobá ese commit. El push entrega la nueva versión a la integración Git de Vercel. Production sigue tomando `main`.
+
+**No sigas si** falla el push o el commit remoto no coincide. No vuelvas a clonar ni crees otro proyecto para provocar el deployment.

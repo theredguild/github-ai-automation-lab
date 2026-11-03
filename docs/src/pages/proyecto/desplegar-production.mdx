@@ -1,0 +1,41 @@
+---
+title: "Desplegar Production desde main"
+description: "Revisá la configuración y el primer build remoto."
+showAskAi: false
+showFeedback: false
+---
+
+import framework from '../../../assets/vercel-setup-framework-detection.png'
+import logs from '../../../assets/vercel-check-build-logs.png'
+
+# Desplegar Production desde main
+
+**Dónde:** navegador, configuración del nuevo proyecto Vercel. **Antes:** importación de tu repo personal, sin otro proyecto para Preview.
+
+Antes de pulsar **Deploy**, revisá:
+
+| Campo | Valor |
+| --- | --- |
+| Framework Preset | Next.js |
+| Root Directory | `.`: raíz de tu repo de app, no del material ni `hackerspace-site/` |
+| Install Command | Autodetección por `pnpm-lock.yaml`, sin Override |
+| Build Command | `pnpm build` |
+| Node.js | 22.x en la configuración disponible del proyecto |
+| Production Branch | `main` |
+| Environment Variables | Ninguna necesaria para esta landing |
+
+<img src={framework} alt="Autodetección del framework en la configuración de Vercel" />
+
+Recorte de documentación oficial de Vercel. Ubica el selector, no demuestra un deployment del taller. Usá los valores de la tabla y no copies overrides ajenos.
+
+No sobrescribas Install Command con un `pnpm install` genérico: Vercel puede seleccionar otra versión del gestor. Para fijar exactamente `pnpm@10.20.0`, se habilita Corepack según la [documentación de gestores](https://vercel.com/docs/package-managers); no hace falta en el camino básico de autodetección.
+
+El receptor de webhooks se usará localmente después. No cargues sus secretos aquí ni en variables `NEXT_PUBLIC_*`.
+
+Pulsá **Deploy**, abrí **Build Logs** y esperá **Ready**.
+
+<img src={logs} alt="Ubicación de Build Logs en un deployment de Vercel" />
+
+Referencia oficial de Vercel.
+
+**No sigas si** falla el build: leé su primer error, no sólo el último resumen. [Diagnóstico opcional](/opcional/diagnostico-vercel). Ready significa preparado; todavía falta abrir y comprobar la URL.

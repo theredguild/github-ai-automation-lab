@@ -1,0 +1,25 @@
+---
+title: "Verificar cliente y daemon"
+description: "Confirmar que Docker puede comunicarse con su servicio."
+showAskAi: false
+showFeedback: false
+---
+
+# Verificar cliente y daemon
+
+**Dónde:** host, terminal Bash en la carpeta `lab`. **Antes:** instalar [Docker Desktop o Docker Engine](https://docs.docker.com/get-started/get-docker/) e iniciar su servicio.
+
+```bash
+docker version
+```
+
+Debe mostrar las secciones Client y Server. Ejemplo de salida, no prueba de ejecución:
+
+```text
+Client: Docker Engine …
+Server: Docker Engine …
+```
+
+Si no conecta al daemon, iniciá Docker Desktop/Engine. Reinstalar el cliente no resuelve un servicio detenido. No necesitás Docker dentro de Codespaces.
+
+**No sigas si** falta Server o aparece un error de conexión al daemon.

@@ -1,0 +1,33 @@
+---
+title: "Leer el resultado inicial"
+description: "Relacionar steps y resultado con el SHA baseline."
+showAskAi: false
+showFeedback: false
+---
+
+import logs from '../../../assets/workflow-log.png'
+
+# Leer el resultado inicial
+
+**Dónde:** navegador en la ejecución inicial o host en `lab`. **Antes:** `RUN_ID` y SHA baseline anotados.
+
+En el navegador abrí el job `check` y desplegá cada step. Buscá checkout, instalación con lockfile, Biome y TypeScript.
+
+<img src={logs} alt="Vista de steps y logs de un job de GitHub Actions para localizar el primer fallo" />
+
+Captura de referencia de GitHub, no resultado de tu práctica.
+
+Por CLI, reemplazá `RUN_ID` por el número real:
+
+```bash
+gh run view RUN_ID --json status,conclusion
+gh run view RUN_ID --web
+```
+
+El JSON consulta un estado puntual. El navegador permite seguir la ejecución y leer steps. No uses `gh run watch`: consulta una API que no admite este token fino. No cambies a token clásico ni amplíes permisos para conservar ese comando.
+
+Si queda **Queued**, revisá que la terminal del runner siga escuchando y sus etiquetas incluyan `self-hosted`, `linux` y `workshop`. Si aparece **Failure**, localizá el primer step fallido y leé archivo, línea y mensaje antes de reintentar. No confundas estar en cola con un error de TypeScript.
+
+El baseline esperado termina con `status` igual a `completed`, `conclusion` igual a `success`, y todos los checks completos en el SHA inicial de `development`. Verificá el SHA en la página del run. Después el runner efímero debe terminar y su terminal regresar al host.
+
+**No sigas si** el baseline falla o el run corresponde a otro commit. El error deliberado sólo tiene sentido después de este resultado correcto.

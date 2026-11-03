@@ -1,0 +1,39 @@
+---
+title: "Consultar health por la URL pública"
+description: "Comparar la misma respuesta desde Internet y otro dispositivo."
+showAskAi: false
+showFeedback: false
+---
+
+import requestPath from '../../../assets/course-e4-request-path.png'
+
+# Consultar health por la URL pública
+
+**Dónde:** host, terminal de consultas, y navegador de otro dispositivo. **Antes:** Next y `cloudflared` activos; URL copiada de los logs actuales.
+
+Reemplazá `TU_URL_PUBLICA` por el hostname real sin duplicar `https://`:
+
+```bash
+curl -i https://TU_URL_PUBLICA/api/health
+```
+
+Debe responder HTTP 200 y el mismo JSON del origen:
+
+```text
+{"status":"ok","service":"nodoserrano"}
+```
+
+Abrí también la URL pública desde el teléfono u otro navegador. Comprobá la landing, agregá `/api/health` a esa misma URL y compará el body. Identificá qué terminal mantiene Next y cuál mantiene el túnel.
+
+<img src={requestPath} alt="Request desde cliente externo a Cloudflare, por cloudflared hasta Next, y respuesta por el camino inverso" />
+
+Diagrama del taller; ejemplo conceptual. La request pública viaja por la conexión saliente que abrió el connector.
+
+| Nombre o ruta | Dónde se interpreta |
+| --- | --- |
+| localhost / 127.0.0.1 | Propio entorno de la consulta |
+| lab-app | DNS interno de red-taller |
+| Hostname trycloudflare.com actual | DNS público hacia Cloudflare |
+| /api/health | Ruta dentro de la aplicación, no nombre DNS |
+
+**No sigas si** la respuesta pública no coincide con el origen o usás hostname de un proceso anterior. Usá [diagnóstico por capas](/opcional/diagnostico-tunel), no cambies rutas al azar.

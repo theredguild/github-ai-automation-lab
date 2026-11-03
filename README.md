@@ -1,22 +1,39 @@
 # GitHub × AI Automation Lab
 
-Seis ejercicios sobre la landing Next.js del HackerSpace de Nodo Serrano. Este repositorio contiene el material del taller; la aplicación está separada en [`hackerspace-site/`](hackerspace-site/).
+Curso en Vocs sobre la landing Next.js del HackerSpace de Nodo Serrano. Preparación, seis capítulos y cierre, con una operación comprobable por página. La aplicación inicial sigue en [`hackerspace-site/`](hackerspace-site/); el curso vive en [`docs/src/pages/`](docs/src/pages/).
 
-**Empezá por [la guía completa](docs/guia.md)**. El recorrido usa tu equipo y, desde el ejercicio 2, containers. Codespaces queda como una demo opcional de la landing al final del ejercicio 1, después del push y de comprobar los deployments.
+## Abrir el curso
 
-Cloná este repositorio y mové `hackerspace-site/` completa a una carpeta externa nueva llamada `lab`. Creá tu repo vacío en GitHub, generá un token fino limitado a ese repo, hacé login y publicá desde `lab`. Seguís en esa misma carpeta, sin otro clon. `.gitignore`, Dockerfile y devcontainer ya viajan con la app; guía y presentación quedan en el material.
+Desde la raíz del material, con Node 22.23.4 y pnpm 10.20.0:
+
+```bash
+pnpm --dir docs install --frozen-lockfile
+pnpm --dir docs dev
+```
+
+Abrí la dirección que imprima Vocs, normalmente `http://127.0.0.1:5173`. Seguí **Next** para recorrer las páginas. Codespaces, reparaciones y diagnósticos quedan en Opciones, con enlaces de regreso.
+
+Para construir y revisar el sitio:
+
+```bash
+pnpm --dir docs build
+pnpm --dir docs preview
+```
+
+No se configuró un deployment público. Vocs genera el sitio estático; no requiere modelos, claves de API ni servicios pagos para leerlo. Su proyecto y lockfile son independientes de la app.
+
+## Material
 
 | Material | Ubicación |
 | --- | --- |
-| Guía del participante | [docs/guia.md](docs/guia.md) |
-| Aplicación inicial para mover a `lab` | [hackerspace-site/](hackerspace-site/) |
-| Presentación única, con notas nativas | [slides/workshop.pptx](slides/workshop.pptx) |
-| Continuación técnica para instructor o agente local | [docs/INSTRUCTOR.md](docs/INSTRUCTOR.md) |
+| Curso del participante | [docs/src/pages/](docs/src/pages/) |
+| Iniciador breve del curso | [docs/guia.md](docs/guia.md) |
+| Aplicación para mover a `lab` | [hackerspace-site/](hackerspace-site/) |
+| Presentación única y notas nativas | [slides/workshop.pptx](slides/workshop.pptx) |
+| Fuentes, verificaciones y continuación del instructor | [docs/INSTRUCTOR.md](docs/INSTRUCTOR.md) |
 
-El repo del material sigue siendo privado; necesitás acceso de lectura previo al clon. El PAT del sitio no lo concede. La guía explica el orden completo y los permisos mínimos, sin pedir un token clásico.
+El material sigue siendo privado: resolvé acceso de lectura antes de clonarlo. El PAT del sitio no lo concede. El curso indica cuándo mover la app a `lab`, crear tu repo vacío, configurar el token y publicar. Después seguís en `lab`, sin otro clon.
 
-Después del primer push se explica `.gitignore`, se instala con Node 22/pnpm 10.20.0, se construye y se abre la landing. Los comandos de app se ejecutan desde `lab`, no desde la raíz del material. El build Docker es `docker build -t taller .`, después de leer `lab/Dockerfile` y revisar permisos.
+Los comandos del sitio Vocs corren en `docs/` del material. Los comandos de la app y su Dockerfile corren en `lab`. No mezcles ambos proyectos ni copies la guía dentro de la app.
 
-Las notas del PPTX son un guion breve: sólo información útil que no está en pantalla, sin pistas ni fuentes repetidas. Donde no hace falta ampliar, quedan vacías.
-
-Para Google Slides, importá **slides/workshop.pptx** y revisá las notas y posibles sustituciones de fuentes. El código editable usa **Inconsolata**, con resaltado de sintaxis. Para PowerPoint de escritorio, la fuente debe estar instalada en ese equipo; no se entrega un paquete tipográfico. La regeneración opcional de los slides se explica sólo en el handoff del instructor.
+El PPTX no cambió con esta migración. Para Google Slides, importalo y revisá notas y posibles sustituciones de fuentes. Su código editable usa Inconsolata. Las notas son breves y pueden estar vacías; fuentes y evidencia quedan fuera del guion hablado.

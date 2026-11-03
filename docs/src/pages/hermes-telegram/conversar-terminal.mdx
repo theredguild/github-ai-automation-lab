@@ -1,0 +1,30 @@
+---
+title: "Conversar desde la terminal"
+description: "Comprobar una conversación con el modelo antes de añadir canales."
+showAskAi: false
+showFeedback: false
+---
+
+# Conversar desde la terminal
+
+**Dónde:** shell de `lab-agent`, `/workspace`. **Antes:** proveedor y modelo guardados.
+
+```bash
+hermes chat
+```
+
+En la conversación, no en Bash, enviá este mensaje de prueba:
+
+```text
+Respondé exactamente: Hermes conectado.
+```
+
+Ejemplo de respuesta esperada, no prueba de una ejecución realizada por esta guía:
+
+```text
+Hermes conectado.
+```
+
+Después pedile que se presente en español y explique qué herramientas tiene disponibles. La respuesta demuestra esa conversación con el modelo. Todavía no prueba Telegram, GitHub ni webhooks.
+
+**No sigas si** hay error del proveedor, cuota agotada o ninguna respuesta. Revisá [diagnóstico de Hermes](/opcional/diagnostico-hermes). Conservá esta sesión separada de la shell donde configurarás el gateway.

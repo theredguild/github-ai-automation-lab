@@ -13,3 +13,7 @@
 /slides/*
 !/slides/workshop.pptx
 /docs/consulta.pdf
+# Vocs course build and local caches.
+/docs/dist/
+/docs/.vocs/
+/docs/.waku/

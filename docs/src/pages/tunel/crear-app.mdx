@@ -1,0 +1,28 @@
+---
+title: "Crear el container de la aplicación"
+description: "Montar el lab actual y publicar sólo en loopback."
+showAskAi: false
+showFeedback: false
+---
+
+import portMap from '../../../assets/course-e4-port-map.png'
+
+# Crear el container de la aplicación
+
+**Dónde:** host, raíz de tu `lab`, rama `development`. **Antes:** `red-taller` disponible, puerto 3000 del host libre y nombre `lab-app` libre para una instancia nueva.
+
+```bash
+docker run -it --name lab-app \
+  --network red-taller \
+  -p 127.0.0.1:3000:3000 \
+  -v "$PWD":/workspace \
+  taller
+```
+
+`WORKDIR` y `CMD` ya vienen en la imagen. La shell abre `/workspace`; el bind mount muestra el proyecto actual, no una segunda copia de la app. No uses la carpeta original del material ni montes tu home.
+
+<img src={portMap} alt="Puerto 3000 del loopback del host reenviado al puerto 3000 de lab-app" />
+
+Diagrama del taller; ejemplo conceptual. `-p 127.0.0.1:3000:3000` publica sólo en loopback del host. Un puerto publicado no es un túnel.
+
+**Comprobación:** estás dentro de `lab-app` en `/workspace` con los archivos de tu proyecto. **No sigas si** Docker informa nombre ocupado, puerto ocupado o montaste otra carpeta. No elimines un container existente para liberar el nombre sin identificarlo. Si es esta misma instancia de la práctica y está detenida, recuperala desde el host con `docker start -ai lab-app` en lugar de crear otra.

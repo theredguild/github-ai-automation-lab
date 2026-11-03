@@ -1,0 +1,34 @@
+---
+title: "Cambiar el túnel hacia Hermes"
+showAskAi: false
+showFeedback: false
+description: "Reemplazá el origen y registrá el hostname público nuevo."
+---
+
+# Cambiar el túnel hacia Hermes
+
+**Dónde:** terminal del host, cwd `lab`. **Antes:** [agente conectado a red-taller](/review/conectar-agente), gateway sano en 8644 e imagen `taller` disponible. Hook antiguo `/api/github` inactivo.
+
+Detené el túnel anterior con **Ctrl+C en su propia terminal**. Eso libera el nombre `lab-tunnel` del connector iniciado con `--rm`. No borres containers ajenos para resolver un conflicto de nombre.
+
+Iniciá el nuevo Quick Tunnel:
+
+```bash
+docker run --rm -it --name lab-tunnel \
+  --network red-taller \
+  taller \
+  cloudflared tunnel --no-autoupdate \
+  --url http://lab-agent:8644
+```
+
+Copiá el **hostname nuevo** que imprime cloudflared. El origen ahora es `http://lab-agent:8644`, no `lab-app:3000`. En otra terminal del host, comprobá la ruta pública de salud con tu hostname real:
+
+```bash
+curl -i https://TU_URL_PUBLICA/health
+```
+
+**Comprobación:** hostname nuevo alcanza el health del gateway y responde 200. La URL del hook será `https://TU_URL_PUBLICA/webhooks/github-pr-review`. Dejá el proceso del túnel activo.
+
+El hostname anterior no se actualiza por sí solo en GitHub. HTTPS no autentica un evento y el túnel expone **todo el servicio de destino**, no únicamente el path del hook. No expongas rutas de administración o datos que no deban ser públicos.
+
+**No sigas si** el origen sigue siendo Next, el hostname es viejo, el connector no resuelve `lab-agent` o health público falla. No publiques puertos del host en todas las interfaces ni desactives la firma como solución.

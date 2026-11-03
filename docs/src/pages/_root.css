@@ -1,0 +1,14 @@
+:root {
+  --vocs-font-family: system-ui, sans-serif;
+  --vocs-font-family-mono: 'Inconsolata', ui-monospace, monospace;
+}
+
+pre[data-v] > button:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  pre[data-v] > button {
+    opacity: 1;
+  }
+}

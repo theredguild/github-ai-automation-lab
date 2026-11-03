@@ -1,0 +1,54 @@
+---
+title: "Registrar el runner para la corrección"
+description: "Registrar una instancia nueva para la tercera ejecución, sobre la corrección."
+showAskAi: false
+showFeedback: false
+---
+
+# Registrar el runner para la corrección
+
+**Dónde:** navegador en tu repo y terminal nueva del host en `lab`; luego Bash dentro de `lab-runner`. **Antes:** corrección publicada en `development` con tercer SHA anotado y segundo runner terminado.
+
+Esta instancia corresponde a la tercera ejecución, sobre la corrección. No reutilices la configuración ni el token de una ejecución anterior. Esta es la última instancia del capítulo. Al terminar su job debe desaparecer antes de empezar el agente.
+
+En GitHub abrí **Settings → Actions → Runners → New self-hosted runner**. Elegí **Linux** y la arquitectura de tu imagen. El runner ya está descargado en `taller`; no repitas los comandos de instalación de esa pantalla. Buscá el token temporal de **Configure**.
+
+Desde el host:
+
+```bash
+docker ps
+```
+
+No debe seguir activo un `lab-runner` anterior. No reemplaces ni detengas runners ajenos. Si el nombre ya existe por una instancia de la práctica que no terminó, resolvé su estado antes de crear otra.
+
+```bash
+docker run --rm -it --name lab-runner taller
+```
+
+Dentro de esa nueva instancia, reemplazá sólo la URL por tu repo:
+
+```bash
+cd /opt/actions-runner
+./config.sh --url https://github.com/TU_USUARIO/REPO \
+  --name workshop-runner --labels workshop --ephemeral
+```
+
+El programa pide el **token temporal de registro con entrada oculta**. Pegá el de New self-hosted runner, nunca tu PAT. No lo pases por argumento ni variable de shell. Si venció, obtené otro en esa pantalla. Aceptá los valores sugeridos para grupo y carpeta de trabajo si aparecen. Si el nombre choca con un runner ajeno, no aceptes reemplazarlo.
+
+Iniciá la escucha desde `/opt/actions-runner`:
+
+```bash
+exec ./run.sh
+```
+
+La terminal debe quedar esperando con un mensaje como:
+
+```text
+Listening for Jobs
+```
+
+GitHub debe mostrarlo disponible con `self-hosted`, `linux` y `workshop`. `--ephemeral` asigna un solo job y luego da de baja el runner. `exec` reemplaza la shell; al terminar el job, sale el proceso principal del container y `--rm` elimina la instancia. No esperes volver a una shell dentro del runner al acabar.
+
+Este container no recibe proyecto del host, perfil de Hermes, sesión de `gh`, home del host ni socket Docker. El checkout descarga el repo. Sólo necesita salida hacia GitHub y las descargas del job. Ejecutá únicamente código de la práctica que controles. El registro web no requiere Administration en el PAT.
+
+**No sigas si** no está escuchando, tiene etiquetas distintas o configuraste otro repo. Dejá abierta esta terminal mientras iniciás la ejecución desde otra terminal del host o desde el navegador.

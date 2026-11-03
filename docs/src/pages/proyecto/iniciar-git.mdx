@@ -1,0 +1,33 @@
+---
+title: "Iniciar Git y revisar identidad"
+description: "Creá main sólo dentro de la aplicación separada."
+showAskAi: false
+showFeedback: false
+---
+
+# Iniciar Git y revisar identidad
+
+**Dónde:** host, `lab`, junto a `package.json` y `Dockerfile`. **Antes:** ruta y estructura verificadas, app sin inicializar y login comprobado. Todavía no instalaste dependencias. El starter ya trae `.gitignore`.
+
+```bash
+git init -b main
+git config user.name
+git config user.email
+```
+
+Nombre y email del commit son distintos del login de GitHub. Si faltan o pertenecen a otra persona, configurá sólo este repo con tus datos reales:
+
+```bash
+git config user.name "Tu nombre"
+git config user.email "TU_EMAIL"
+```
+
+Repetí las consultas para verificar el valor. Comprobá la rama:
+
+```bash
+git branch --show-current
+```
+
+Debe mostrar `main`. La identidad se guarda localmente al omitir `--global`.
+
+**No sigas si** estás en el material, faltan los archivos de app o la identidad sigue siendo ajena.

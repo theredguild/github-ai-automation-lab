@@ -1,0 +1,36 @@
+---
+title: "Comprobar el primer Production"
+description: "Vinculá landing, rama, commit y URL del deployment."
+showAskAi: false
+showFeedback: false
+---
+
+import production from '../../../assets/vercel-check-production-url.png'
+import deployment from '../../../assets/vercel-deployment.png'
+import tracking from '../../../assets/vercel-setup-environments-branch-tracking-community.png'
+
+# Comprobar el primer Production
+
+**Dónde:** navegador, mismo proyecto Vercel y GitHub. **Antes:** primer deployment Ready desde `main`.
+
+En el detalle del deployment verificá entorno **Production**, estado **Ready**, rama `main`, commit y URL. Abrí la URL y reconocé la landing original. Abrí el enlace del commit en GitHub y compará su SHA con el deployment.
+
+<img src={production} alt="Detalle de estado, rama y URL de un deployment Production" />
+
+Referencia oficial de Vercel de otro proyecto, no evidencia de nuestra publicación.
+
+La pestaña **Deployment** muestra estado y URL de esa versión; **Logs**, salida de la ejecución; **Resources**, archivos y funciones publicados.
+
+<img src={deployment} alt="Pestañas Deployment, Logs y Resources de Vercel" />
+
+Interfaz de referencia de documentación oficial de Vercel.
+
+En **Project → Settings → Git**, corroborá el repo conectado. En **Settings → Environments → Production → Branch Tracking**, verificá `main`.
+
+<img src={tracking} alt="Configuración Branch Tracking de Production en Vercel" />
+
+Captura pública de Vercel Community, septiembre de 2025. Muestra una configuración de referencia, no nuestra cuenta.
+
+El primer deployment de un proyecto es Production; por eso importamos `main` antes de crear otra rama. No crees otro proyecto Vercel para Preview. El entorno Vercel **Development** no es nuestra rama Git `development`; esa rama debe desplegar como Preview.
+
+**No sigas si** entorno, rama, SHA o página no coinciden. [Diagnóstico](/opcional/diagnostico-vercel), [integración Git](https://vercel.com/docs/git) y [entornos](https://vercel.com/docs/deployments/environments).

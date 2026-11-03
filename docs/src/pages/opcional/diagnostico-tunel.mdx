@@ -1,0 +1,32 @@
+---
+title: "Diagnóstico del túnel por capas"
+description: "Buscar el primer tramo que falla sin borrar recursos ajenos."
+showAskAi: false
+showFeedback: false
+---
+
+# Diagnóstico del túnel por capas
+
+**Dónde:** host, terminal de consultas y logs separados de Next y `cloudflared`. **Antes:** identificá hostname del arranque actual, origen `http://lab-app:3000` y containers propios de la práctica.
+
+| Síntoma | Primera comprobación |
+| --- | --- |
+| Connection refused o falla curl local | Next activo, build terminado y puerto publicado |
+| No resuelve lab-app | Nombre correcto y containers en red-taller |
+| Falla lab-app:3000 desde la red | Red compartida y escucha 0.0.0.0 |
+| Connector no conecta | Salida de red y logs de cloudflared |
+| 502 público | Origen activo, puerto y dirección --url |
+| 404 u origen sano pero ruta ausente | Path y Route Handler de la aplicación que recibe |
+| URL anterior ya no responde | Hostname del último proceso cloudflared |
+
+Volvé a la primera capa que falla, no a la última que muestra un síntoma. Consultá primero [host](/tunel/consultar-host), luego [red interna](/tunel/consultar-red) y finalmente [URL pública](/tunel/consultar-publico). No intentes corregir una app detenida abriendo más túneles.
+
+`127.0.0.1` pertenece al entorno del cliente; el connector necesita `lab-app:3000` dentro de `red-taller`, no su propio localhost. Una conexión pública activa tampoco implica que Next esté disponible.
+
+Si la red ya existe, revisala con `docker network inspect red-taller` en el host antes de reutilizarla. No borres redes, containers ni volúmenes ajenos. Para un hostname nuevo, actualizá enlaces y sólo los webhooks de esta práctica que aún apunten al anterior.
+
+**Comprobación:** respuestas sanas y coincidentes en las tres capas, con hostname vigente. **No sigas si** el origen público apunta a otro servicio o devuelve información privada. Detené sólo el túnel de la práctica en su terminal.
+
+[Documentación de diagnóstico de Cloudflare](https://developers.cloudflare.com/tunnel/troubleshooting/).
+
+Volvé a [recuperar el origen](/tunel/recuperar-origen).

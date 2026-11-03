@@ -1,0 +1,40 @@
+---
+title: "Comparar Preview y Production"
+description: "Reconocé las dos versiones en el mismo proyecto Vercel."
+showAskAi: false
+showFeedback: false
+---
+
+import two from '../../../assets/course-dos-deployments.png'
+import filters from '../../../assets/vercel-check-deployment-filters.png'
+import protection from '../../../assets/vercel-setup-preview-protection.png'
+
+# Comparar Preview y Production
+
+**Dónde:** navegador, mismo proyecto Vercel y sus URLs. **Antes:** push correcto a `development` y SHA identificado.
+
+Preview viene habilitado por defecto tras el primer deployment. Un push a una rama no productiva genera Preview sin otro proyecto, workflow de Actions ni compra adicional.
+
+<img src={two} alt="main publica Production y development publica Preview dentro del mismo proyecto" />
+
+Diagrama del taller; ejemplo conceptual.
+
+En **Deployments**, filtrá rama `development` y entorno **Preview**. Verificá **Ready**, rama y SHA del commit que enviaste. Abrí la URL única de ese deployment.
+
+<img src={filters} alt="Filtros de rama y entorno en Deployments de Vercel" />
+
+Referencia oficial de Vercel.
+
+En Preview buscá tu título nuevo, por ejemplo "Aprender y construir en comunidad". En Production debe seguir "HackerSpace Nodo Serrano" hasta integrar. Compará branch y SHA y conservá ambas URLs abiertas.
+
+Preview creado y Preview accesible sin login son cosas distintas. Si hay protección, usá tu sesión autorizada; no desactives seguridad para simular que funciona.
+
+<img src={protection} alt="Opciones de Deployment Protection que pueden requerir sesión autorizada" />
+
+Referencia oficial de Vercel.
+
+Si falta Preview, revisá repo, permisos de GitHub App y **Production → Branch Tracking = main**. Preview debe incluir las ramas no asignadas. Vercel Development no equivale a nuestra rama `development`.
+
+En un proyecto con configuración previa, revisá si `git.deploymentEnabled` excluye la rama o **Build and Deployment → Ignored Build Step** cancela builds o construye sólo Production. No agregues estas opciones al camino básico. [Configuración Git](https://vercel.com/docs/project-configuration/git-configuration).
+
+**No sigas si** entorno, SHA o contenido no coincide. [Diagnóstico opcional](/opcional/diagnostico-vercel).

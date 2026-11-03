@@ -1,0 +1,43 @@
+---
+title: "Instalar las dependencias"
+description: "Usá las versiones del host y el lockfile del starter."
+showAskAi: false
+showFeedback: false
+---
+
+# Instalar las dependencias
+
+**Dónde:** host, Bash en `lab`, rama `main`. **Antes:** primer push y `.gitignore` comprobados. Prepará [Node 22](https://nodejs.org/en/download) y [pnpm 10.20.0](https://pnpm.io/installation) en tu equipo.
+
+```bash
+node --version
+pnpm --version
+```
+
+Ejemplo de versiones esperadas:
+
+```text
+v22.x.x
+10.20.0
+```
+
+Abrí `package.json` en el editor. Ya trae los scripts; este fragmento ilustrativo no reemplaza el archivo:
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build"
+  }
+}
+```
+
+La landing ya existe y `pnpm-lock.yaml` fija dependencias. No ejecutes un generador para crear otra app.
+
+```bash
+pnpm install --frozen-lockfile
+```
+
+Comprobá que termina sin errores y usa pnpm 10.20.0. Podés ver un mensaje como `Lockfile is up to date`; es ejemplo, no prueba de tu ejecución.
+
+**No sigas si** faltan herramientas, sus versiones no coinciden o falla la instalación. No borres ni regeneres el lockfile para esconder el error. [Instalación de pnpm](https://pnpm.io/cli/install).

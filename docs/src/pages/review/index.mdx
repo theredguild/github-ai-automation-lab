@@ -1,0 +1,29 @@
+---
+title: "6. La review"
+showAskAi: false
+showFeedback: false
+description: "Filtrá antes del modelo y seguí una revisión hasta su comentario y corrección."
+---
+
+# 6. La review
+
+La etiqueta `ai-review` pedirá revisar un PR concreto y la respuesta volverá a GitHub. Ahora usamos el receptor **nativo del gateway de Hermes**, no un puente Python ni otro backend personalizado.
+
+**Dónde:** navegador del repo, host en `lab` y container existente `lab-agent` en `/workspace`. **Antes:** [hook de Next inactivo](/webhook/desactivar-hook), PR propio abierto `development → main`, perfil Hermes con proveedor, modelo y Telegram conservados, y sesión de GitHub limitada dentro del agente.
+
+| Componente | Destino en este capítulo |
+| --- | --- |
+| Receptor | Gateway de Hermes, puerto 8644 |
+| Path público | /webhooks/github-pr-review |
+| Disparador | Acción labeled con etiqueta ai-review en PR propio |
+| Lectura | gh pr view y gh api sobre repo fijo |
+| Salida | Adaptador nativo github_comment |
+| Decisión | Persona que evalúa, corrige y decide integrar |
+
+Antes de gastar tokens se comprueban repo, head repo, base `main`, estado abierto, no draft, acción `labeled` y etiqueta `ai-review`. Un push cualquiera no solicita review. Primero probarás el caso negativo con otra etiqueta, luego seguirás una solicitud aceptada hasta el comentario.
+
+El estado final será una corrección verificada, publicada y revisada para el SHA nuevo, con integración humana y Production comprobado. **202 Accepted sólo acusa recepción**, no prueba que exista comentario ni que el cambio sea correcto.
+
+Empezá por [fusionar la ruta en el perfil existente](/review/configurar-ruta). No recrees el agente, no copies credenciales al runner y no habilites un proveedor pago para resolver un fallo del gratuito.
+
+Referencia: [review de PR mediante webhook nativo de Hermes](https://hermes-agent.nousresearch.com/docs/guides/webhook-github-pr-review).

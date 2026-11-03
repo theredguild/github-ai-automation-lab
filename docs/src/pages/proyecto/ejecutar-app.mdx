@@ -1,0 +1,34 @@
+---
+title: "Ejecutar y reconocer la landing"
+description: "Verificá el sitio local sin confundirlo con Production."
+showAskAi: false
+showFeedback: false
+---
+
+# Ejecutar y reconocer la landing
+
+**Dónde:** host, `lab`, rama `main`; navegador de tu equipo. **Antes:** build correcto. Todavía no usaste Docker.
+
+```bash
+pnpm dev
+```
+
+Dejá esa terminal abierta. Abrí `http://localhost:3000` o el puerto que indique Next. Si necesitás comandos mientras corre, abrí otra terminal en `lab`.
+
+Comprobá el título HackerSpace Nodo Serrano, actividades e imagen. Usá **Conocer el espacio**, revisá enlaces de contacto y localizá el título en `app/page.tsx`. La URL local no es Production de Vercel.
+
+| Archivo | Uso en el taller |
+| --- | --- |
+| `app/page.tsx` | Contenido de la landing |
+| `app/globals.css` | Estilos |
+| `app/estado.ts` | Número tipado para provocar un error de TypeScript |
+| `app/capacidad.ts` | Cálculo para practicar una review |
+| `app/api/health/route.ts` | Respuesta para observar la red |
+| `app/api/github/route.ts` | Receptor del ejercicio de webhook |
+| `package.json` | Comandos del proyecto |
+| `pnpm-lock.yaml` | Dependencias fijadas |
+| `Dockerfile` | Entorno que se usará con el runner |
+
+Al terminar, detené `pnpm dev` con `Ctrl+C` en su terminal. No hace falta cerrar el entorno.
+
+**No sigas si** no reconocés la landing o estás viendo otro proceso/puerto.

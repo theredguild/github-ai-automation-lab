@@ -1,0 +1,28 @@
+---
+title: "Configurar el canal Telegram"
+description: "Añadir token y allowlist sin perder proveedor ni modelo."
+showAskAi: false
+showFeedback: false
+---
+
+# Configurar el canal Telegram
+
+**Dónde:** otra terminal del host para entrar en `lab-agent`; luego shell del agente, `/workspace`. **Antes:** bot propio, token privado e ID numérico disponibles; sesión de chat separada.
+
+Desde el host abrí otra shell:
+
+```bash
+docker exec -it lab-agent bash
+```
+
+Dentro del agente:
+
+```bash
+hermes gateway setup
+```
+
+Elegí **Telegram**, ingresá el token de BotFather y configurá **Allowed users** con tu ID numérico. Conservá configuración existente de modelo y proveedor. No uses un `@username` ni dejes acceso abierto a cualquiera.
+
+**Comprobación:** wizard guarda Telegram y la lista de usuarios permitidos. Fijate si además dejó un gateway activo; el siguiente paso no debe iniciar un duplicado. **No sigas si** no podés comprobar la allowlist o se perdió la configuración del proveedor.
+
+Alta del bot y mensajes ocurren en Telegram; configuración ocurre en el wizard nativo de Hermes. No existe un equivalente de `gh` para estas pantallas. [Procedimiento independiente del taller](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram).

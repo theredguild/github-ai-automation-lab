@@ -1,0 +1,41 @@
+---
+title: "Crear el hook del gateway"
+showAskAi: false
+showFeedback: false
+description: "Apuntá sólo el hook de review al path y secret del receptor nativo."
+---
+
+# Crear el hook del gateway
+
+**Dónde:** Hermes CLI en `lab-agent`, `/workspace`, o navegador del repo propio. **Antes:** [etiquetas preparadas](/review/crear-etiquetas), hostname **nuevo** del túnel, ruta nativa activa y secret nuevo del gateway. El hook de Next sigue inactivo.
+
+Elegí **una** forma de crear o actualizar este hook. No crees uno por cada alternativa.
+
+## Delegar al agente
+
+Requiere Webhooks: Read and write en su PAT. Prompt, sin secretos:
+
+```text
+Creá o actualizá sólo el webhook de esta review en TU_USUARIO/REPO.
+URL: https://TU_URL_PUBLICA/webhooks/github-pr-review
+Usá el secret de Webhooks del gateway sin mostrarlo ni imprimirlo.
+Content type: application/json. Sólo eventos Pull requests y TLS verificado.
+No alteres hooks ajenos ni reglas del repo.
+El hook anterior de /api/github debe seguir inactivo; comprobalo.
+```
+
+:::details[Alternativa web: mismo hook, sin delegar]
+En **Settings → Webhooks → Add webhook**, o editando exclusivamente un hook ya identificado como el de esta review:
+
+1. **Payload URL:** `https://TU_URL_PUBLICA/webhooks/github-pr-review`.
+2. **Content type:** `application/json`.
+3. **Secret:** secret nuevo de Webhooks del gateway.
+4. **Let me select individual events → Pull requests**, únicamente.
+5. **SSL verification** habilitado y **Active** marcado. Guardá.
+
+No reutilices por suposición el secret del receptor Next. Ambos extremos de **este hook** deben coincidir. El secret no es el PAT de GitHub, token de Telegram ni API key del modelo.
+:::
+
+**Comprobación:** web muestra un único hook de esta review con hostname actual, path nativo, JSON, Pull requests, TLS verificado y activo. `/api/github` permanece inactivo con historial conservado. El ping inicial no es una review ni reemplaza un `pull_request/labeled`.
+
+**No sigas si** hay hooks duplicados, URL vieja, secret de otro receptor o TLS sin verificar. Corregí sólo los hooks de tu práctica; no modifiques reglas ni hooks ajenos.

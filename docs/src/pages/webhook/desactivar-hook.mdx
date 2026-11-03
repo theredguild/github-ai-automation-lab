@@ -1,0 +1,28 @@
+---
+title: "Desactivar sólo el hook de Next"
+showAskAi: false
+showFeedback: false
+description: "Conservá el historial y prepará el cambio al gateway nativo."
+---
+
+# Desactivar sólo el hook de Next
+
+**Dónde:** navegador de tu repo, **Settings → Webhooks**, o Hermes CLI en `lab-agent`, `/workspace`. **Antes:** [repetición de entrega interpretada](/webhook/repetir-entrega), hook de la práctica identificado por ID y path `/api/github`. No cambia la branch.
+
+En el siguiente capítulo el destino será el gateway nativo de Hermes. Antes de crear ese hook, abrí **sólo** el que termina en `/api/github`, desmarcá **Active** y guardá. Conservá el historial de entregas; no borres el hook.
+
+:::details[Alternativa delegada: mismo resultado]
+Elegí esta opción en lugar de hacerlo en la web, y sólo si el agente tiene permiso Webhooks. Indicá repo e ID/URL del hook propio, nunca secretos:
+
+```text
+En TU_USUARIO/REPO desactivá exclusivamente el webhook de esta práctica que termina en /api/github.
+Conservá su historial. No borres el hook ni alteres hooks de otros servicios.
+Mostrame su ID, URL y estado inactivo sin credenciales.
+```
+:::
+
+**Comprobación:** la web muestra ese hook inactivo y su historial sigue disponible. **No sigas si** el hook anterior sigue activo o se modificó uno ajeno. No desactives todos los hooks del repositorio por reflejo.
+
+## Llevar el receptor a otro backend
+
+La referencia es `app/api/github/route.ts`. Para otro framework conservá una ruta POST pequeña y una ruta health, HMAC sobre bytes originales antes de JSON, límites de body, repo y eventos, deduplicación acotada y correlación entre entrega, respuesta y logs. Podés pedir al agente adaptar el handler provisto; no hace falta escribir uno desde cero durante la charla. Ninguna adaptación debe ejecutar código del PR.

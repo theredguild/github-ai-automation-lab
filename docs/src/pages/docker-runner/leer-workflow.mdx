@@ -1,0 +1,52 @@
+---
+title: "Leer workflow, job y steps"
+description: "Entender el check manual antes de activarlo en GitHub."
+showAskAi: false
+showFeedback: false
+---
+
+import actions from '../../../assets/course-e2-actions.png'
+
+# Leer workflow, job y steps
+
+**Dónde:** host, editor en `lab`, rama `development`. **Antes:** imagen explorada y repositorio propio publicado.
+
+Abrí `docs/snippets/checks.yml`. Viajó con la app y ya no está en `hackerspace-site/` dentro del checkout del material. Leé el archivo completo. Todavía no está activado en `.github/workflows/`.
+
+GitHub Actions organiza el trabajo en workflow → jobs → steps. El job elige un runner y ese runner ejecuta sus steps.
+
+<img src={actions} alt="Workflow contiene un job que selecciona runner y ejecuta checkout, instalación, lint y typecheck" />
+
+Diagrama del taller; ejemplo conceptual.
+
+La primera parte dice:
+
+```yaml
+name: Checks del workshop
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: [self-hosted, linux, workshop]
+    timeout-minutes: 10
+```
+
+`workflow_dispatch` permite el inicio manual. No hay un trigger `push`: enviar un commit no ejecutará este workflow. `workshop` debe coincidir con la etiqueta del runner. `contents: read` limita la credencial del job y el timeout limita su duración.
+
+Dentro del mismo job:
+
+```yaml
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+```
+
+Checkout está fijado a un commit y no conserva su credencial en Git. La instalación respeta el lockfile; Biome revisa el código y TypeScript comprueba tipos.
+
+Comprobá en el archivo real el evento, las etiquetas y los cuatro steps. **No sigas si** el contenido no coincide o apunta a otro runner.

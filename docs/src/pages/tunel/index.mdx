@@ -1,0 +1,22 @@
+---
+title: "El túnel"
+description: "Seguir una request pública hasta un origen conocido."
+showAskAi: false
+showFeedback: false
+---
+
+import urlParts from '../../../assets/course-e4-url.png'
+
+# El túnel
+
+Vas a exponer una respuesta conocida antes de añadir webhooks. Partís de la imagen `taller`, el proyecto `lab` y Telegram funcionando sin túnel. Terminás con Next en `lab-app`, pruebas por tres caminos y un Quick Tunnel que podés interrumpir y recuperar.
+
+Cloudflare opera la red pública. `cloudflared` es el proceso local que abre una conexión saliente hacia esa red. No crea tu aplicación ni la reemplaza.
+
+Usaremos un **Quick Tunnel**, con dirección temporal `https://…trycloudflare.com`, sin crear cuenta ni registrar dominio. Sirve para la práctica, no promete dirección estable ni disponibilidad de producción.
+
+<img src={urlParts} alt="URL dividida en esquema HTTPS, hostname y ruta api health" />
+
+Diagrama del taller; ejemplo conceptual. En `https://HOSTNAME/api/health`, `https` es el esquema, `HOSTNAME` se resuelve por DNS y `/api/health` es la ruta que atiende Next. DNS localiza la entrada; no decide qué archivo ejecuta el backend.
+
+Empezá por [crear la red compartida](/tunel/crear-red).

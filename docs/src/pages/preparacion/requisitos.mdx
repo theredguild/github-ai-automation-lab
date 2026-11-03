@@ -1,0 +1,27 @@
+---
+title: "Preparar el equipo"
+description: "Comprobar acceso al material y herramientas del host antes del primer clon."
+showAskAi: false
+showFeedback: false
+---
+
+# Preparar el equipo
+
+**Dónde:** tu equipo o WSL2, antes de clonar el material.
+
+Necesitás una cuenta de GitHub con acceso de lectura al repo privado del taller, [Git](https://git-scm.com/install/), [GitHub CLI](https://cli.github.com/) y un editor. Resolvé el acceso al material con tu cuenta o credencial existente. El PAT que crearás después para tu sitio no permite leer este repo privado.
+
+Usá Bash en Linux, macOS o [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install). En Windows con Docker Desktop, trabajá dentro de WSL2. No pegues los comandos en PowerShell.
+
+Comprobá las herramientas del primer paso:
+
+```bash
+git --version
+gh --version
+```
+
+Node 22 y pnpm 10.20.0 se usarán después del primer push. Docker se prepara en el capítulo 2. Las cuentas del modelo y Telegram aparecen cuando las necesitamos; no configures tokens ni pagos por anticipado.
+
+El sitio Vocs que estás leyendo es material del taller. Sus comandos de mantenimiento corren en `docs/` del material; **no se ejecutan en `lab` ni forman parte de la app**.
+
+**Comprobación:** Git y GitHub CLI muestran sus versiones y tu cuenta puede abrir el repo privado del material. Si falta acceso, resolvelo antes de continuar.

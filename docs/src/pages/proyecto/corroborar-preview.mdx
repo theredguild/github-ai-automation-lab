@@ -1,0 +1,29 @@
+---
+title: "Corroborar Preview desde el PR"
+description: "Enlazá tu PR y SHA con el deployment correcto."
+showAskAi: false
+showFeedback: false
+---
+
+import prDeployment from '../../../assets/github-vercel-pr-deployment-details.png'
+import commitStatus from '../../../assets/github-vercel-commit-status.png'
+
+# Corroborar Preview desde el PR
+
+**Dónde:** navegador, PR GitHub y proyecto Vercel. **Antes:** PR abierto del cambio de título.
+
+Buscá en el último commit el estado Vercel y el comentario del bot con **Ready**, **Visit Preview**, **Inspect** o **View deployment**. Abrí el enlace. Desde los checks, **Details** también puede llevar al deployment.
+
+<img src={prDeployment} alt="Comentario de Vercel en un PR con estado y enlaces al Preview" />
+
+<img src={commitStatus} alt="Estado Vercel del commit en los checks de GitHub" />
+
+Referencias oficiales de Vercel. Son ejemplos públicos distintos, no dos mitades de nuestra ejecución.
+
+En Vercel compará propietario/repo, rama `development`, SHA del último commit, entorno Preview, Ready y URL. La evidencia debe enlazar **tu PR y SHA** con **tu deployment Preview, estado y URL**, además del título nuevo al abrirla.
+
+La URL de rama puede cambiar tras otro push. La URL única identifica un deployment concreto. Si falta el comentario del bot, consultá Deployments: los comentarios pueden desactivarse sin detener builds.
+
+Vercel construye esta app. Su estado no es el workflow manual de Actions que crearás en el siguiente capítulo.
+
+**No sigas si** el enlace corresponde a otro SHA o deployment. [Vercel para GitHub](https://vercel.com/docs/git/vercel-for-github).

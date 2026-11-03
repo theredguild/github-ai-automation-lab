@@ -1,0 +1,27 @@
+---
+title: "Encontrar dónde falló el deployment"
+description: "Comprobar repo, build, rama y acceso sin cambiar permisos ni planes a ciegas."
+showAskAi: false
+showFeedback: false
+---
+
+# Encontrar dónde falló el deployment
+
+**Dónde:** tu proyecto Vercel y el repo GitHub propio. **Antes:** identificaste el commit que intentás desplegar.
+
+| Síntoma | Primera comprobación |
+| --- | --- |
+| El repo no aparece | Cuenta elegida y acceso de la GitHub App al repo |
+| No detecta Next.js | Root Directory es `.` en el repo de la app, no la raíz del material |
+| Falla el build | Primer error de Build Logs y comandos de `package.json` |
+| No ves el cambio | Rama, SHA del deployment y URL que abriste |
+| No aparece Preview | Branch Tracking de Production es main; Preview recibe ramas no asignadas |
+| La URL pide login | Deployment Protection, no necesariamente un build fallido |
+
+En un proyecto que ya tenía ajustes, revisá que `git.deploymentEnabled` no excluya `development` y que **Build and Deployment → Ignored Build Step** no cancele Preview. No agregues esas opciones al camino que funciona.
+
+El entorno Vercel **Development** no es la rama Git `development`. No crees otro proyecto para lograr Preview, ni desactives protección, publiques el repo o compres un plan para ocultar un error. Repos privados de organización pueden tener restricciones distintas de un repo personal en Hobby.
+
+**Comprobación:** encontraste qué capa falla y conservaste repo, rama y SHA correctos. [Configuración Git](https://vercel.com/docs/project-configuration/git-configuration).
+
+[Volver a comparar Preview](/proyecto/comparar-preview).

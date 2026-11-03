@@ -1,0 +1,25 @@
+---
+title: "Autorizar la operación elegida"
+description: "Resolver permisos antes de enviar un workflow por Git."
+showAskAi: false
+showFeedback: false
+---
+
+# Autorizar la operación elegida
+
+**Dónde:** navegador, configuración del PAT fino del repositorio propio; terminal del host sólo si hace falta repetir login. **Antes:** decidir cómo crear el archivo y cómo iniciar las ejecuciones.
+
+Elegí una sola forma de publicar el workflow en la página siguiente. La web es la opción más directa y no usa el permiso Workflows del PAT.
+
+| Operación elegida | Permiso adicional del PAT del mismo repo |
+| --- | --- |
+| Crear archivo desde GitHub web e iniciar desde web | Ninguno por estas operaciones |
+| Iniciar y leer runs mediante CLI | Actions: Read and write |
+| Enviar `.github/workflows/checks.yml` por Git | Workflows: Write |
+| Registrar runner desde la web | Ningún permiso nuevo del PAT |
+
+El PAT inicial del capítulo anterior no autoriza enviar workflows. Si elegís publicar por CLI, agregá **Workflows: Write antes del push**, no después de un rechazo. Si también vas a disparar desde CLI, agregá Actions: Read and write.
+
+Editá permisos en GitHub, no con `gh auth refresh`. Conservá el alcance a tu repo. No agregues Administration ni permisos de cuenta. Si GitHub reemplaza el token al actualizarlo, repetí [la autenticación de CLI](/proyecto/autenticar-cli) por entrada oculta en el host. Nunca pegues el token en argumentos, archivos versionados, chat o este workflow.
+
+Comprobá en la pantalla del PAT los permisos de la operación elegida. **No sigas con el push del YAML si** elegiste Git y aún falta Workflows: Write.

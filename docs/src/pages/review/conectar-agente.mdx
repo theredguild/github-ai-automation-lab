@@ -1,0 +1,33 @@
+---
+title: "Conectar el agente existente a la red"
+showAskAi: false
+showFeedback: false
+description: "Hacé que el connector resuelva lab-agent sin recrear su perfil."
+---
+
+# Conectar el agente existente a la red
+
+**Dónde:** host, cwd `lab`. **Antes:** [health local correcto](/review/comprobar-listener), red `red-taller` creada en el capítulo del túnel y container existente `lab-agent`. Branch sin cambios.
+
+El agente se creó sin esta red. El connector necesita resolver su nombre para llegar al puerto 8644. Primero mirá las redes de **tu** container:
+
+```bash
+docker inspect lab-agent --format '{{json .NetworkSettings.Networks}}'
+```
+
+- Si ya aparece `red-taller`, **no repitas la conexión**.
+- Si no aparece, conectá la instancia existente una vez:
+
+```bash
+docker network connect red-taller lab-agent
+```
+
+Volvé a consultar la pertenencia:
+
+```bash
+docker inspect lab-agent --format '{{json .NetworkSettings.Networks}}'
+```
+
+**Comprobación:** `red-taller` figura entre las redes de `lab-agent`. Perfil y sesión `gh` permanecen en el mismo container.
+
+**No sigas si** la red o el container no existen, el nombre pertenece a otro recurso o Docker rechaza la conexión por otra causa. No recrees el agente ni borres redes ajenas. Una conexión ya existente se resuelve omitiendo la línea, no eliminando y creando el container.

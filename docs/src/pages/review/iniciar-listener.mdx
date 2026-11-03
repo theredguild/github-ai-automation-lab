@@ -1,0 +1,24 @@
+---
+title: "Iniciar una única instancia del gateway"
+showAskAi: false
+showFeedback: false
+description: "Arrancá el perfil fusionado sin perder Telegram ni duplicar listeners."
+---
+
+# Iniciar una única instancia del gateway
+
+**Dónde:** shell de `lab-agent`, cwd `/workspace`. **Antes:** [ruta fusionada y revisada](/review/configurar-ruta), secret privado del gateway y sesión `gh` preparada en este mismo container. Branch sin cambios.
+
+Si el gateway anterior continúa activo, detenelo con **Ctrl+C en su propia terminal**. No recrees el container ni borres su perfil. El mismo proceso mantendrá Telegram y Webhooks activos.
+
+Iniciá **una sola instancia** con el perfil nuevo:
+
+```bash
+hermes gateway run
+```
+
+Dejá esa terminal abierta para leer recepción, filtros, tareas y errores sin mostrar configuración secreta.
+
+**Comprobación:** gateway arranca sin conflicto en 8644 ni errores de perfil y conserva los canales previstos. Esto todavía no demuestra acceso al PR, funcionamiento del modelo o entrega de comentarios.
+
+**No sigas si** hay otra instancia ocupando el puerto, falta Telegram por una sobrescritura del perfil o el proceso falla al cargar Webhooks. Corregí la configuración nativa; no añadas un puente Python como sustituto.

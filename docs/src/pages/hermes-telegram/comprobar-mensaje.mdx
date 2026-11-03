@@ -1,0 +1,21 @@
+---
+title: "Comprobar un mensaje en Telegram"
+description: "Verificar respuesta desde el usuario permitido y observar el gateway."
+showAskAi: false
+showFeedback: false
+---
+
+# Comprobar un mensaje en Telegram
+
+**Dónde:** participante en Telegram y terminal del gateway de `lab-agent` para observar logs. **Antes:** único gateway activo, modelo probado y usuario numérico autorizado.
+
+1. Abrí el chat privado del bot que creaste.
+2. Pulsá **Start** y enviá `/help`.
+3. Enviá `Respondé exactamente: Hermes conectado.` como mensaje, no como comando de shell.
+4. Comprobá la respuesta desde tu usuario permitido y los mensajes del gateway.
+
+`/help` comprueba una función del canal; no demuestra por sí solo que el proveedor pudo generar una respuesta. Esperá también la contestación al mensaje de prueba.
+
+**Comprobación:** recibís la respuesta del modelo y podés relacionarla con los logs del gateway. Esto comprueba Telegram en esta sesión, no una integración con GitHub. **No sigas si** sólo responde `/help` o aparece usuario no autorizado. Revisá gateway, token, usuario permitido, proveedor y logs en ese orden en [diagnóstico de Hermes](/opcional/diagnostico-hermes).
+
+Conservá el perfil y la instancia. El próximo capítulo prepara un origen HTTP separado; Telegram no necesita ese túnel.

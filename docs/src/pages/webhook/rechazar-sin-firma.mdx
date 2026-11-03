@@ -1,0 +1,29 @@
+---
+title: "Rechazar una request sin firma"
+showAskAi: false
+showFeedback: false
+description: "Comprobá 401 antes de aceptar que el receptor valida HMAC."
+---
+
+# Rechazar una request sin firma
+
+**Dónde:** otra terminal del host, cwd `lab`, no dentro de `lab-agent`. **Antes:** [Next reiniciado](/webhook/reiniciar-app) y health correcto. Branch sin cambios.
+
+Esta request carece deliberadamente de firma. No es un evento autorizado y no debe activar IA:
+
+```bash
+curl -i -X POST http://127.0.0.1:3000/api/github \
+  -H 'Content-Type: application/json' \
+  --data '{"action":"opened"}'
+```
+
+Ejemplo de salida esperada, no evidencia de ejecución:
+
+```text
+HTTP/1.1 401 Unauthorized
+{"error":"invalid_signature"}
+```
+
+**Comprobación:** 401 confirma rechazo de esta request sin firma. No demuestra por sí solo que una firma válida funcione; esa evidencia llegará desde GitHub. El receptor comprueba configuración antes de firma: **503 receiver_not_configured** significa que faltan variables válidas, no que la validación haya funcionado.
+
+**No sigas si** recibís 200, 503, error de conexión o una respuesta de otro servicio. Para 503, corregí `WEBHOOK_SECRET` y `GITHUB_WEBHOOK_REPO` en privado y repetí [el reinicio de Next](/webhook/reiniciar-app). No desactives HMAC para conseguir un 200.

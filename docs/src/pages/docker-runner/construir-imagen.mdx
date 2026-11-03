@@ -1,0 +1,47 @@
+---
+title: "Elegir UID y construir la imagen"
+description: "Construir taller una sola vez con la identidad elegida."
+showAskAi: false
+showFeedback: false
+---
+
+# Elegir UID y construir la imagen
+
+**Dónde:** host, Bash en `lab`, sin sesión root. **Antes:** receta leída e instructor disponible para revisar permisos.
+
+La imagen usa `node` con UID/GID `1000:1000` por defecto. En Linux con Docker Engine comprobá ambos IDs antes de construir:
+
+```bash
+id -u
+id -g
+```
+
+**Elegí exactamente una de las siguientes opciones. No ejecutes ambas.** Docker Desktop y rootless pueden traducir propietarios; en el capítulo del agente comprobaremos escritura antes de cargar credenciales.
+
+### Opción A: IDs 1000:1000
+
+Si tus IDs son `1000:1000`, o el instructor confirmó usar el valor predeterminado de tu entorno:
+
+```bash
+docker build -t taller .
+```
+
+### Opción B: IDs Linux distintos
+
+En lugar de la opción A, reemplazá ambos marcadores por tus números:
+
+```bash
+docker build -t taller   --build-arg WORKSHOP_UID=TU_UID   --build-arg WORKSHOP_GID=TU_GID .
+```
+
+No ejecutes después el build básico sobre la imagen adaptada. No construyas desde una sesión root ni arregles permisos con `chmod 777`. Si hay un conflicto de IDs, detenete y resolvelo con el instructor.
+
+`-t taller` da un nombre corto a la imagen. El punto usa el Dockerfile de la carpeta actual. No versionamos etiquetas en este ejercicio.
+
+Tras finalizar la única opción elegida:
+
+```bash
+docker image ls taller
+```
+
+Buscá `taller` con etiqueta `latest` y anotá su IMAGE ID. Todavía no es un container en ejecución. **No sigas si** el build falló o la imagen no aparece.

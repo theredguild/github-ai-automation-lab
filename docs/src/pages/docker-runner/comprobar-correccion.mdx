@@ -1,0 +1,47 @@
+---
+title: "Comprobar la corrección y cerrar el runner"
+description: "Comparar tres versiones y terminar con ningún runner activo."
+showAskAi: false
+showFeedback: false
+---
+
+# Comprobar la corrección y cerrar el runner
+
+**Dónde:** navegador y terminal del host en `lab`, rama `development`. **Antes:** tercer runner escuchando y SHA corregido publicado.
+
+**Elegí un solo dispatch.** Por web, **Actions → Checks del workshop → Run workflow → development → Run workflow**. O, con permiso Actions: Read and write, desde el host:
+
+```bash
+gh workflow run checks.yml --ref development
+gh run list --workflow checks.yml --limit 5
+```
+
+Identificá el tercer `RUN_ID`. Relacioná su rama y SHA con la corrección publicada, y consultá:
+
+```bash
+gh run view RUN_ID --json status,conclusion
+gh run view RUN_ID --web
+```
+
+Seguí los steps en el navegador, sin `gh run watch`. El resultado esperado es `completed` y `success` con instalación, Biome y TypeScript completos sobre el SHA corregido. Si queda en cola, verificá escucha y etiquetas. Si falla, leé el primer step fallido; no des por aprobada una corrección sólo porque la página se ve bien.
+
+Compará las tres ejecuciones por ID y SHA, no sólo por su posición en la lista:
+
+| Ejecución | Qué se reconoce |
+| --- | --- |
+| Baseline | SHA inicial y checks completos |
+| Error introducido | SHA nuevo y typecheck fallido |
+| Corrección | Tercer SHA y checks completos |
+| En tu proyecto | Los mismos comandos que usa tu equipo |
+
+“Se ve la página” y “pasa el chequeo de tipos” son observaciones distintas. En tu proyecto usá tu linter, typecheck o tests habituales. Para automatizar sobre PR y admitir código de terceros, diseñá antes el aislamiento del runner y sus permisos. Esta práctica manual y efímera no es una configuración de producción.
+
+Esperá a que termine el runner. `exec` hace salir su container tras el único job. Desde el host:
+
+```bash
+docker ps
+```
+
+No debe quedar `lab-runner` ejecutando trabajos. GitHub tampoco debe mostrar ese runner efímero disponible para otro job. No detengas recursos ajenos. Si el job ya terminó pero una instancia de esta práctica sigue activa, revisá su terminal y detené sólo esa instancia antes de dar acceso al agente.
+
+**No sigas al agente si** no tenés las tres evidencias con sus SHA correctos, el tercer run no pasó o queda un runner de este ejercicio activo.

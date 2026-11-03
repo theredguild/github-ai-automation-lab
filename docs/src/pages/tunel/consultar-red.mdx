@@ -1,0 +1,33 @@
+---
+title: "Consultar health desde la red interna"
+description: "Resolver lab-app desde otro container de red-taller."
+showAskAi: false
+showFeedback: false
+---
+
+# Consultar health desde la red interna
+
+**Dónde:** host, terminal de consultas, raíz de `lab`. El comando crea un cliente temporal; no se ejecuta dentro de la shell de Next. **Antes:** health del host devuelve 200 y Next sigue activo.
+
+```bash
+docker run --rm --network red-taller \
+  taller \
+  curl -i http://lab-app:3000/api/health
+```
+
+Debe devolver HTTP 200 y el mismo JSON:
+
+```text
+{"status":"ok","service":"nodoserrano"}
+```
+
+Docker resuelve `lab-app` dentro de `red-taller`. El cliente temporal desaparece al terminar por `--rm`.
+
+| Desde dónde preguntás | Dirección del origen |
+| --- | --- |
+| Host | `http://127.0.0.1:3000` |
+| Dentro de lab-app | `http://127.0.0.1:3000` |
+| Otro container en red-taller | `http://lab-app:3000` |
+| Cliente externo, después del túnel | URL HTTPS impresa por cloudflared |
+
+**No sigas si** falla esta consulta interna aunque funcione desde el host. Revisá nombre, red compartida y escucha `0.0.0.0`; un túnel no arregla un origen inaccesible.

@@ -1,0 +1,38 @@
+---
+title: "Publicar un error de tipos controlado"
+description: "Enviar una versión incompatible a development y anotar su SHA."
+showAskAi: false
+showFeedback: false
+---
+
+# Publicar un error de tipos controlado
+
+**Dónde:** host, editor y Bash en `lab`, rama `development`. **Antes:** baseline correcto y primer runner terminado.
+
+En `app/estado.ts`, cambiá deliberadamente:
+
+```typescript
+export const plazas: number = 20;
+```
+
+por:
+
+```typescript
+export const plazas: number = "20";
+```
+
+Guardá el archivo. Revisá que el diff contenga sólo el cambio previsto y publicalo con los comandos del ejercicio:
+
+```bash
+git diff
+git add app/estado.ts
+git commit -m "Introduce un error de tipos para la practica"
+git push origin development
+git rev-parse HEAD
+```
+
+Anotá el nuevo SHA como versión con error y comprobalo en `development` de GitHub. El workflow es manual: **el push por sí solo no lo ejecuta**. Todavía falta una instancia efímera nueva y un dispatch.
+
+También podés editar el archivo con el editor web de GitHub y confirmar en `development`, en lugar de duplicar la edición local. Si elegís esa vía, en el host ejecutá `git pull --ff-only` estando en `development` y anotá el SHA con `git rev-parse HEAD` antes de continuar.
+
+**No sigas si** el push falló, el cambio quedó en otra rama o el diff incluye trabajo ajeno a esta prueba.

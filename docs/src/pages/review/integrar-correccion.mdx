@@ -1,0 +1,37 @@
+---
+title: "Integrar con decisión humana y comprobar Production"
+showAskAi: false
+showFeedback: false
+description: "Revisá el diff final, cumplí reglas e identificá el deploy de main."
+---
+
+# Integrar con decisión humana y comprobar Production
+
+**Dónde:** navegador del PR y Vercel; CLI del host en `lab` como alternativa de merge. **Antes:** [review nueva del SHA corregido comprobada](/review/solicitar-nueva-review), diff humano revisado y tests, lint y tipos correctos para esa corrección. Ningún cambio posterior sin comprobar.
+
+En **Files changed** corroborá resta, archivos esperados y ausencia de secretos. Leé la conversación críticamente. Cumplí checks y aprobaciones que exijan las reglas del repo. El comentario del agente no sustituye revisión humana ni otorga permiso para saltarlas. GitHub no permite aprobar tu propio PR; en práctica individual evaluá y comentá, sin fingir otra aprobación.
+
+Elegí **una sola** forma de integrar:
+
+- **Web:** **Conversation → Create a merge commit**, revisá y confirmá. Conservá `development` porque se reutiliza.
+- **CLI alternativa:** reemplazá `NUMERO` por tu PR:
+
+```bash
+gh pr merge NUMERO --merge
+```
+
+No ejecutes ambos métodos ni uses bypass. Luego consultá el resultado:
+
+```bash
+gh pr view NUMERO --json state,mergeCommit
+```
+
+En Vercel abrí el proyecto vinculado, buscá el deployment nuevo de **main / Production** y esperá estado **Ready**. Contrastá repo, rama, SHA del deployment con el commit integrado, entorno y URL. Abrí **esa URL de Production**, no el Preview ni el túnel. Comprobá la landing y que el cálculo de lugares libres refleje la resta. Un deployment anterior en Ready no demuestra este merge.
+
+**Comprobación:** PR figura Merged, commit de integración reconocido y Production nuevo de `main` está Ready con comportamiento esperado. El fallo de práctica no quedó integrado como versión final.
+
+**No sigas si** faltan checks/aprobaciones, no se pudo integrar, Vercel falló, el deployment pertenece a otro SHA o la página conserva comportamiento incorrecto. No uses un comentario del modelo para saltar estos controles. Para problemas de deploy consultá [diagnóstico de Vercel](/opcional/diagnostico-vercel).
+
+## En tu proyecto
+
+Adaptá prompt al lenguaje y checks de tu equipo, conservando repo y rama base fijados en toda la ruta, intención explícita para pedir revisión, filtros previos al modelo y destino fijo. Separá código no confiable, credenciales y jobs. Definí quién evalúa el resultado antes de integrar. **No ejecutes PRs de terceros en la instancia que tiene tu sesión de GitHub o el perfil del agente.**

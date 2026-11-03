@@ -1,0 +1,30 @@
+---
+title: "Sincronizar main y development"
+description: "Reunir las vías web y CLI con el mismo workflow en ambas ramas."
+showAskAi: false
+showFeedback: false
+---
+
+# Sincronizar main y development
+
+**Dónde:** host, Bash en `lab`. **Antes:** workflow visible en `main` de GitHub, tanto si usaste web como CLI.
+
+```bash
+git status
+```
+
+Guardá cambios pendientes antes de cambiar de rama. Revisá archivos sin seguimiento: si creaste el YAML localmente pero elegiste publicarlo por web, un archivo local con el mismo nombre puede impedir el pull. Conservá su contenido fuera de la ruta en conflicto después de revisarlo; no borres trabajo ni fuerces el checkout.
+
+Con el árbol listo, ambas alternativas ejecutan el bloque completo:
+
+```bash
+git switch main
+git pull --ff-only
+git switch development
+git merge main
+git push origin development
+```
+
+Leé `.github/workflows/checks.yml` en `development` local y en GitHub. Debe contener el mismo workflow manual. `git status` debe indicar rama `development` sin cambios pendientes.
+
+**No sigas si** hay conflictos, falla el fast-forward o el push no publicó la sincronización. Resolvé ese estado antes de registrar el primer runner.

@@ -1,0 +1,62 @@
+---
+title: "Integrar con un merge commit"
+description: "Elegí una sola operación y conservá development."
+showAskAi: false
+showFeedback: false
+---
+
+import mergeHistory from '../../../assets/course-history-merge.png'
+import squashHistory from '../../../assets/course-history-squash.png'
+import rebaseHistory from '../../../assets/course-history-rebase.png'
+import options from '../../../assets/github-merge-options.png'
+
+# Integrar con un merge commit
+
+**Dónde:** navegador, PR GitHub; alternativa CLI en host, `lab`. **Antes:** diff y Preview revisados, requisitos de checks y aprobaciones satisfechos.
+
+| Método | Qué agrega a main | Cuándo conviene |
+| --- | --- | --- |
+| Create a merge commit | Conserva commits de rama y agrega un commit con dos padres | Este taller, porque reutilizamos development |
+| Squash and merge | Agrupa cambios del PR en un commit nuevo | Rama corta que termina tras el PR |
+| Rebase and merge | Reaplica commits con SHA nuevos, sin commit de merge | Historia lineal acordada con el equipo |
+
+Son alternativas conceptuales, **no ejecutes las tres sobre el mismo PR**. En una rama larga, squash puede confundir comparaciones posteriores porque los commits originales siguen en la rama.
+
+### Merge commit
+
+<img src={mergeHistory} alt="Historia conceptual con commits de rama y commit de merge con dos padres" />
+
+Diagrama del taller; ejemplo conceptual.
+
+### Squash
+
+<img src={squashHistory} alt="Historia conceptual donde los cambios del PR se agrupan en un nuevo commit" />
+
+Diagrama del taller; ejemplo conceptual.
+
+### Rebase
+
+<img src={rebaseHistory} alt="Historia conceptual donde los commits se reaplican en una línea con SHA nuevos" />
+
+Diagrama del taller; ejemplo conceptual.
+
+### Operación del taller
+
+En **Conversation**, revisá conversación y checks, bajá al botón verde y abrí su flecha. Elegí **Create a merge commit**, luego **Merge pull request → Confirm merge**. Conservá `development`; no la borres.
+
+<img src={options} alt="Selector de métodos de integración de GitHub" />
+
+Referencia oficial de GitHub.
+
+:::details[Alternativa por CLI]
+Elegí web o CLI para integrar. No repitas la operación si ya hiciste merge.
+
+```bash
+gh pr merge NUMERO --merge
+gh pr view NUMERO --json state,mergeCommit
+```
+:::
+
+Comprobá estado **Merged** y commit de merge en GitHub. Si una regla exige checks o aprobación, atendé ese requisito. **No uses bypass.**
+
+**No sigas si** el PR no quedó integrado o fallan requisitos. [Métodos de merge](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github).

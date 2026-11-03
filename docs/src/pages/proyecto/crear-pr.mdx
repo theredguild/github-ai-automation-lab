@@ -1,0 +1,39 @@
+---
+title: "Crear el pull request"
+description: "Proponé development como cambio para main."
+showAskAi: false
+showFeedback: false
+---
+
+import compare from '../../../assets/github-compare.png'
+import base from '../../../assets/github-pr-base.png'
+
+# Crear el pull request
+
+**Dónde:** navegador GitHub, tu repo; alternativa CLI en host, `lab`, rama `development`. **Antes:** cambio publicado y Preview comparado.
+
+Un PR propone integrar cambios. **Compare / head** aporta los cambios y **base** los recibe: `development → main`. Crear el PR no hace merge.
+
+En **Pull requests → New pull request**, elegí **base: main** y **compare: development**. Verificá el diff, escribí título y descripción y pulsá **Create pull request**.
+
+<img src={compare} alt="Pantalla de comparación para abrir un pull request en GitHub" />
+
+<img src={base} alt="Selectores base y compare de un pull request de GitHub" />
+
+Referencias oficiales de GitHub con repositorios y branches de ejemplo. En tu formulario usá `main` y `development`.
+
+:::details[Alternativa por CLI]
+Elegí web o CLI para crear el mismo PR; no ejecutes ambos métodos.
+
+```bash
+gh pr create --base main --head development   --title "Actualiza la portada del HackerSpace"   --body "Cambia el titulo visible de la landing."
+gh pr list --state open
+gh pr list --base main --head development
+```
+
+La CLI devuelve una URL como `https://github.com/TU_USUARIO/REPO/pull/NUMERO`. Es ejemplo; conservá tu URL y número reales.
+:::
+
+Comprobá PR abierto, base `main`, head `development` y el commit del título. `NUMERO` en comandos siguientes es tu número sin `#`.
+
+**No sigas si** el diff propone otra dirección o contiene archivos inesperados.

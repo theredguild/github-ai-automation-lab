@@ -1,0 +1,28 @@
+---
+title: "Leer comandos y reconocer la terminal"
+description: "Distinguir host, containers, salidas ilustrativas y valores que tenés que reemplazar."
+showAskAi: false
+showFeedback: false
+---
+
+# Leer comandos y reconocer la terminal
+
+**Dónde:** esta página explica cómo leer las instrucciones; todavía no creás containers.
+
+Cada página indica dónde trabajar. **Host** es tu equipo o WSL2. `lab-agent`, `lab-app` y `lab-runner` serán containers separados cuando lleguemos a ellos. No ejecutes un comando del host dentro de la shell de otro entorno.
+
+| Valor | Qué reemplazás |
+| --- | --- |
+| `TU_USUARIO/REPO` | Propietario y nombre de tu repo, no del material |
+| `NUMERO` | Número real del PR, sin `#` |
+| `RUN_ID` | Identificador real que muestra `gh run list` |
+| `TU_URL_PUBLICA` | Hostname de cloudflared, sin duplicar `https://` |
+| `TU_UID` y `TU_GID` | IDs comprobados para el build adaptado, si corresponde |
+
+Una línea terminada en `\` continúa en la siguiente. Pegá ese bloque completo. Las líneas que empiezan con `#` son comentarios.
+
+Los bloques `text` muestran **ejemplos de salida** o **tareas para el agente**, según su rótulo. No son comandos de Bash. Los fragmentos de archivos se editan en el archivo indicado; no se pegan como comandos.
+
+Cuando un proceso ocupa una terminal, dejala abierta y usá otra para el siguiente paso. `Ctrl+C` detiene ese proceso, no necesariamente el container, el túnel remoto o el Codespace.
+
+**Antes de avanzar:** ubicá el nombre de la terminal y su carpeta actual. Si no coinciden con la página, corregí eso antes de copiar comandos.

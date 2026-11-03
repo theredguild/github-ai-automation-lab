@@ -1,0 +1,36 @@
+---
+title: "Autenticar GitHub CLI"
+description: "Comprobá cuenta y credencial activa sin mostrar el token."
+showAskAi: false
+showFeedback: false
+---
+
+# Autenticar GitHub CLI
+
+**Dónde:** host, Bash en `lab`, no dentro de Codespaces. **Antes:** repo creado y token fino disponible en privado.
+
+```bash
+gh auth login
+```
+
+Elegí estas opciones. Es un ejemplo de prompts de GitHub CLI 2.103.3, no un bloque para ejecutar:
+
+```text
+GitHub.com
+Paste an authentication token
+HTTPS
+Authenticate Git: Yes
+Token: entrada oculta
+```
+
+Otra versión puede cambiar los textos. Pegá el token sólo en la entrada oculta cuando `gh` lo pida. No lo pases como argumento. No sustituyas este token limitado por OAuth del navegador. La ayuda puede mencionar scopes clásicos: no los agregues al token fino.
+
+```bash
+gh auth status
+```
+
+Comprobá cuenta, origen de la credencial y protocolo HTTPS. No uses opciones para mostrar el token.
+
+`GH_TOKEN` o `GITHUB_TOKEN` pueden prevalecer sobre la sesión guardada. No imprimas ni borres esas variables a ciegas; resolvé el contexto de esa terminal con el instructor. El login puede cambiar la credencial activa de `gh` y la HTTPS de Git: otros repos privados, incluido el material, podrían dejar de ser accesibles.
+
+**No sigas si** la cuenta o el origen de la credencial no son los esperados. Si aparece almacenamiento en texto plano, revisá el almacén de credenciales; no asumas cifrado ni uses `--insecure-storage`. [Login nativo](https://cli.github.com/manual/gh_auth_login).

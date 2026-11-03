@@ -1,0 +1,29 @@
+---
+title: "Consultar health desde el host"
+description: "Verificar la publicación local antes de probar la red interna."
+showAskAi: false
+showFeedback: false
+---
+
+import loopbacks from '../../../assets/course-e4-localhost.png'
+
+# Consultar health desde el host
+
+**Dónde:** otra terminal del host, raíz de `lab`; Next sigue activo en `lab-app`. **Antes:** servidor iniciado en puerto 3000.
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Ejemplo esperado:
+
+```text
+HTTP/1.1 200 OK
+{"status":"ok","service":"nodoserrano"}
+```
+
+<img src={loopbacks} alt="Loopback del host y loopback de cada container son entornos distintos" />
+
+Diagrama del taller; ejemplo conceptual. `localhost` siempre vuelve al entorno donde corre el cliente. En el host, esta consulta usa la publicación de Docker. Dentro de `lab-app`, `127.0.0.1:3000` apunta a Next directamente. Dentro de otro container no apunta ni al host ni a `lab-app`.
+
+**Comprobación:** HTTP 200 y JSON del servicio `nodoserrano`. **No sigas si** hay connection refused, otra aplicación o un body distinto. Revisá Next y la publicación antes de probar el túnel.

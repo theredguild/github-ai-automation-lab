@@ -1,0 +1,42 @@
+---
+title: "Crear un token limitado"
+description: "Limitá la credencial de terminal al repositorio de la práctica."
+showAskAi: false
+showFeedback: false
+---
+
+import expiry from '../../../assets/github-pat-creation-expiry.png'
+import selected from '../../../assets/github-pat-selected-repository.png'
+
+# Crear un token limitado
+
+**Dónde:** navegador, configuración de tu cuenta personal de GitHub. **Antes:** tu repo privado ya existe. Un personal access token es una credencial, no código ni una contraseña para guardar en archivos.
+
+Abrí [Fine-grained personal access tokens → Generate new token](https://github.com/settings/personal-access-tokens/new):
+
+1. Poné un nombre reconocible y vencimiento corto, por ejemplo 7 días.
+2. En **Resource owner**, seleccioná tu cuenta personal.
+3. En **Repository access → Only select repositories**, elegí únicamente el repo recién creado. No elijas All repositories.
+4. En **Repository permissions**, concedé estos permisos:
+
+| Permiso | Acceso |
+| --- | --- |
+| Contents | Read and write |
+| Pull requests | Read and write |
+| Metadata | Read-only, automático |
+
+<img src={expiry} alt="Nombre y vencimiento de un token fino en la interfaz histórica de GitHub" />
+
+Referencia oficial de GitHub de 2022, interfaz histórica.
+
+<img src={selected} alt="Selector Only select repositories de un personal access token fino" />
+
+Referencia oficial de GitHub de 2022, cuentas y repositorios de ejemplo. Esta captura corresponde al PAT, no a la GitHub App que instalarás para Vercel.
+
+No copies permisos de Issues de otras capturas. No hacen falta permisos de cuenta ni Administration. Estos permisos alcanzan para Git y PR del capítulo; los permisos de otros ejercicios se agregan cuando hacen falta.
+
+La selección limita el acceso privado; el token también puede leer repos públicos y no concede derechos que tu cuenta no tenga. Si una organización exige aprobación, no supongas que funciona. Usamos tu repo personal.
+
+Revisá selección y permisos, generá el token y copialo en privado para el login. **No lo proyectes, captures, guardes en el repo ni pegues en un chat.**
+
+**No sigas si** el propietario, repo o permisos no coinciden. Consultá la [documentación actual de tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) y sus [permisos finos](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens).

@@ -1,0 +1,27 @@
+---
+title: "Construir la app"
+description: "Comprobá el build antes de abrir el servidor de desarrollo."
+showAskAi: false
+showFeedback: false
+---
+
+# Construir la app
+
+**Dónde:** host, `lab`, rama `main`. **Antes:** instalación terminada sin errores.
+
+```bash
+pnpm build
+```
+
+Esperá que termine sin errores. Mensajes como `Compiled successfully` y `Generating static pages` son ejemplos de salida; no reemplazan el estado final de tu comando.
+
+El build genera `.next/`; no publica un deployment. Comprobá qué quedó ignorado:
+
+```bash
+git status --ignored
+git ls-files node_modules .next
+```
+
+Dependencias y build deben figurar como ignorados, no preparados para commit. `git ls-files` sin salida significa que esas carpetas no están versionadas. No se suben con `git add .`.
+
+**No sigas si** falla el build: leé el primer error. Si hay artefactos versionados en un repo previo, usá sólo la [reparación opcional](/opcional/reparar-artefactos); no quites todo el proyecto del índice.

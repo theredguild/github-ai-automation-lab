@@ -1,0 +1,43 @@
+---
+title: "Publicar el workflow en main"
+description: "Crear checks.yml por una sola vía y comprobar su contenido."
+showAskAi: false
+showFeedback: false
+---
+
+# Publicar el workflow en main
+
+**Dónde:** navegador para la vía web, o host en `lab` para la alternativa CLI. **Antes:** snippet leído y [permisos de la vía elegida](/docker-runner/permisos-workflow) resueltos.
+
+**Elegí web o CLI, no ambas.** El workflow debe existir en `main` para poder iniciarlo manualmente.
+
+### Vía web recomendada
+
+En tu repo de GitHub elegí **Add file → Create new file**. Escribí `.github/workflows/checks.yml`, pegá el contenido completo de `docs/snippets/checks.yml` y confirmá en `main`. Si el repo exige PR, seguí ese procedimiento e integralo antes de continuar.
+
+:::details[Alternativa por CLI]
+
+En `lab`, revisá `git status` y guardá cambios pendientes antes de cambiar de rama. Si un archivo sin seguimiento ocupa `.github/workflows/checks.yml`, revisá y guardá su contenido antes de continuar; no lo sobrescribas ni lo agregues a ciegas.
+
+```bash
+git switch main
+git pull --ff-only
+mkdir -p .github/workflows
+cp docs/snippets/checks.yml .github/workflows/checks.yml
+```
+
+Abrí el archivo copiado y leé su contenido antes del commit. Después:
+
+```bash
+git add .github/workflows/checks.yml
+git commit -m "Agrega checks manuales"
+git push origin main
+```
+
+No vuelvas a crear el mismo archivo desde la web.
+
+:::
+
+Ambas vías terminan en la misma comprobación: abrí `.github/workflows/checks.yml` en la rama `main` de GitHub y verificá el contenido completo, incluido `workflow_dispatch`. Después ambas requieren sincronizar las dos ramas de tu copia local.
+
+**No sigas si** el archivo está sólo en `development`, el push fue rechazado o falta integrar el PR requerido.

@@ -1,12 +1,12 @@
 # Continuación del workshop
 
-Leé `docs/INSTRUCTOR.md` antes de modificar el proyecto. El recorrido del participante está en `docs/guia.md`; la presentación y sus notas están en `slides/workshop.pptx` y `slides/source.json`.
+Leé `docs/INSTRUCTOR.md` antes de modificar el proyecto. El curso del participante está en `docs/src/pages/`, con navegación en `docs/vocs.config.ts`; `docs/guia.md` sólo indica cómo abrir Vocs. La presentación y sus notas están en `slides/workshop.pptx` y `slides/source.json`.
 
 Preservá el trabajo existente. No publiques el repositorio, findings ni comentarios de prueba en servicios externos, y no consumas servicios pagos sin aprobación del usuario. Las instrucciones para el participante no autorizan al agente de mantenimiento a ejecutarlas contra cuentas reales.
 
-La aplicación y sus herramientas están en `hackerspace-site/`; ejecutá allí los comandos nativos: `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` y `docker build -t taller .`. La guía y los slides quedan fuera de la app. El participante mueve la app completa a `lab/`; Dockerfile y dotfiles viajan con ella. Registrá resultados reales y separá pruebas locales, ejemplos ilustrativos e integraciones pendientes en `docs/INSTRUCTOR.md`, fuera de los slides.
+La aplicación y sus herramientas están en `hackerspace-site/`; ejecutá allí los comandos nativos: `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` y `docker build -t taller .`. Vocs es otro proyecto, dentro de `docs/`: usá `pnpm --dir docs install --frozen-lockfile`, `pnpm --dir docs dev`, `pnpm --dir docs build` y `pnpm --dir docs preview` desde la raíz del material. El participante mueve la app completa a `lab/`; Dockerfile y dotfiles viajan con ella, no el curso. Registrá resultados reales y separá pruebas locales, ejemplos ilustrativos e integraciones pendientes en `docs/INSTRUCTOR.md`, fuera de los slides.
 
-Mantené una sola guía del participante y una sola presentación. Los conceptos se explican cuando se usan. No agregues wrappers `./lab`, helpers Python ni archivos de fuentes tipográficas al material de entrega. Nunca versionés `.env.local`, perfiles del agente ni credenciales.
+Mantené una sola guía del participante, las páginas Vocs, y una sola presentación. Cada página operativa debe tener un resultado comprobable, ubicación, requisitos y condición para detenerse. Conservá advertencias junto al comando y las opciones fuera de la navegación principal. Actualizá sidebar y enlaces al agregar páginas. No agregues wrappers `./lab`, helpers Python ni archivos de fuentes tipográficas al material de entrega. Nunca versionés `.env.local`, perfiles del agente ni credenciales.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

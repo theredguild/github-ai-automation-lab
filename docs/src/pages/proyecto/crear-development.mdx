@@ -1,0 +1,32 @@
+---
+title: "Crear la rama development"
+description: "Separá el cambio visible de la versión productiva."
+showAskAi: false
+showFeedback: false
+---
+
+# Crear la rama development
+
+**Dónde:** host, `lab`, inicialmente `main`. **Antes:** primer Production comprobado y copia de trabajo limpia.
+
+```bash
+git status
+git switch main
+git pull --ff-only
+git switch -c development
+```
+
+Comprobá con `git branch --show-current` que estás en `development`. Si ya existe, no la recrees: elegí en su lugar `git switch development`, después de comprobar qué contiene.
+
+Una branch es una referencia a un commit; un SHA identifica ese commit. Crear la rama todavía no cambia contenido ni Production.
+
+| Intención | Comando usado aquí | Equivalente anterior |
+| --- | --- | --- |
+| Crear y entrar | `git switch -c development` | `git checkout -b development` |
+| Volver a main existente | `git switch main` | `git checkout main` |
+
+Son alternativas, no comandos para ejecutar todos. `checkout` también restaura archivos; usamos `switch` porque deja clara la intención de cambiar ramas.
+
+**No sigas si** falla el pull o Git advierte que perderías cambios. Revisá `git status`; no fuerces ni cambies de comando para ocultar el conflicto. [Manual de switch](https://git-scm.com/docs/git-switch).
+
+La [alternativa de edición web](/opcional/editar-en-github) consigue el mismo cambio en `development`. Elegí un solo método; no dupliques ramas o commits.

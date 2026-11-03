@@ -1,0 +1,22 @@
+---
+title: "Comprobar permisos antes de credenciales"
+description: "Verificar escritura del proyecto y del perfil como node."
+showAskAi: false
+showFeedback: false
+---
+
+# Comprobar permisos antes de credenciales
+
+**Dónde:** shell de `lab-agent`, `/workspace`, usuario `node`. **Antes:** instancia creada o recuperada, sin cargar credenciales nuevas.
+
+```bash
+id
+touch /workspace/.prueba-permisos
+touch /home/node/.hermes/.prueba-permisos
+rm /workspace/.prueba-permisos
+rm /home/node/.hermes/.prueba-permisos
+```
+
+Los dos `touch` deben terminar sin error. Los `rm` retiran sólo los archivos recién creados. Revisá que `id` corresponda al usuario e IDs de la imagen elegida.
+
+Un volumen nuevo hereda el propietario de la imagen; uno existente conserva el suyo. **No sigas si** falla cualquiera de las escrituras. Revisá propietario, permisos e IDs del build con el instructor antes de configurar secretos. No cambies a root ni uses `chmod 777`. Si hay que cambiar IDs o conservar un perfil, usá la [migración autenticada del instructor](https://github.com/theredguild/github-ai-automation-lab/blob/main/docs/INSTRUCTOR.md#migrar-una-instancia-y-su-perfil).

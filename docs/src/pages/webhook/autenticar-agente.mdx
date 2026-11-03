@@ -1,0 +1,46 @@
+---
+title: "Autenticar GitHub dentro del agente"
+showAskAi: false
+showFeedback: false
+description: "Iniciá una sesión separada con permisos mínimos para leer el PR y comentar."
+---
+
+# Autenticar GitHub dentro del agente
+
+**Dónde:** host, carpeta `lab`; después shell de `lab-agent`, `/workspace`. La branch no cambia. **Antes:** container y perfil existentes, [proyecto y perfil escribibles](/hermes-telegram/comprobar-permisos), y repo privado propio. No hagas este login en Codespaces ni en el runner.
+
+Abrí la shell dedicada y reconocé su sesión actual:
+
+```bash
+docker exec -it lab-agent bash
+cd /workspace
+gh auth status
+```
+
+Creá otro PAT fino con vencimiento corto, por ejemplo 7 días, para tu cuenta personal y **Only select repositories**, sólo tu repo. No reutilices el PAT de escritura de Git del host.
+
+| Permiso del PAT del agente | Uso |
+| --- | --- |
+| Contents: Read | Leer código y diff |
+| Pull requests: Read and write | Consultar y comentar el PR; administrar etiquetas del recorrido |
+| Metadata: Read-only | Incluido automáticamente |
+| Webhooks: Read and write | Sólo si delegás crear o desactivar hooks |
+
+No necesita Actions, Workflows, Administration, permisos de organización ni Issues para estas tareas. El token tampoco concede derechos que tu cuenta no tenga.
+
+Dentro de `lab-agent`:
+
+```bash
+gh auth login
+gh auth status
+```
+
+Elegí **GitHub.com → Paste an authentication token → HTTPS → Yes para autenticar Git** y pegá el PAT sólo en la entrada oculta. No uses OAuth del navegador para sustituir este token limitado. El orden corresponde a GitHub CLI 2.103.3; los textos pueden variar. No agregues scopes de tokens clásicos sugeridos por la ayuda.
+
+Comprobá cuenta, origen de credencial y protocolo sin usar opciones que muestren el token. Si `GH_TOKEN` o `GITHUB_TOKEN` prevalecen sobre la sesión, resolvé ese contexto con el instructor sin imprimir ni borrar variables a ciegas.
+
+El container puede guardar la credencial de `gh` en texto plano. No prometemos un almacén cifrado y no uses `--insecure-storage`. Esa configuración queda fuera de `hermes-home`, en el filesystem del container. Conservála sólo mientras haga falta y revocá el PAT al terminar. No copies el perfil del host, no montes su home y no compartas esta sesión con el runner.
+
+**Comprobación:** `gh auth status` identifica la cuenta prevista y el PAT está limitado al repo y permisos indicados. **No sigas si** aparece otra cuenta, el token proviene de un entorno inesperado o falta acceso al repo. Nunca pegues tokens en Hermes, Telegram, código, argumentos, capturas ni chats.
+
+Referencia: [login nativo de GitHub CLI](https://cli.github.com/manual/gh_auth_login).

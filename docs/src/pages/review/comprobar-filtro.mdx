@@ -1,0 +1,23 @@
+---
+title: "Comprobar primero el filtro negativo"
+showAskAi: false
+showFeedback: false
+description: "Demostrá que otra etiqueta llega al gateway sin iniciar trabajo del modelo."
+---
+
+# Comprobar primero el filtro negativo
+
+**Dónde:** navegador, panel **Labels** del PR propio; **Recent Deliveries** del hook nativo; terminal del gateway en `lab-agent`, `/workspace`; panel de uso del proveedor. **Antes:** [error publicado en el PR abierto](/review/introducir-error), hook activo y gateway/túnel corriendo. No solicites trabajo al modelo desde otra conversación durante esta observación.
+
+Agregá **prueba-webhook** en el selector web Labels del PR. Si ya estaba, quitála y volvé a agregarla para producir un nuevo `labeled`. No uses `gh pr edit` para esta operación: evitamos consultas adicionales que pueden no estar habilitadas para el PAT fino.
+
+Buscá esa entrega en **Settings → Webhooks → hook nativo → Recent Deliveries**:
+
+1. Request corresponde al PR, acción `labeled` y etiqueta `prueba-webhook`. Anotá hora y GUID.
+2. Hostname y path son los actuales del gateway.
+3. Respuesta y logs muestran que el filtro no coincide y no crea una tarea de review.
+4. Contrastá logs con el uso del proveedor para comprobar que **ese evento** no inició una llamada al modelo. Considerá la hora de actualización del panel y separá cualquier actividad de otras sesiones.
+
+**Comprobación:** hubo una entrega real y fue ignorada por no ser `ai-review`, antes de gastar tokens. **La ausencia de comentario no demuestra por sí sola ausencia de llamada.** Si el proveedor aún no muestra datos, no presentes el resultado como demostrado.
+
+**No sigas si** no hay entrega, no podés correlacionarla o aparece una tarea del modelo para esta etiqueta. Revisá los filtros de [la ruta](/review/configurar-ruta), no los traslades al prompt ni elimines verificaciones para avanzar. Si falla el recorrido, [diagnóstico por última evidencia](/opcional/diagnostico-review) ayuda sin cambiar a un modelo pago.

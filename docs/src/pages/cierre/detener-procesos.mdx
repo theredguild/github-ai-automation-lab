@@ -1,0 +1,25 @@
+---
+title: "Detener los procesos de práctica"
+description: "Apagar gateway, túnel y app sin borrar su perfil."
+showAskAi: false
+showFeedback: false
+---
+
+# Detener los procesos de práctica
+
+**Dónde:** terminales del gateway y del túnel; después, host. **Antes:** los hooks de práctica están inactivos.
+
+Detené gateway y cloudflared con `Ctrl+C` en las terminales donde están ejecutándose. Si app y agente siguen activos, desde el host:
+
+```bash
+docker stop lab-app lab-agent
+docker ps
+```
+
+El runner efímero debe haber terminado tras su único job. Si todavía espera, detenelo en su terminal y revisá su registro en GitHub. No detengas otros containers del equipo.
+
+No elimines por rutina `hermes-home`: conserva progreso y credenciales. Para reutilizar el perfil, arrancá su container. Si vas a descartarlo, decidilo después de guardar lo necesario.
+
+Si usaste Codespaces, elegí **Stop codespace** en [tu lista](https://github.com/codespaces). Cerrar la pestaña no lo detiene. Un Codespace detenido puede consumir almacenamiento; eliminá únicamente uno que ya no necesites y cuyo trabajo esté publicado.
+
+**Comprobación:** los procesos de la práctica dejaron de recibir trabajo y `docker ps` no muestra sus instancias en ejecución.

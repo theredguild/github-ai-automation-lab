@@ -1,0 +1,22 @@
+---
+title: "Docker y runner"
+description: "Ejecutar checks propios, reconocer una falla y comprobar su corrección."
+showAskAi: false
+showFeedback: false
+---
+
+import kernel from '../../../assets/course-e2-kernel.png'
+
+# Docker y runner
+
+Volvé al host. En este capítulo vas a construir una imagen de herramientas y ejecutar un check normal en un runner propio. Después introducirás un error de tipos y comprobarás su corrección sobre otro commit.
+
+El punto de partida es `lab`, con `main` y `development` publicadas tras integrar el primer PR. No se trabaja dentro de Codespaces. El punto de llegada son tres ejecuciones identificadas por SHA y ningún runner de la práctica activo antes de dar acceso al agente.
+
+Host es la máquina que aloja procesos, física o virtual. Una VM tiene su propio kernel y corre sobre un hipervisor. Un container Linux aísla procesos y filesystem, pero comparte el kernel Linux de su host. En Docker Desktop ese host Linux suele estar dentro de una VM. Cada borde Container A/B encierra procesos y archivos, no un kernel propio.
+
+<img src={kernel} alt="Host con máquinas virtuales y containers que comparten el kernel Linux correspondiente" />
+
+Diagrama del taller; ejemplo conceptual.
+
+Empezá por [verificar Docker](/docker-runner/verificar-docker).

@@ -1,0 +1,33 @@
+---
+title: "Iniciar el origen HTTP"
+description: "Mantener Next activo en las interfaces del container."
+showAskAi: false
+showFeedback: false
+---
+
+# Iniciar el origen HTTP
+
+**Dónde:** shell de `lab-app`, `/workspace`, terminal dedicada a Next. **Antes:** build actual terminado correctamente.
+
+```bash
+pnpm start --hostname 0.0.0.0
+```
+
+Dejá el proceso activo. Ejemplo de salida, no evidencia de una ejecución de la guía:
+
+```text
+Local: http://localhost:3000
+Ready in …
+```
+
+`0.0.0.0` permite recibir conexiones por las interfaces del container. La publicación del host sigue limitada a `127.0.0.1` por la opción de Docker.
+
+La ruta ya provista `app/api/health/route.ts` contiene:
+
+```typescript
+export function GET() {
+  return Response.json({ status: "ok", service: "nodoserrano" });
+}
+```
+
+No necesitás crear otro receptor. **Comprobación:** Next anuncia que está listo y conserva la terminal ocupada. **No sigas si** termina con error o escucha en otro puerto. Las consultas se hacen en otra terminal, no interrumpiendo este proceso.

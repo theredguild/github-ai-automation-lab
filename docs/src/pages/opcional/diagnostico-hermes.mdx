@@ -1,0 +1,29 @@
+---
+title: "Diagnóstico de Hermes y Telegram"
+description: "Separar errores de proveedor, autorización y gateway."
+showAskAi: false
+showFeedback: false
+---
+
+# Diagnóstico de Hermes y Telegram
+
+**Dónde:** logs de la sesión CLI o del gateway en `lab-agent`, `/workspace`; configuración privada en el wizard. **Antes:** identificá si falla el chat por terminal, `/help` o la respuesta del modelo por Telegram. No compartas secretos al pedir ayuda.
+
+Revisá gateway, token del bot, usuario autorizado, proveedor y logs, en ese orden para un canal que no responde.
+
+| Síntoma | Qué revisar |
+| --- | --- |
+| Error 401 del proveedor | Credencial de OpenRouter, no token de Telegram |
+| Error 429 o modelo sin endpoint | Cuota y disponibilidad de la entrada gratuita |
+| Usuario no autorizado | Tu ID numérico en la allowlist, no @username |
+| Dos gateways para el mismo bot | Conservar una sola instancia activa |
+| Responde /help pero no el mensaje | Proveedor, modelo y logs del gateway |
+| Chat CLI funciona pero bot no responde | Canal Telegram, token, allowlist y proceso gateway |
+
+Para duplicados, detené con `Ctrl+C` sólo la instancia sobrante que identificaste en su terminal. No mates procesos ajenos ni borres el perfil para empezar de cero. Si necesitás ajustar configuración, usá `hermes setup` para proveedor/modelo o `hermes gateway setup` para el canal, en la shell del agente, conservando los otros valores. No arranques otro gateway si ya hay uno activo.
+
+Un error de cuota no autoriza fallback pago. Verificá [límites de modelos gratuitos](https://openrouter.ai/docs/guides/routing/model-variants/free). La [guía oficial de Telegram](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram) detalla canal y usuarios permitidos.
+
+**Comprobación de recuperación:** un único gateway activo y respuesta tanto al comando del canal como al mensaje del modelo. **No sigas si** necesitás mostrar tokens para explicar el fallo o la allowlist no está limitada a tu usuario.
+
+Volvé a [comprobar el mensaje](/hermes-telegram/comprobar-mensaje).

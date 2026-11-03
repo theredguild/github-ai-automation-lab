@@ -1,0 +1,29 @@
+---
+title: "Leer el gitignore incluido"
+description: "Entendé qué archivos locales no debe añadir Git."
+showAskAi: false
+showFeedback: false
+---
+
+# Leer el gitignore incluido
+
+**Dónde:** editor del host, archivo `lab/.gitignore`, rama `main`. **Antes:** primer push comprobado. No reemplaces el archivo por este fragmento; ya incluye más reglas para caches y metadatos.
+
+```text
+**/node_modules/
+**/.next/
+**/.vercel/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+```
+
+`node_modules/` contiene dependencias descargables. `.next/` contiene archivos generados. `.vercel/` guarda metadatos locales de Vercel. `.env.local`, claves `.pem` y `.key` pueden contener secretos. La excepción `!.env.example` permite guardar una plantilla de variables, nunca credenciales.
+
+Comprobá esas reglas en el archivo real. `.gitignore` indica qué archivos locales nuevos no añadir. **Ignorar no deja de seguir algo ya versionado.**
+
+Si trabajás sobre un repo existente con artefactos seguidos, consultá [reparar artefactos](/opcional/reparar-artefactos), no ejecutes esa reparación como paso obligatorio del starter. Quitar seguimiento no elimina commits anteriores; una credencial publicada exige revocación o rotación.
+
+**No sigas si** falta el archivo protector o contiene secretos. [Referencia de gitignore](https://docs.github.com/en/get-started/git-basics/ignoring-files).

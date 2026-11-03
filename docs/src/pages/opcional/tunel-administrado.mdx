@@ -1,0 +1,30 @@
+---
+title: "Referencia de túneles administrados"
+description: "Comparar hostname temporal y dirección estable sin crear infraestructura."
+showAskAi: false
+showFeedback: false
+---
+
+import routing from '../../../assets/cloudflare-routing.png'
+
+# Referencia de túneles administrados
+
+**Dónde:** lectura en navegador, sin terminal ni cambio de cuenta. **Antes:** entendés el recorrido del Quick Tunnel. Esta página es una referencia para después; no pide crear cuenta, registrar dominio ni desplegar recursos durante el taller.
+
+| Quick Tunnel | Túnel administrado con nombre |
+| --- | --- |
+| Un comando, sin cuenta ni dominio | Configuración de cuenta y connector |
+| Hostname temporal del arranque | Dirección estable para el servicio |
+| Adecuado para esta práctica | Requiere planificar DNS y políticas de acceso |
+
+<img src={routing} alt="Referencia del panel de Cloudflare que agrupa túneles y muestra Hostname routes" />
+
+Captura de referencia pública de Cloudflare, no prueba de una cuenta o túnel creados en el taller. [Fuente original de la captura](https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/assets/images/changelog/cloudflare-one/tunnel-hostname-routing.webp).
+
+Cloudflare agrupa los túneles en su panel de red. La captura muestra **Hostname routes**; no hace falta reproducir esa pantalla para continuar. Un hostname propio requiere configurar cuenta, DNS y políticas de acceso según la [documentación de túneles](https://developers.cloudflare.com/tunnel/). Una dirección estable no añade por sí sola autenticación al servicio ni limita qué rutas expone.
+
+Si en otro proyecto un webhook debe entrar sin formulario de login interactivo, diseñá autenticación del receptor y acceso del emisor de forma compatible. No publiques una consola privada porque el transporte use HTTPS.
+
+**Resultado:** distinguís referencia administrada del método temporal elegido. No hay infraestructura que comprobar o borrar en esta página.
+
+Volvé a [abrir el Quick Tunnel](/tunel/abrir-tunel).

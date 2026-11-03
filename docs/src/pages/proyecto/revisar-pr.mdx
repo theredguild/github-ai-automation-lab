@@ -1,0 +1,42 @@
+---
+title: "Revisar el cambio propuesto"
+description: "Leé el diff y dejá una revisión humana."
+showAskAi: false
+showFeedback: false
+---
+
+import files from '../../../assets/github-files.png'
+import review from '../../../assets/github-review-submit.png'
+
+# Revisar el cambio propuesto
+
+**Dónde:** navegador, PR en GitHub; alternativa CLI en host, `lab`. **Antes:** PR y Preview del último SHA comprobados.
+
+Abrí **Files changed**, localizá `app/page.tsx` y compará texto eliminado y agregado. Verde muestra líneas añadidas, rojo líneas eliminadas. Abrí el Preview asociado si aparece y contrastá el título.
+
+<img src={files} alt="Diff de archivos en Files changed de GitHub" />
+
+Referencia oficial de GitHub.
+
+En **Review changes** podés comentar, aprobar o pedir cambios según tus permisos. GitHub no permite aprobar tu propio PR. En práctica individual dejá un comentario; en parejas la otra persona puede revisar y aprobar.
+
+<img src={review} alt="Botón Review changes y envío de una revisión en GitHub" />
+
+Referencia oficial de GitHub de un PR de ejemplo.
+
+:::details[Alternativa por CLI]
+La misma revisión puede hacerse desde terminal. Reemplazá `NUMERO` por tu PR real. Elegí un método para enviar el comentario.
+
+```bash
+gh pr view NUMERO --json number,title,state,url
+gh pr diff NUMERO
+gh pr review NUMERO --comment   --body "Revisé el cambio del título."
+gh pr view NUMERO --web
+```
+
+Sobre el PR de otra persona podés usar `--approve` o `--request-changes` en lugar de `--comment`, con un motivo en `--body`.
+:::
+
+Comprobá que la revisión quedó en el PR correcto. Leer el PR desde terminal y navegador no crea otra propuesta.
+
+**No sigas si** ves cambios inesperados o el Preview no corresponde al diff. Corregí y revisá antes de integrar.

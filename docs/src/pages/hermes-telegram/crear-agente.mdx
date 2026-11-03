@@ -1,0 +1,30 @@
+---
+title: "Crear la instancia del agente"
+description: "Montar sólo el proyecto y conservar el perfil en un volumen."
+showAskAi: false
+showFeedback: false
+---
+
+# Crear la instancia del agente
+
+**Dónde:** host, terminal nueva, raíz de tu `lab`, rama `development`. **Antes:** imagen `taller` construida con los IDs elegidos en Docker y runner anterior cerrado. El nombre `lab-agent` debe estar libre para crear una instancia nueva.
+
+```bash
+docker run -it --name lab-agent \
+  -p 127.0.0.1:8644:8644 \
+  -v hermes-home:/home/node/.hermes \
+  -v "$PWD":/workspace \
+  taller
+```
+
+La terminal queda dentro de `lab-agent`, en `/workspace`, con el usuario `node`. El bind mount permite leer y modificar este proyecto; después Hermes podrá preparar su receptor y `.env.local`. El volumen `hermes-home` conserva el perfil privado y no pertenece al runner. El puerto 8644 queda publicado sólo en loopback para el receptor de un ejercicio posterior. Todavía no hace falta una red compartida.
+
+No montes tu home, configuración `gh` del host ni socket Docker.
+
+:::details[Si la instancia ya existe]
+Elegí recuperación en lugar de ejecutar otro `docker run`. Con la misma imagen e IDs, desde el host usá `docker start -ai lab-agent` si está detenida, o `docker exec -it lab-agent bash` si está activa. `docker start` no adopta una imagen reconstruida.
+
+Si cambiaste IDs o necesitás reemplazar una instancia con credenciales, seguí la [migración del instructor en el repositorio autenticado](https://github.com/theredguild/github-ai-automation-lab/blob/main/docs/INSTRUCTOR.md#migrar-una-instancia-y-su-perfil). No borres el volumen ni descartes el container anterior.
+:::
+
+**Comprobación:** ves la shell del container en `/workspace`. **No sigas si** montaste otra carpeta o necesitás migrar un perfil existente.

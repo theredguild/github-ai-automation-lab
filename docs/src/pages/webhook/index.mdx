@@ -1,0 +1,34 @@
+---
+title: "5. El webhook"
+showAskAi: false
+showFeedback: false
+description: "Recibí un evento firmado de GitHub sin llamar todavía al modelo."
+---
+
+import sequence from '../../../assets/course-e5-sequence.png'
+
+# 5. El webhook
+
+Un webhook invierte la relación del polling. En lugar de preguntar periódicamente por novedades, GitHub envía un POST cuando ocurre un evento seleccionado. El túnel sólo transporta esa request. El receptor valida el aviso y responde.
+
+**Dónde:** navegador de GitHub, host en la carpeta `lab` y containers existentes `lab-agent` y `lab-app`. **Antes:** [el túnel hacia Next funciona](/tunel/recuperar-origen), tenés tu repositorio privado y conservás el perfil del agente.
+
+En este capítulo el destino es `POST /api/github`, implementado en `app/api/github/route.ts`. No se llama a Hermes ni se ejecuta código del PR. El resultado será una entrega real `pull_request`, correlacionada con los logs, y una repetición reconocida mientras el proceso recuerde su ID. Al terminar dejarás inactivo sólo este hook para cambiar de receptor.
+
+<img src={sequence} alt="GitHub envía un evento por el túnel al receptor y recibe una respuesta HTTP" />
+
+Diagrama del taller; ejemplo conceptual. La respuesta HTTP confirma recepción, no una revisión de código.
+
+| Parte del aviso | Qué identifica |
+| --- | --- |
+| POST + /api/github | Método y ruta del receptor |
+| X-GitHub-Event | Tipo de evento, por ejemplo pull_request |
+| X-GitHub-Delivery | ID de la entrega, también llamado GUID |
+| X-Hub-Signature-256 | HMAC-SHA256 del body con el secret |
+| Body JSON | Repositorio, acción y datos del PR |
+
+El secret compartido no va en la URL ni en código cliente. HTTPS cifra el transporte, pero no reemplaza la firma ni los filtros. El túnel expone el servicio completo de destino.
+
+Empezá por [autenticar GitHub dentro del agente](/webhook/autenticar-agente). La sesión del host no se comparte con el container.
+
+Referencia: [crear webhooks en GitHub](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks).

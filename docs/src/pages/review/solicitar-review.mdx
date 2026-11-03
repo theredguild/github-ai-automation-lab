@@ -1,0 +1,30 @@
+---
+title: "Solicitar la review con una etiqueta nueva"
+showAskAi: false
+showFeedback: false
+description: "Generá labeled para ai-review y distinguí aceptación de entrega final."
+---
+
+import asyncReview from '../../../assets/course-e6-async.png'
+
+# Solicitar la review con una etiqueta nueva
+
+**Dónde:** navegador, selector **Labels** del PR propio; Recent Deliveries del hook; logs del gateway en `lab-agent`, `/workspace`. **Antes:** [filtro negativo demostrado](/review/comprobar-filtro), PR Open y no draft con la suma incorrecta, repo/head repo propios y base `main`. No hagas push mientras seguís esta solicitud.
+
+Anotá el número de PR y los SHA **base y head actuales** desde la web o, en el host, carpeta `lab`:
+
+```bash
+gh pr view NUMERO --json number,baseRefName,baseRefOid,headRefOid
+```
+
+En **Labels** agregá **ai-review**. Debe pasar de ausente a presente para generar `labeled`. Si ya estaba, **quitála y volvé a agregarla**. Un push con la etiqueta ya presente produce otro tipo de evento y no pide revisión.
+
+Abrí la nueva entrega del hook nativo en **Recent Deliveries**. Comprobá acción `labeled`, etiqueta `ai-review`, PR, repo, base y head SHA. Anotá GUID nuevo y hora. En los logs, seguí que los filtros coincidan y se acepte la tarea.
+
+<img src={asyncReview} alt="GitHub recibe primero el acuse HTTP y después un comentario cuando termina la tarea de Hermes" />
+
+Diagrama del taller; ejemplo conceptual. Acuse y comentario ocurren en momentos distintos.
+
+**Comprobación:** el gateway acepta el evento permitido. **202 Accepted** significa recepción de la tarea, no lectura correcta del diff, review terminada ni comentario publicado. El siguiente resultado se comprobará en [la conversación del PR](/review/leer-review).
+
+**No sigas si** sólo encontrás el ping, otra etiqueta, SHA distintos o un evento ignorado. Recorrelacioná antes de solicitar más trabajo. Si el estado del PR cambia, esperá un aviso de solicitud desactualizada y luego pedí una review nueva; no fuerces la publicación del análisis viejo.

@@ -1,14 +1,14 @@
 # Handoff del instructor y del agente local
 
-Actualizado el 1 de noviembre de 2026. Este archivo contiene el estado técnico de preparación. No se proyecta y no forma parte del recorrido del participante.
+Actualizado el 3 de noviembre de 2026. Este archivo contiene el estado técnico de preparación. No se proyecta ni se publica como página del curso.
 
 ## Punto de entrada y estructura
 
-El participante sigue `docs/guia.md`. La app Next.js autocontenida está en `hackerspace-site/`, separada de documentación y `slides/`. Clona el material en el host y mueve esa carpeta completa a `../lab`, con destino libre. Crea su repo vacío en GitHub, configura un fine-grained PAT limitado a ese repo, ejecuta login/status y publica desde `lab`. No vuelve a clonar el sitio. `.gitignore` viaja desde el principio y se explica después del primer push, antes de instalar dependencias. `slides/workshop.pptx` contiene 198 diapositivas; no se entrega ni mantiene un PDF.
+El participante sigue el curso Vocs de `docs/src/pages/`, con navegación en `docs/vocs.config.ts`. `docs/guia.md` quedó como iniciador breve, no otra copia de las instrucciones. La app Next.js autocontenida sigue en `hackerspace-site/`. El recorrido conserva clon del material, movimiento completo a `../lab`, repo propio vacío, PAT limitado, login/status y primer push. `.gitignore` viaja desde el principio y se explica después del push. El PPTX conserva sus 198 diapositivas y no se modificó durante esta migración.
 
 El recorrido completo recomendado es **host + containers**. Codespaces queda limitado a una demo opcional de la landing al final del ejercicio 1, después del push correcto, build, Production/Preview y PR integrado. No certifica los ejercicios 2–6. `.devcontainer/devcontainer.json` prepara únicamente esa demo; se quitó Docker-in-Docker. El `Dockerfile` local, `.dockerignore`, configuración remota y plantillas de `docs/snippets/` viajan juntos dentro de `lab`.
 
-Guía, README, PPTX y fuente local reflejan ese recorrido. Los archivos locales de autoría permanecen excluidos de la publicación. La autorización para actualizar la presentación no reabrió el ensayo remoto de Codespaces ni permitió crear otra instancia.
+Vocs es la única guía del participante. El README explica cómo abrirla y la presentación sigue siendo otro material, sin cambios. Los archivos locales de autoría del PPTX permanecen excluidos de la publicación. Preparar esta web no reabrió el ensayo remoto de Codespaces ni autorizó deployments, cuentas o consumos pagos.
 
 El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded y Poppins. El código ahora usa Inconsolata explícita y colores por sintaxis. No se entrega un paquete de fuentes tipográficas.
 
@@ -31,7 +31,71 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 - No publicar repositorios, findings ni ejecutar servicios pagos sin aprobación. No usar una etiqueta de práctica como autorización para un agente de mantenimiento.
 - Resultados verificados y bloqueos se informan aquí. Los slides enseñan; no contienen un reporte público de auditoría.
 
-## Estado real de validación
+## Curso Vocs por capítulos
+
+El proyecto de documentación está aislado dentro de `docs/`. Usa Vocs 2.12.0, Waku 1.0.0-rc.4, Vite 8.3.5 y la terna React, React DOM y React Server DOM Webpack 19.3.1, fijados con lockfile propio. Node debe cumplir `^22.15.0 || ^24.0.0 || ^26.0.0`; Node 22.23.4 del taller cumple ese contrato. El starter conserva sus dependencias y lockfile anteriores.
+
+Desde la raíz del material:
+
+```bash
+pnpm --dir docs install --frozen-lockfile
+pnpm --dir docs dev
+pnpm --dir docs build
+pnpm --dir docs preview
+```
+
+El dev server abre normalmente en `127.0.0.1:5173` y preview en `127.0.0.1:4173`. Estos comandos no van en `lab`. No se configuró un deployment público ni una URL canónica inventada.
+
+### Estructura y mantenimiento
+
+- Hay 111 rutas: 99 del recorrido requerido, 11 opcionales y una de referencias. Incluyen preparación, índices de capítulo y cierre, además de las operaciones.
+- Una página representa un resultado comprobable, no una línea de shell. Advertencia, elección, operación peligrosa y comprobación inmediata quedan juntas. Se indican terminal, carpeta, rama y requisitos cuando corresponden.
+- La sidebar requerida une preparación, los seis capítulos y cierre. Sus grupos no enlazan fuera de ese recorrido. Opciones y referencias se descubren por top nav y enlaces contextuales.
+- Codespaces tiene su propia secuencia de tres páginas. Cada reparación o diagnóstico tiene sidebar independiente y regreso explícito. No incluirlos en la sidebar principal: Vocs los convertiría en Next obligatorio aunque estuvieran colapsados.
+- Cada archivo MDX nuevo necesita su entrada en `vocs.config.ts`. No agregar otro router, manifest de navegación paralelo, store de progreso ni guía larga en Markdown.
+- Las capturas se importan desde `docs/assets/` mediante MDX. Nunca usar todo `docs/` como directorio público: contiene este registro y un PDF local.
+- `renderStrategy: 'full-static'`, enlaces muertos estrictos, búsqueda local y MCP desactivado. Los controles Ask AI y feedback están ocultos en todas las páginas. No hacen falta claves ni servicios de modelos para leer o construir el curso.
+- Los outputs, caches y dependencias no se versionan. El ensayo de esta migración instaló y construyó fuera del repo, sin recrear `hackerspace-site/node_modules`.
+
+### Cobertura de la migración
+
+La fuente escrita anterior se conserva en Git en `33c045c:docs/guia.md`; sus 66 bloques Bash contienen 126 invocaciones, todas con correspondencia en las páginas nuevas. Se conservaron sus 20 capturas distintas. El inventario del PPTX asigna sus 198 slides a páginas; el curso no depende de `slides/source.json`, que sigue siendo autoría local.
+
+| Fuente previa | Páginas del curso |
+| --- | --- |
+| Introducción y convenciones de comandos | `/`, `/preparacion/requisitos`, `/preparacion/comandos` |
+| Ejercicio 1, secciones 1.1–1.8 | `/proyecto` y sus 25 operaciones |
+| Reparación de artefactos y alternativa de edición web | `/opcional/reparar-artefactos`, `/opcional/editar-en-github` |
+| Demo 1.9 de Codespaces | `/opcional/codespaces` y sus dos páginas siguientes |
+| Ejercicio 2, secciones 2.1–2.6 | `/docker-runner` y sus 17 operaciones, con tres registros efímeros distintos |
+| Ejercicio 3, secciones 3.1–3.3 | `/hermes-telegram` y sus nueve operaciones |
+| Ejercicio 4, secciones 4.1–4.5 | `/tunel` y sus 11 operaciones |
+| Ejercicio 5, secciones 5.1–5.7 | `/webhook` y sus nueve operaciones |
+| Ejercicio 6, secciones 6.1–6.8 | `/review` y sus 15 operaciones |
+| Cierre y fuentes para profundizar | `/cierre`, sus tres operaciones y `/referencias` |
+| Tablas de diagnóstico y túnel administrado | Páginas independientes en `/opcional` |
+
+Se exportaron 22 diagramas del PPTX a `docs/assets/course-*.png`: seis de Git/deploys, cuatro de Docker/runner, uno de Telegram, cinco de URL/red/túnel, dos de webhook/HMAC, tres de filtros/review y el mapa final. Son figuras del taller, no capturas de integraciones reales. Se renderizó el PPTX con sus fuentes en una carpeta temporal y se recortó la figura sin modificar la presentación. Si cambia una figura, exportar esa imagen de nuevo y comprobar su página; no regenerar ni sustituir el PPTX como efecto secundario de editar Vocs.
+
+La migración también incorporó comandos que estaban concretos sólo en slides: publicación del error de tipos, PR que provoca un evento y commit/push de la corrección lógica. Mantiene corrección → checks → push → etiqueta nueva → comparación del SHA.
+
+### Verificación de Vocs
+
+La instalación congelada pasó con pnpm 10.20.0. El build inicial pasó en Node 26.10.0; el build final, en Node 22.23.4 de `taller`, sin red. Generó las 111 rutas y 229 archivos de SSG, con búsqueda local y validación estricta de enlaces. La primera compilación detectó la anotación no soportada `gitignore`; el fragmento conserva sus reglas como texto monoespaciado, sin desactivar validaciones. No se aprobaron indiscriminadamente scripts de dependencias.
+
+El `/tmp` del host alcanzó su cuota de usuario durante la preparación. Se movieron sólo los temporales propios a otro filesystem de scratch; no se borraron recursos ajenos. PDF y fuentes usados para exportar diagramas son temporales, no entregables.
+
+- El dev server nativo respondió `200` en `/proyecto/mover-app`, con el H1 exacto de su fuente. Preview se ejecutó en loopback sobre el build de producción.
+- El crawl HTTP comprobó las 111 páginas contra su H1 fuente y cargó sus 50 imágenes distintas. Los 125 bloques Bash pasan `bash -n`; eso comprueba sintaxis, no ejecuta ejercicios ni valida integraciones.
+- Chromium comprobó Next en los siete límites entre preparación, capítulos y cierre; Previous entre capítulos; las tres páginas de Codespaces sin salto accidental al curso; una reparación aislada; regreso desde menú móvil; búsqueda local por `firma` y apertura de su resultado. La última página no tiene Next.
+- Se observaron el diagrama de host/VM/container y la captura de Vercel en GitHub. A 390 px, el documento conserva 390 px y los comandos largos desplazan sólo su bloque.
+- La prueba detectó que Vocs oculta Copy code cuando no hay hover. `_root.css` revela los controles nativos en ese caso y al recibir `:focus-visible`. Tras reconstruir, todos mostraron opacidad `1`; Tab mantuvo el contorno visible de 2 px.
+- Click y Enter cambiaron el clipboard nativo desde dos valores centinela a `docker build -t taller .` y `id -u` / `id -g`, respectivamente. El navegador de prueba necesitó permisos explícitos; su helper devolvió una vez un shim obsoleto y produjo antes `NotAllowedError: Failed to execute 'writeText' on 'Clipboard': Write permission denied.` La comprobación final usó el clipboard real y esperó el resultado asíncrono, no sólo el aviso Copied.
+- El output estático publicable es **`docs/dist/public/`**, no `docs/` ni `docs/dist/server/`. No contiene el registro del instructor, el PDF local ni endpoints API. Con esos archivos privados presentes como input fuera de `src/pages`, `/INSTRUCTOR.md`, `/consulta.pdf` y `/guia.md` devolvieron `404`; tampoco aparecieron sus marcadores privados en HTML, Markdown o índices.
+- El preview nativo no equivale a un host de archivos estáticos: conserva rutas del framework. `GET /api/mcp` respondió `404`, `/api/og` devolvió una imagen y `/api/feedback` respondió `500`, aunque no hay controles de feedback en las páginas. No exponer ese servidor como deployment público suponiendo que carece de APIs.
+- El SHA-256 del PPTX se mantuvo en `2039c67296a272bdcecb2ebc8b4b80eb272e527efb6594c1224cdd58959ef1b8`. No se modificó el starter ni se repitieron logins, despliegues, hooks, mensajes o llamadas a modelos reales durante esta migración.
+
+## Verificaciones anteriores de la app y del PPTX
 
 | Área | Resultado y alcance de esta revisión |
 | --- | --- |
@@ -73,7 +137,7 @@ Destino libre y comprobación de carpeta son condiciones humanas explícitas. `m
 
 Los ensayos anteriores de reparación de artefactos comprobaron que `git rm --cached` no borra archivos locales ni elimina secretos de commits previos. La guía conserva esa reparación como caso opcional, separada de la explicación inicial del archivo ya incluido. No se reparó ningún repo real de un participante.
 
-Los comandos `cp docs/snippets/checks.yml ...` y las instrucciones de Hermes sobre `docs/snippets/hermes-webhook.yaml` siguen siendo relativos a la raíz del repo del participante. Sólo los enlaces de la guía apuntan a la ubicación dentro del material. `next dev` puede generar instrucciones propias de Next en el proyecto; no se copia allí el handoff ni el `AGENTS.md` del mantenedor.
+Los comandos `cp docs/snippets/checks.yml ...` y las instrucciones de Hermes sobre `docs/snippets/hermes-webhook.yaml` siguen siendo relativos a la raíz del repo del participante. El curso muestra esas rutas locales y no depende de que sigan dentro del checkout del material después del movimiento. `next dev` puede generar instrucciones propias de Next en el proyecto; no se copia allí este registro ni el `AGENTS.md` del mantenedor.
 
 ## Cambios que afectan al ensayo
 
@@ -108,9 +172,9 @@ docker run --rm --user 0 \
 
 Usar nombres de destino libres; si ya existen, elegir otros sin sobrescribirlos. El container administrativo sólo copia y prepara propietarios de ese volumen, no ejecuta Hermes ni la app y no recibe el proyecto, home del host o socket Docker.
 
-Repetir el comando de 3.1 con `-v hermes-home-migrado:/home/node/.hermes` en lugar de `hermes-home`, comprobar escritura y verificar o reinstalar Hermes siguiendo 3.2, conservando la configuración del perfil. La instalación, sus entornos y el launcher pueden depender de archivos de la capa anterior. El login de `gh` está fuera del volumen del perfil: iniciar sesión de nuevo mediante 5.2. El container anterior conserva sus archivos y el volumen original queda intacto para recuperación. No arrancar simultáneamente los dos gateways.
+Repetir el comando de `hermes-telegram/crear-agente` con `-v hermes-home-migrado:/home/node/.hermes` en lugar de `hermes-home`, comprobar escritura y verificar o reinstalar Hermes siguiendo `hermes-telegram/instalar-hermes`, conservando el perfil. La instalación, sus entornos y el launcher pueden depender de la capa anterior. El login de `gh` está fuera del volumen del perfil: iniciar sesión de nuevo mediante `webhook/autenticar-agente`. El container anterior conserva sus archivos y el volumen original queda intacto para recuperación. No arrancar simultáneamente los dos gateways.
 
-Para reemplazar `lab-app`, conservar también la instancia anterior con otro nombre y repetir 4.2 con la imagen nueva. El bind mount conserva el proyecto y `.env.local`; no copiar credenciales al runner. Revisar permisos del proyecto antes de instalar dependencias, sin aplicar `chmod 777`.
+Para reemplazar `lab-app`, conservar también la instancia anterior con otro nombre y repetir `tunel/crear-app` con la imagen nueva. El bind mount conserva el proyecto y `.env.local`; no copiar credenciales al runner. Revisar permisos del proyecto antes de instalar dependencias, sin aplicar `chmod 777`.
 
 ## Continuación recomendada en el entorno local
 
@@ -139,9 +203,9 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 
    Contrastar versiones y SHA si se actualiza el Dockerfile. Probar la arquitectura de las máquinas del taller. Comprobar permisos del usuario node y de la carpeta montada.
 
-3. Mantener el recorrido completo en host + containers. Demo opcional en 1.9 de la guía y slides 65–67, después de push, deployments y PR. El usuario cerró la investigación remota; no reintentar ni crear otra instancia sin nuevo pedido.
+3. Mantener el recorrido completo en host + containers. La demo opcional está en `docs/src/pages/opcional/codespaces/` y slides 65–67, después de push, deployments y PR. El usuario cerró la investigación remota; no reintentar ni crear otra instancia sin nuevo pedido.
 
-4. Con autorización para un repo de ensayo, seguir `docs/guia.md`: clone del material, mover a `lab`, crear repo vacío por web, PAT seleccionado, login/status, primer push, `.gitignore`, install/build, Production, Preview, PR, review y nuevo Production. No agregar un segundo clon.
+4. Con autorización para un repo de ensayo, seguir el curso Vocs desde Preparación: clon del material, mover a `lab`, crear repo vacío por web, PAT seleccionado, login/status, primer push, `.gitignore`, install/build, Production, Preview, PR, review y nuevo Production. No agregar un segundo clon.
 
 5. Ejecutar los tres checks con runners efímeros nuevos. Guardar los run IDs, SHA y mensajes reales. No abrir el runner a PRs de terceros.
 

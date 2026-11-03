@@ -1,0 +1,30 @@
+---
+title: "Configurar proveedor y modelo"
+description: "Seleccionar una opción gratuita compatible sin fallback pago."
+showAskAi: false
+showFeedback: false
+---
+
+import provider from '../../../assets/hermes-openrouter-provider.png'
+
+# Configurar proveedor y modelo
+
+**Dónde:** shell de `lab-agent`, `/workspace`, usuario `node`. **Antes:** instalación oficial terminada y credencial privada del proveedor disponible.
+
+```bash
+hermes setup
+```
+
+En el wizard nativo elegí **Full Setup** cuando esa opción esté disponible. Navegá con las flechas hasta **OpenRouter** y confirmá. Si necesitás una API key, obtenela desde [OpenRouter → Keys](https://openrouter.ai/settings/keys). Autorizá o ingresá la credencial en el wizard sin proyectarla.
+
+<img src={provider} alt="Selección de OpenRouter en la interfaz oficial de referencia de Hermes" />
+
+Referencia de la interfaz oficial, no evidencia de una integración ejecutada durante este taller. [Tutorial de referencia de OpenRouter](https://openrouter.ai/blog/tutorials/hermes-agent/).
+
+En el catálogo elegí una entrada `:free`, verificá contexto de al menos 64K y soporte de herramientas, y seleccioná su ID exacto en Hermes. Revisá el precio y los límites vigentes que muestra tu cuenta. No hay un modelo gratuito fijo garantizado; disponibilidad y cuota pueden cambiar. Continuá sin fallback a modelos pagos.
+
+Si no hay una opción gratuita compatible, detené esta parte. Como alternativa elegida conscientemente, podés conservar un proveedor que ya tengas configurado, con sus límites y consentimiento explícito antes de cualquier consumo pago. No habilites esa alternativa automáticamente para salvar un error de cuota.
+
+El wizard guarda secretos en el perfil del agente. No pegues credenciales en PR, Telegram, comandos compartidos ni capturas. No hace falta exportar tokens de GitHub.
+
+**Comprobación:** el wizard muestra proveedor y modelo elegidos y guarda la configuración. **No sigas si** el ID no corresponde al modelo revisado, faltan herramientas o desconocés el costo. Consultá [modelos gratuitos](https://openrouter.ai/docs/guides/routing/model-variants/free) y [tool calling](https://openrouter.ai/docs/guides/features/tool-calling).

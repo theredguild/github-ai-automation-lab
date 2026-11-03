@@ -1,0 +1,78 @@
+---
+title: "Preparar el receptor firmado"
+showAskAi: false
+showFeedback: false
+description: "Configurá el repositorio permitido y un secret privado sin perder validaciones."
+---
+
+import hmac from '../../../assets/course-e5-hmac.png'
+
+# Preparar el receptor firmado
+
+**Dónde:** editor del host en `lab` y Hermes CLI dentro de `lab-agent`, `/workspace`. Branch de trabajo `development`. **Antes:** [sesión de GitHub del agente](/webhook/autenticar-agente), bind mount escribible y receptor provisto `app/api/github/route.ts`.
+
+El receptor usa runtime Node y HMAC-SHA256 con comparación `timingSafeEqual`. Leer, interpretar y volver a serializar JSON cambia bytes y puede invalidar la firma. La firma se calcula sobre los bytes originales, antes de interpretar JSON.
+
+<img src={hmac} alt="GitHub y el receptor calculan HMAC-SHA256 sobre los mismos bytes con el mismo secret" />
+
+Diagrama del taller; ejemplo conceptual. Ambos extremos deben usar el mismo secret.
+
+```text
+al recibir POST:
+  leer bytes con límite de tamaño
+  verificar HMAC con el secret
+  interpretar JSON y validar el repo
+  filtrar los eventos permitidos
+  detectar una entrega repetida
+  registrar metadata y responder
+```
+
+El código provisto limita el body a 128 KiB, exige `application/json`, valida repo y delivery ID, permite `ping` y `pull_request` y registra sólo metadata acotada. La deduplicación conserva como máximo 1000 IDs durante una hora en memoria de una instancia; reiniciar pierde ese estado. No es una cola durable ni protección completa contra replay.
+
+Elegí **una** forma de preparar la configuración. No ejecutes ambas pisando variables existentes.
+
+## Delegar a Hermes
+
+Dentro de la shell del agente, en `/workspace`:
+
+```bash
+hermes chat
+```
+
+Prompt para Hermes, no comando Bash. Reemplazá sólo el repo con el tuyo:
+
+```text
+Revisá app/api/github/route.ts de este proyecto.
+Adaptalo sólo si hace falta para este backend.
+Usá TU_USUARIO/REPO como repositorio permitido.
+Prepará .env.local sin pisar variables existentes, sin imprimir ni versionar secretos.
+Generá un secret aleatorio de al menos 32 bytes con crypto u openssl y guardalo allí.
+Configurá WEBHOOK_SECRET y GITHUB_WEBHOOK_REPO.
+Conservá las validaciones y no actives ninguna llamada a IA.
+No imprimas secretos ni hagas push.
+Mostrame un resumen sin credenciales, qué cambió y cómo comprobarlo.
+```
+
+El bind mount permite escribir `.env.local` en el proyecto que usa `lab-app`. Hermes no tiene el socket Docker y no puede reiniciar otros containers. No se lo concedas para evitar un paso humano.
+
+:::details[Alternativa manual: mismo resultado, sin delegar]
+Si `.env.local` no existe, copiá `.env.example` a `.env.local`. Si ya existe, editá sólo las dos claves necesarias y conservá las demás variables. En una terminal privada, no proyectada, generá el valor:
+
+```bash
+openssl rand -hex 32
+```
+
+Ese comando imprime un secret nuevo. Pegalo sólo en `WEBHOOK_SECRET` dentro del archivo privado y completá `GITHUB_WEBHOOK_REPO` con tu `owner/repo`. Nunca copies el valor a esta guía, un chat o un commit.
+:::
+
+En el host, carpeta `lab`, comprobá exclusión y cambios sin mostrar el contenido del archivo:
+
+```bash
+git check-ignore .env.local
+git status --short
+git diff -- app/api/github/route.ts
+```
+
+**Comprobación:** `git check-ignore` identifica `.env.local` y el resumen confirma las dos claves sin revelar valores. El diff conserva firma, límites y filtros; ningún paso añade IA. **No sigas si** el secret aparece en archivos versionados, `.env.local` no está ignorado o se eliminaron validaciones. Si hubo exposición, revocá o rotá la credencial antes de continuar.
+
+Referencia: [validar entregas de GitHub](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries).
