@@ -1,9 +1,9 @@
 import { defineConfig } from 'vocs/config'
 
 export default defineConfig({
-  "title": "GitHub × AI Automation Lab",
+  "title": "Taller: De un commit a trabajo autónomo",
   "description": "Curso paso a paso: una app, GitHub, containers, un agente y webhooks.",
-  "titleTemplate": "%s · GitHub × AI Automation Lab",
+  "titleTemplate": "%s · Taller: De un commit a trabajo autónomo",
   "renderStrategy": "full-static",
   "checkDeadlinks": true,
   "sitemap": false,
