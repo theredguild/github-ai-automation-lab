@@ -57,6 +57,27 @@ El dev server abre normalmente en `127.0.0.1:5173` y preview en `127.0.0.1:4173`
 - `renderStrategy: 'full-static'`, enlaces muertos estrictos, búsqueda local y MCP desactivado. Los controles Ask AI y feedback están ocultos en todas las páginas. No hacen falta claves ni servicios de modelos para leer o construir el curso.
 - Los outputs, caches y dependencias no se versionan. El ensayo de esta migración instaló y construyó fuera del repo, sin recrear `hackerspace-site/node_modules`.
 
+### Deployment manual desde Vercel
+
+El usuario conectará el repositorio desde la web de Vercel. Se retiraron los archivos de configuración del intento por CLI y no se creó ningún proyecto ni deployment remoto desde el agente. El repositorio sigue siendo privado; no se autorizaron cambios de plan ni consumos pagos.
+
+La [integración Git de Vercel](https://vercel.com/docs/git#using-hobby-teams) no permite repositorios privados de organizaciones en Hobby. Este repo pertenece a `theredguild`: usar un equipo Pro existente si corresponde. Si el panel pide pagar, detenerse; no cambiar la visibilidad del repo ni contratar un plan como atajo.
+
+Crear un proyecto exclusivo para el curso con estos valores:
+
+| Ajuste | Valor |
+| --- | --- |
+| Root Directory | `docs` |
+| Framework Preset | `Other` |
+| Install Command | `pnpm install --frozen-lockfile` |
+| Build Command | `pnpm build` |
+| Output Directory | `dist/public` |
+| Environment Variable | `ENABLE_EXPERIMENTAL_COREPACK=1` para respetar `pnpm@10.20.0` |
+
+La integración Git concede a Vercel acceso a las fuentes del repositorio privado. Root Directory no es un filtro de acceso al repo y `.vercelignore` no protege una importación desde Git. No publicar `docs/` como carpeta estática: contiene este registro y el PDF local.
+
+Vocs detecta `VERCEL=1` y genera su Build Output API en `.vercel/output/`. El build aislado comprobado con Node 22.23.4 y pnpm 10.20.0 produjo `config.json`, 631 archivos estáticos y ninguna carpeta `functions`. Las 111 páginas respondieron con sus H1 correctos; instructor, PDF, launcher, package, PPTX y endpoints API devolvieron `404` en el servidor estático local. Chromium comprobó búsqueda y recarga de una ruta profunda. Se retiró ese temporal después del ensayo. Esto no certifica un deployment remoto.
+
 ### Cobertura de la migración
 
 La fuente escrita anterior se conserva en Git en `33c045c:docs/guia.md`; sus 66 bloques Bash contienen 126 invocaciones, todas con correspondencia en las páginas nuevas. Se conservaron sus 20 capturas distintas. El inventario del PPTX asigna sus 198 slides a páginas; el curso no depende de `slides/source.json`, que sigue siendo autoría local.
