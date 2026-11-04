@@ -1,9 +1,9 @@
 import { defineConfig } from 'vocs/config'
 
 export default defineConfig({
-  "title": "Taller: De un commit a trabajo autónomo",
-  "description": "Curso paso a paso: una app, GitHub, containers, un agente y webhooks.",
-  "titleTemplate": "%s · Taller: De un commit a trabajo autónomo",
+  "title": "De un commit a trabajo autónomo",
+  "description": "Un recorrido introductorio para automatizar tareas, delegarle trabajo a un agente y comprobar resultados.",
+  "titleTemplate": "%s · De un commit a trabajo autónomo",
   "iconUrl": "/lotus.svg",
   "renderStrategy": "full-static",
   "checkDeadlinks": true,

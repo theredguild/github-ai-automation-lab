@@ -6,7 +6,9 @@ Actualizado el 4 de noviembre de 2026. Este archivo contiene el estado técnico 
 
 El participante sigue el curso Vocs de `docs/src/pages/`, con navegación en `docs/vocs.config.ts`. `docs/guia.md` quedó como iniciador breve, no otra copia de las instrucciones. La app Next.js autocontenida sigue en `hackerspace-site/`. El recorrido conserva clon del material, movimiento completo a `../lab`, repo propio vacío, PAT limitado, login/status y primer push. `.gitignore` viaja desde el principio y se explica después del push. El PPTX conserva sus 198 diapositivas y no se modificó durante esta migración.
 
-Título visible aprobado: **Taller: De un commit a trabajo autónomo**. Se actualizó en README, portada y configuración de Vocs, plantilla del título de página y presentación del capítulo 1. Chromium comprobó el H1, el título del navegador y los metadatos sociales, además del sufijo en una página de capítulo. Se observaron escritorio y móvil de 390 px sin overflow horizontal. Los slugs del repo y del package, la app y el PPTX no cambiaron.
+Título visible aprobado: **De un commit a trabajo autónomo**, sin el prefijo "Taller:". Se actualiza de forma consistente en README, portada y configuración de Vocs, plantilla del título de página y presentación del capítulo 1. Los slugs del repo y del package, la app y el PPTX no cambian.
+
+La portada aprobada agrega "Sobre este taller", "Qué necesitás saber" y "Qué vas a aprender" antes del recorrido de capítulos. Presenta automatización, delegación y comprobación de resultados sin abrir con una lista de tecnologías; conserva requisitos mínimos, autoría y contexto laboral indicados por el usuario. Chromium comprobó texto, orden de secciones, título y descripción, pantalla móvil de 320 px y navegación hacia requisitos y capítulo 1, sin errores ni overflow horizontal. Se mantuvieron el favicon de loto y la tipografía compacta.
 
 Se conservó ese nombre completo y se compactó su tipografía: marca de navegación de 16 px y títulos de página de 24–28 px mediante los hooks nativos de Vocs. El favicon es `docs/public/lotus.svg`, un loto vectorial sin recursos externos, configurado con `iconUrl`. Chromium comprobó desktop, móviles de 390 y 320 px, menú y navegación, sin recorte de la marca ni overflow horizontal. El SVG respondió `200`, decodificó a 32×32 y mostró el magenta correspondiente en modo claro y oscuro. El build estático aislado pasó con Node 22.23.4, incluyó el SVG entre 632 archivos públicos y conservó el título formal; también se verificaron el CSS y el icono desde ese output de producción. No se cambió la app, el PPTX ni la configuración de deployment.
 
@@ -18,8 +20,9 @@ El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 2
 
 ## Decisiones del usuario que deben conservarse
 
-- Público con muy poca experiencia; pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.
+- Público con muy poca experiencia; se requieren nociones de Git, GitHub, programación y conceptos generales de informática, que se retoman durante el recorrido. No hace falta experiencia con automatización o agentes. Pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.
 - Seis ejercicios: landing y Vercel; Docker y runner; Hermes y Telegram; túnel; webhook sin IA; review solicitada por etiqueta.
+- Taller muy introductorio, práctico e improvisado, diseñado por The Red Guild para darse inicialmente en NodoSerrano. Pensado para sumar herramientas y práctica que mejoren las posibilidades de inserción laboral. La portada presenta objetivos generales antes del mapa técnico de capítulos.
 - Empezar haciendo: dos diapositivas de apertura y el primer ejercicio. Enseñar Git, virtualización, redes y webhooks justo al necesitarlos.
 - App de ejemplo: landing Next.js del HackerSpace de NodoSerrano.org. Hacer build real y deploy de main y development; el código de la landing es secundario al proceso.
 - Separar material y app con un `mv`, sin copias con exclusiones, cadenas de guardas ni clon adicional. El destino debe estar libre; si falla un paso o no coincide carpeta/estructura, detenerse antes de inicializar Git.

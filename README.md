@@ -1,4 +1,4 @@
-# Taller: De un commit a trabajo autónomo
+# De un commit a trabajo autónomo
 
 Curso en Vocs sobre la landing Next.js del HackerSpace de Nodo Serrano. Preparación, seis capítulos y cierre, con una operación comprobable por página. La aplicación inicial sigue en [`hackerspace-site/`](hackerspace-site/); el curso vive en [`docs/src/pages/`](docs/src/pages/).
 
