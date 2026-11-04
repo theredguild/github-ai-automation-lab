@@ -1,6 +1,13 @@
 :root {
   --vocs-font-family: system-ui, sans-serif;
   --vocs-font-family-mono: 'Inconsolata', ui-monospace, monospace;
+  --vocs-text-h1: clamp(1.5rem, 2.5vw, 1.75rem);
+}
+
+[data-v-logo-text] {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 pre[data-v] > button:focus-visible {

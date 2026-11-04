@@ -4,6 +4,7 @@ export default defineConfig({
   "title": "Taller: De un commit a trabajo autónomo",
   "description": "Curso paso a paso: una app, GitHub, containers, un agente y webhooks.",
   "titleTemplate": "%s · Taller: De un commit a trabajo autónomo",
+  "iconUrl": "/lotus.svg",
   "renderStrategy": "full-static",
   "checkDeadlinks": true,
   "sitemap": false,

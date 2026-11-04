@@ -1,12 +1,14 @@
 # Handoff del instructor y del agente local
 
-Actualizado el 3 de noviembre de 2026. Este archivo contiene el estado técnico de preparación. No se proyecta ni se publica como página del curso.
+Actualizado el 4 de noviembre de 2026. Este archivo contiene el estado técnico de preparación. No se proyecta ni se publica como página del curso.
 
 ## Punto de entrada y estructura
 
 El participante sigue el curso Vocs de `docs/src/pages/`, con navegación en `docs/vocs.config.ts`. `docs/guia.md` quedó como iniciador breve, no otra copia de las instrucciones. La app Next.js autocontenida sigue en `hackerspace-site/`. El recorrido conserva clon del material, movimiento completo a `../lab`, repo propio vacío, PAT limitado, login/status y primer push. `.gitignore` viaja desde el principio y se explica después del push. El PPTX conserva sus 198 diapositivas y no se modificó durante esta migración.
 
 Título visible aprobado: **Taller: De un commit a trabajo autónomo**. Se actualizó en README, portada y configuración de Vocs, plantilla del título de página y presentación del capítulo 1. Chromium comprobó el H1, el título del navegador y los metadatos sociales, además del sufijo en una página de capítulo. Se observaron escritorio y móvil de 390 px sin overflow horizontal. Los slugs del repo y del package, la app y el PPTX no cambiaron.
+
+Se conservó ese nombre completo y se compactó su tipografía: marca de navegación de 16 px y títulos de página de 24–28 px mediante los hooks nativos de Vocs. El favicon es `docs/public/lotus.svg`, un loto vectorial sin recursos externos, configurado con `iconUrl`. Chromium comprobó desktop, móviles de 390 y 320 px, menú y navegación, sin recorte de la marca ni overflow horizontal. El SVG respondió `200`, decodificó a 32×32 y mostró el magenta correspondiente en modo claro y oscuro. El build estático aislado pasó con Node 22.23.4, incluyó el SVG entre 632 archivos públicos y conservó el título formal; también se verificaron el CSS y el icono desde ese output de producción. No se cambió la app, el PPTX ni la configuración de deployment.
 
 El recorrido completo recomendado es **host + containers**. Codespaces queda limitado a una demo opcional de la landing al final del ejercicio 1, después del push correcto, build, Production/Preview y PR integrado. No certifica los ejercicios 2–6. `.devcontainer/devcontainer.json` prepara únicamente esa demo; se quitó Docker-in-Docker. El `Dockerfile` local, `.dockerignore`, configuración remota y plantillas de `docs/snippets/` viajan juntos dentro de `lab`.
 
