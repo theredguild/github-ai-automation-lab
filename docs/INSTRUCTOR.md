@@ -16,6 +16,8 @@ El recorrido completo recomendado es **host + containers**. Codespaces queda lim
 
 Vocs es la única guía del participante. El README explica cómo abrirla; el PPTX es el material proyectado de la clase. Los archivos locales de autoría del PPTX permanecen excluidos de la publicación. Preparar esta web no reabrió el ensayo remoto de Codespaces ni autorizó deployments, cuentas o consumos pagos.
 
+La portada y la navegación global de Vocs enlazan la presentación de Google Slides indicada por el usuario, con el rótulo "Presentación". Ambos enlaces conservan la URL compartida y abren otra pestaña. Chromium comprobó la portada y la navegación en 1280 px y el selector del menú móvil en 320 px, sin overflow horizontal ni errores de navegador. `pnpm --dir docs build` pasó, con avisos de profiling del bundler y tamaño de chunks. La lectura del destino identificó `workshop (2).pptx` en Google Slides; no se ensayaron permisos de edición ni se modificó ese archivo.
+
 El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded para títulos y Poppins para prosa. El código usa Inconsolata; los textos de apoyo, Tektur. No se entrega un paquete de fuentes tipográficas.
 
 ## Revisión técnica y pedagógica publicada

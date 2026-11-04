@@ -24,6 +24,10 @@ export default defineConfig({
       "link": "/"
     },
     {
+      "text": "Presentación",
+      "link": "https://docs.google.com/presentation/d/1XrsQfV1sIuqsEnxkxOn_ZRobF4mDy68c/edit?usp=sharing&ouid=112113536335253382752&rtpof=true&sd=true"
+    },
+    {
       "text": "Opciones",
       "link": "/opcional"
     },
