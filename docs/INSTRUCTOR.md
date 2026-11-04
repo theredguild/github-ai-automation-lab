@@ -40,6 +40,8 @@ La revisión semántica detectó una inferencia incorrecta entre no estar versio
 
 Estas pruebas comprueban la guía y su navegación, no las integraciones externas del taller. No se ejecutaron ejercicios contra cuentas reales, llamadas a modelos, cambios de webhooks ni consumos pagos durante esta pasada.
 
+`docs/src/pages.gen.ts` contiene tipos de rutas que Waku genera al iniciar el servidor de desarrollo y al cambiar páginas. No se mantiene a mano ni se versiona. La regla específica `/docs/src/pages.gen.ts` quedó en el `.gitignore` raíz; no se borró ni modificó el archivo generado. `git check-ignore -v` comprobó esa regla y `git status` dejó de mostrarlo como no versionado. Las 111 páginas de autoría siguen fuera de las exclusiones.
+
 ## Decisiones del usuario que deben conservarse
 
 - Público con muy poca experiencia; se requieren nociones de Git, GitHub, programación y conceptos generales de informática, que se retoman durante el recorrido. No hace falta experiencia con automatización o agentes. Pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.

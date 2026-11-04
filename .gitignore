@@ -13,7 +13,8 @@
 /slides/*
 !/slides/workshop.pptx
 /docs/consulta.pdf
-# Vocs course build and local caches.
+# Vocs course build, generated routes and local caches.
 /docs/dist/
 /docs/.vocs/
 /docs/.waku/
+/docs/src/pages.gen.ts
