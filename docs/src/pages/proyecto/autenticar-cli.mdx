@@ -7,9 +7,9 @@ showFeedback: false
 
 # Autenticar GitHub CLI
 
-**Dónde:** host, Bash en `lab`, no dentro de Codespaces. **Antes:** repo creado y token fino disponible en privado.
+Volvé a Bash en el host, dentro de `lab`, no dentro de Codespaces. Ya tenés el repo creado y el token fino disponible en privado. Ahora vamos a usarlos para autenticar la terminal.
 
-`gh` es GitHub CLI, la herramienta para operar GitHub desde la terminal. Este login prepara su acceso y, al elegir **Authenticate Git: Yes**, también el de Git por HTTPS. No inicia un repositorio ni publica la app.
+`gh` es GitHub CLI, la herramienta para operar GitHub desde la terminal. Este login prepara su acceso y, al elegir **Authenticate Git: Yes**, también el de Git por HTTPS. Todavía no inicia un repositorio ni publica la app.
 
 ```bash
 gh auth login
@@ -25,14 +25,16 @@ Authenticate Git: Yes
 Token: entrada oculta
 ```
 
-Otra versión puede cambiar los textos. Pegá el token sólo en la entrada oculta cuando `gh` lo pida. No lo pases como argumento. No sustituyas este token limitado por OAuth del navegador. La ayuda puede mencionar scopes clásicos: no los agregues al token fino.
+Si usás otra versión, los textos pueden variar. Pegá el token sólo en la entrada oculta cuando `gh` lo pida, nunca como argumento. No sustituyas este token limitado por OAuth del navegador. La ayuda puede mencionar scopes clásicos, pero no tenés que agregarlos al token fino.
+
+Cuando termine el login, consultemos qué cuenta y credencial quedaron activas:
 
 ```bash
 gh auth status
 ```
 
-Comprobá cuenta, origen de la credencial y protocolo HTTPS. No uses opciones para mostrar el token.
+En la salida, comprobá la cuenta, el origen de la credencial y el protocolo HTTPS. No uses opciones para mostrar el token.
 
-`GH_TOKEN` o `GITHUB_TOKEN` pueden prevalecer sobre la sesión guardada. No imprimas ni borres esas variables a ciegas; resolvé el contexto de esa terminal con el instructor. El login puede cambiar la credencial activa de `gh` y la HTTPS de Git: otros repos privados, incluido el material, podrían dejar de ser accesibles.
+Si la salida no coincide con lo que esperabas, tené presente que `GH_TOKEN` o `GITHUB_TOKEN` pueden prevalecer sobre la sesión guardada. No imprimas ni borres esas variables a ciegas. Resolvé el contexto de esa terminal con el instructor. El login puede cambiar la credencial activa de `gh` y la HTTPS de Git, y otros repos privados, incluido el material, podrían dejar de ser accesibles.
 
 **No sigas si** la cuenta o el origen de la credencial no son los esperados. Si aparece almacenamiento en texto plano, revisá el almacén de credenciales; no asumas cifrado ni uses `--insecure-storage`. [Login nativo](https://cli.github.com/manual/gh_auth_login).

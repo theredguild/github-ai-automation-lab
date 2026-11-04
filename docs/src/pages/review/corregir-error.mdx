@@ -7,9 +7,9 @@ description: "Restaurá la resta y ejecutá las verificaciones existentes antes 
 
 # Corregir y comprobar el cálculo
 
-**Dónde:** host, editor y terminal en `lab`, branch `development`. **Antes:** [review leída críticamente](/review/leer-review), PR propio todavía abierto, Node 22 y dependencias del proyecto disponibles. La corrección la decide y ejecuta una persona, no el agente revisor.
+Después de [leer críticamente la review](/review/leer-review), vamos a corregir el cálculo y comprobarlo con las herramientas del proyecto. La corrección la decide y ejecuta una persona, no el agente revisor. Usá el editor y la terminal del host, en `lab`, sobre `development`. El PR propio debe seguir abierto, y necesitás Node 22 y las dependencias del proyecto disponibles.
 
-Confirmá dónde vas a editar:
+Antes de editar, confirmá la carpeta y la rama:
 
 ```bash
 git status
@@ -24,7 +24,7 @@ export function lugaresLibres(capacidad: number, ocupados: number): number {
 }
 ```
 
-Revisá el cambio y corré los checks incluidos, desde la raíz de `lab`:
+Desde la raíz de `lab`, revisá el cambio y corré los checks incluidos. Así vamos a contrastar la corrección con pruebas, reglas de código y tipos:
 
 ```bash
 git diff -- app/capacidad.ts
@@ -33,8 +33,10 @@ pnpm lint
 pnpm typecheck
 ```
 
-Las pruebas existentes comprueban que `lugaresLibres(20, 5)` da 15 y `lugaresLibres(20, 20)` da 0, además del receptor y health. Cada aserción compara un resultado real con el esperado. No hace falta otro script de Node. `pnpm test` ejecuta las pruebas unitarias provistas con Node 22, no una integración de Next, Docker o servicios externos. Biome revisa reglas del código y TypeScript comprueba tipos; ninguno sustituye las aserciones del cálculo.
+Las pruebas existentes comprueban que `lugaresLibres(20, 5)` da 15 y `lugaresLibres(20, 20)` da 0, además del receptor y health. Cada aserción compara un resultado real con el esperado, así que no hace falta otro script de Node. `pnpm test` ejecuta las pruebas unitarias provistas con Node 22, no una integración de Next, Docker o servicios externos.
 
-**Comprobación:** diff muestra sólo la corrección esperada y **test, lint y typecheck terminan correctamente**. Conservá qué comandos ejecutaste y para qué estado del código; no lo atribuyas a la review del agente.
+Biome revisa reglas del código y TypeScript comprueba tipos. Ninguno sustituye las aserciones del cálculo, por eso necesitamos los tres checks.
+
+Para avanzar, el diff debe mostrar sólo la corrección esperada y **test, lint y typecheck deben terminar correctamente**. Guardá qué comandos ejecutaste y para qué estado del código. Esas comprobaciones las hiciste vos, no la review del agente.
 
 **No sigas si** falla cualquiera de los tres checks, hay cambios ajenos o estás en otra rama. Corregí la causa y ejecutá los checks otra vez antes de publicar. No cambies tests para tolerar la suma ni ignores un check porque el comentario parezca convincente.

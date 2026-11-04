@@ -7,9 +7,9 @@ description: "Publicá una suma incorrecta en el PR sin solicitar todavía la re
 
 # Introducir un error lógico visible
 
-**Dónde:** host, editor y terminal en `lab`, branch `development`. **Antes:** [hook nativo configurado](/review/crear-hook), PR de tu propio repo abierto hacia `main`, no draft, sin trabajo ajeno pendiente. No hagas esta edición en la sesión del agente que revisa.
+Vamos a introducir un error pequeño para tener algo concreto que revisar. Hacelo vos desde el editor y la terminal del host, en `lab`, sobre `development`, no desde la sesión del agente revisor. Antes de editar, necesitás el [hook nativo configurado](/review/crear-hook) y un PR de tu propio repo abierto hacia `main`, no draft y sin trabajo ajeno pendiente.
 
-Comprobá el contexto y actualizá antes de editar:
+Comprobá el contexto y actualizá la rama antes de tocar el archivo:
 
 ```bash
 git status
@@ -31,9 +31,9 @@ Cambiá **deliberadamente sólo la resta por suma** y guardá:
 return capacidad + ocupados;
 ```
 
-Con capacidad 20 y 5 ocupados deberían quedar **15**, pero la suma devuelve **25**. TypeScript acepta sumar dos números y devolver otro número, así que este cambio puede pasar typecheck aunque el cálculo esté mal. Las pruebas de comportamiento comprueban el resultado esperado. Es un fallo de práctica, no un cambio que deba llegar a Production.
+Con capacidad 20 y 5 ocupados deberían quedar **15**, pero la suma devuelve **25**. TypeScript acepta sumar dos números y devolver otro número, por eso este cambio puede pasar typecheck aunque el cálculo esté mal. Las pruebas de comportamiento, en cambio, comparan el resultado con lo esperado. **Este fallo es sólo para practicar y no debe llegar a Production.**
 
-Revisá y publicá sólo ese archivo:
+Revisá el diff para confirmar que cambiaste sólo esa operación y publicá únicamente ese archivo:
 
 ```bash
 git diff -- app/capacidad.ts
@@ -51,13 +51,13 @@ gh pr create --base main --head development \
   --body "Practica de review sobre un error logico; no integrar sin corregir."
 ```
 
-Reemplazá `NUMERO` por el real y anotá ambos SHA:
+Ahora reemplazá `NUMERO` por el número real del PR y anotá ambos SHA. Los vamos a usar para identificar la versión que recibe el revisor:
 
 ```bash
 gh pr view NUMERO --json number,state,isDraft,baseRefName,headRefName,baseRefOid,headRefOid
 gh pr view NUMERO --web
 ```
 
-**Comprobación:** PR **Open**, no draft, base `main` y head `development` del mismo repo, con el commit de la suma. En la web corroborá repo de ambas ramas. El push por sí solo **no solicita review** en esta ruta, aunque la etiqueta estuviera presente.
+En la respuesta y en la web, comprobá que el PR esté **Open**, no draft, con base `main` y head `development` del mismo repo, y que contenga el commit de la suma. Corroborá en la web el repo de ambas ramas. El push por sí solo **no solicita review** en esta ruta, aunque la etiqueta estuviera presente.
 
-**No sigas si** falló pull o push, hay cambios no previstos, el PR viene de un fork, apunta a otra base o sigue draft. No integres el fallo. La review analizará el diff como datos sin ejecutar código del PR.
+**No sigas si** falló pull o push, hay cambios no previstos, el PR viene de un fork, apunta a otra base o sigue draft. No integres el fallo. Vamos a pedir que la review analice el diff como datos, sin ejecutar código del PR.

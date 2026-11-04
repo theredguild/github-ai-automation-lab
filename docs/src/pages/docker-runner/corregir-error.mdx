@@ -7,9 +7,9 @@ showFeedback: false
 
 # Publicar la corrección del tipo
 
-**Dónde:** host, editor y Bash en `lab`, rama `development`. **Antes:** segunda ejecución confirmó TS2322 en el SHA del error y terminó su runner.
+Una vez que la segunda ejecución confirmó TS2322 en el SHA del error y terminó su runner, volvé al editor y a Bash del host en `lab`, en la rama `development`.
 
-Volvé a dejar `app/estado.ts` así:
+Vamos a corregir la misma asignación. Volvé a dejar `app/estado.ts` así:
 
 ```typescript
 export const plazas: number = 20;
@@ -27,6 +27,6 @@ git rev-parse HEAD
 
 Anotá este tercer SHA como versión corregida y comprobalo en `development` de GitHub. Si elegiste editar desde la web, confirmá allí en `development` y actualizá la copia local con `git pull --ff-only` antes de anotar el SHA. No publiques dos correcciones iguales por ambas vías.
 
-Este push tampoco inicia el workflow manual. El dispatch que muestra la diapositiva de corrección se ejecuta después de registrar otro runner efímero, en las páginas siguientes.
+Este push tampoco inicia el workflow manual. Para comprobar esta nueva versión, primero vamos a registrar otro runner efímero. Después haremos el dispatch que muestra la diapositiva de corrección, siguiendo las páginas siguientes.
 
 **No sigas si** sigue apareciendo `"20"`, el push fue rechazado o no identificaste el SHA corregido.

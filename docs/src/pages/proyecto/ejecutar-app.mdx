@@ -7,9 +7,9 @@ showFeedback: false
 
 # Ejecutar y reconocer la landing
 
-**Dónde:** host, `lab`, rama `main`; navegador de tu equipo. **Antes:** build correcto. Todavía no usaste Docker.
+El build ya terminó correctamente. Vamos a abrir la landing y reconocer qué contiene antes de cambiarla. Usá la terminal del host en `lab`, todavía en `main`, y el navegador de tu equipo. Hasta acá no usamos Docker.
 
-`pnpm dev` ejecuta el script de desarrollo de `package.json`. Next mantiene un servidor activo y actualiza la página cuando guardás cambios. A diferencia de `pnpm build`, este comando sigue corriendo hasta que lo detengas.
+`pnpm dev` ejecuta el script de desarrollo de `package.json`. Next mantiene un servidor activo y actualiza la página cuando guardás cambios. A diferencia de `pnpm build`, este comando va a seguir corriendo hasta que lo detengas.
 
 ```bash
 pnpm dev
@@ -17,7 +17,9 @@ pnpm dev
 
 Dejá esa terminal abierta. Abrí `http://localhost:3000` o el puerto que indique Next. Si necesitás comandos mientras corre, abrí otra terminal en `lab`.
 
-Comprobá el título HackerSpace Nodo Serrano, actividades e imagen. Usá **Conocer el espacio**, revisá enlaces de contacto y localizá el título en `app/page.tsx`. La URL local no es Production de Vercel.
+Buscá el título HackerSpace Nodo Serrano, las actividades y la imagen. Probá **Conocer el espacio**, revisá los enlaces de contacto y localizá el título en `app/page.tsx`. Así vas a poder reconocer el cambio cuando lo hagamos. Esta URL local no es Production de Vercel.
+
+Estos son los archivos que vamos a ir usando durante el taller:
 
 | Archivo | Uso en el taller |
 | --- | --- |
@@ -31,6 +33,6 @@ Comprobá el título HackerSpace Nodo Serrano, actividades e imagen. Usá **Cono
 | `pnpm-lock.yaml` | Dependencias fijadas |
 | `Dockerfile` | Entorno que se usará con el runner |
 
-Al terminar, detené `pnpm dev` con `Ctrl+C` en su terminal. No hace falta cerrar el entorno.
+Cuando termines de mirar la landing, detené `pnpm dev` con `Ctrl+C` en su terminal. No hace falta cerrar el entorno.
 
 **No sigas si** no reconocés la landing o estás viendo otro proceso/puerto.

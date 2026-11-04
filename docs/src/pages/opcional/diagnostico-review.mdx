@@ -7,11 +7,11 @@ description: "Revisá la capa donde se cortó el recorrido sin ampliar permisos 
 
 # Diagnosticar una review por última evidencia
 
-Esta página es opcional. El recorrido principal vuelve a [leer y contrastar la review](/review/leer-review).
+Esta página es opcional y te ayuda a encontrar dónde se interrumpió la review. Después podés volver a [leer y contrastar la review](/review/leer-review).
 
-**Dónde:** navegador del PR y Recent Deliveries del hook nativo, terminal del gateway en `lab-agent`, `/workspace`; host en `lab` para health. **Antes:** repo/PR, hostname actual, GUID si existe y SHA solicitados identificados. No imprimas el perfil, secrets, PAT, body completo ni headers sensibles.
+Tené a mano el navegador del PR y Recent Deliveries del hook nativo, la terminal del gateway en `lab-agent`, dentro de `/workspace`, y el host en `lab` para consultar health. Antes de revisar, identificá el repo y PR, el hostname actual, los SHA solicitados y el GUID si existe. **No imprimas el perfil, secrets, PAT, body completo ni headers sensibles.**
 
-Tomá la **última evidencia que realmente tenés**, no la etapa que esperabas alcanzar:
+Empezá por la **última evidencia que realmente tenés**, no por la etapa a la que esperabas llegar. La tabla indica qué comprobar a continuación:
 
 | Última evidencia | Siguiente comprobación |
 | --- | --- |
@@ -25,16 +25,16 @@ Tomá la **última evidencia que realmente tenés**, no la etapa que esperabas a
 
 ## Separar salud local, túnel y autenticación
 
-Desde el **host**, cwd `lab`:
+Primero vamos a separar la respuesta local de la conexión pública. Desde el **host**, en `lab`, consultá ambos health:
 
 ```bash
 curl -i http://127.0.0.1:8644/health
 curl -i https://TU_URL_PUBLICA/health
 ```
 
-Usá hostname real. Local 200 y público fallando sitúan el problema después del listener. Ambos 200 no prueban HMAC, filtros, disponibilidad del modelo ni comentario. No uses `localhost` desde otro container como si fuera el host. Revisá si [lab-agent ya pertenece a red-taller](/review/conectar-agente) antes de repetir una conexión o recrear nada.
+Usá tu hostname real. Si el health local responde 200 y el público falla, el problema está después del listener. Si ambos responden 200, comprobaste esas conexiones, pero no HMAC, filtros, disponibilidad del modelo ni comentario. No uses `localhost` desde otro container como si fuera el host. Antes de repetir una conexión o recrear nada, revisá si [lab-agent ya pertenece a red-taller](/review/conectar-agente).
 
-Para comprobar sesión de herramientas, entrá desde el host al container existente:
+Si el problema aparece al usar herramientas, comprobá la sesión entrando desde el host al container existente:
 
 ```bash
 docker exec -it lab-agent bash
@@ -42,17 +42,17 @@ cd /workspace
 gh auth status
 ```
 
-No uses opciones que muestran tokens. Confirmá cuenta y origen de credencial; variables `GH_TOKEN`/`GITHUB_TOKEN` pueden prevalecer. No las imprimas ni borres a ciegas. Si falta permiso, volvé al [PAT mínimo del agente](/webhook/autenticar-agente), no agregues Administration, Issues o permisos de organización por reflejo.
+No uses opciones que muestran tokens. Confirmá la cuenta y el origen de la credencial. Las variables `GH_TOKEN` y `GITHUB_TOKEN` pueden prevalecer, pero no las imprimas ni las borres a ciegas. Si falta un permiso, volvé al [PAT mínimo del agente](/webhook/autenticar-agente). No agregues Administration, Issues ni permisos de organización por reflejo.
 
-Para un evento ignorado, compará Request con [los filtros nativos](/review/configurar-ruta). No muevas la selección al prompt para permitir que todos los eventos gasten tokens. Para el caso negativo, ausencia de comentario no demuestra ausencia de llamada: correlacioná hora, GUID, logs y uso del proveedor.
+Si el evento fue ignorado, compará Request con [los filtros nativos](/review/configurar-ruta). No muevas la selección al prompt, porque eso permitiría que todos los eventos gasten tokens. Si estás comprobando el caso negativo, recordá que la ausencia de comentario no demuestra ausencia de llamada. Para sostener esa conclusión, correlacioná hora, GUID, logs y uso del proveedor.
 
 ## Modelo y comentario son etapas distintas
 
-Revisá disponibilidad, límites y soporte de herramientas del proveedor. La disponibilidad gratuita no está garantizada. **No cambies automáticamente a un modelo pago ni habilites facturación.** Un fallo de consulta debe producir un error explícito, no una revisión inventada.
+Si la tarea fue aceptada pero no avanza, revisá disponibilidad, límites y soporte de herramientas del proveedor. La disponibilidad gratuita no está garantizada. **No cambies automáticamente a un modelo pago ni habilites facturación.** Si falla una consulta, el resultado debe ser un error explícito, no una revisión inventada.
 
-`github_comment` publica la respuesta al destino fijado. No pidas al modelo que improvise publicación por API, no exportes su PAT y no copies credenciales al runner. Conservá repo, base/head y guardas contra solicitud desactualizada; las instrucciones no hacen atómica la entrega ni sustituyen aislamiento.
+Si ya hay una respuesta pero falta el comentario, recordá que `github_comment` publica al destino fijado. No le pidas al modelo que improvise la publicación por API, no exportes su PAT y no copies credenciales al runner. Conservá el repo, los SHA base y head y las guardas contra solicitudes desactualizadas. Esas instrucciones no hacen atómica la entrega ni sustituyen el aislamiento.
 
-**Comprobación:** podés señalar capa del fallo y nueva evidencia concreta de recuperación, sin haber debilitado controles. **No sigas si** para avanzar tendrías que desactivar firma/filtros, ejecutar código del PR en el agente, revelar credenciales o contratar otro servicio. Conservá el error no sensible para trabajarlo con el instructor.
+Para retomar el recorrido, deberías poder señalar la capa del fallo y una evidencia nueva y concreta de recuperación, sin haber debilitado los controles. **No sigas si** para avanzar tendrías que desactivar firma o filtros, ejecutar código del PR en el agente, revelar credenciales o contratar otro servicio. Conservá el error no sensible para trabajarlo con el instructor.
 
 Volvé a [leer y contrastar la review](/review/leer-review). Si cambió un SHA, solicitá después [una review nueva del commit actual](/review/solicitar-nueva-review).
 

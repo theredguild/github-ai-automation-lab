@@ -7,9 +7,9 @@ showFeedback: false
 
 # Editar el título de la portada
 
-**Dónde:** editor del host, `lab/app/page.tsx`, rama `development`. **Antes:** rama comprobada; Production conserva la portada original.
+Con la rama `development` ya comprobada, abrí `lab/app/page.tsx` en el editor del host. Vamos a cambiar un texto fácil de reconocer mientras Production conserva la portada original.
 
-Buscá el título visible y cambiá sólo su texto por una frase reconocible. La guía propone "El HackerSpace de Nodo Serrano"; el ejemplo de las diapositivas usa "Aprender y construir en comunidad". Elegí una frase y recordala para comparar URLs.
+Buscá el título visible y cambiá sólo su texto por una frase reconocible. La guía propone "El HackerSpace de Nodo Serrano" y el ejemplo de las diapositivas usa "Aprender y construir en comunidad". Elegí una y recordala, porque después vamos a comparar las URLs.
 
 Ejemplo ilustrativo antes:
 
@@ -23,15 +23,15 @@ Después:
 <h1 id="titulo">Aprender y construir en comunidad</h1>
 ```
 
-Conservá el resto del archivo real, aunque su formato difiera del ejemplo. Guardá y comprobá:
+Conservá el resto del archivo real, aunque su formato difiera del ejemplo. Guardalo y revisemos qué cambió.
 
-`git status` resume qué archivos cambiaron. `git diff` muestra las diferencias todavía no preparadas para commit, línea por línea. Las líneas con `-` son el texto anterior y las líneas con `+`, el nuevo; esos signos describen el cambio, no forman parte del archivo.
+`git status` resume qué archivos cambiaron. Con `git diff` podés mirar, línea por línea, las diferencias que todavía no preparaste para commit. Las líneas con `-` muestran el texto anterior y las líneas con `+`, el nuevo. Esos signos describen el cambio, no forman parte del archivo.
 
 ```bash
 git status
 git diff
 ```
 
-El diff debe mostrar sólo el cambio de texto que elegiste en `app/page.tsx`. Guardar modifica tu copia de trabajo. No crea todavía una versión en Git ni envía nada a GitHub.
+Fijate que el diff muestre sólo el cambio de texto que elegiste en `app/page.tsx`. Al guardar modificaste tu copia de trabajo, pero todavía no creaste una versión en Git ni enviaste nada a GitHub.
 
 **No sigas si** editaste otra rama o el diff contiene cambios que no reconocés.

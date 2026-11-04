@@ -7,9 +7,9 @@ showFeedback: false
 
 # Ejecutar y comprobar la falla
 
-**Dónde:** navegador o terminal del host en `lab`, rama `development`. **Antes:** segundo runner escuchando y SHA del error publicado.
+Dejá el segundo runner escuchando y usá el navegador o una terminal del host en `lab`, en la rama `development`. Ya tenés publicado y anotado el SHA del error. Ahora vamos a comprobar si el check reconoce esa falla.
 
-**Elegí un solo dispatch.** En web, **Actions → Checks del workshop → Run workflow → development → Run workflow**. Alternativamente, desde el host con Actions: Read and write:
+**Elegí un solo dispatch.** En la web, abrí **Actions → Checks del workshop → Run workflow → development → Run workflow**. Como alternativa, ejecutá lo siguiente desde el host si ya tenés Actions: Read and write:
 
 ```bash
 gh workflow run checks.yml --ref development
@@ -23,7 +23,7 @@ gh run view RUN_ID --json status,conclusion
 gh run view RUN_ID --web
 ```
 
-Si está en cola, comprobá escucha y etiquetas `self-hosted`, `linux`, `workshop` antes de cambiar código. Cuando termine, buscá el step `pnpm typecheck`, el archivo y la línea. También podés leer los logs fallidos desde el host:
+Si está en cola, comprobá la escucha y las etiquetas `self-hosted`, `linux`, `workshop` antes de cambiar código. Cuando termine, buscá el step `pnpm typecheck` y leé el archivo y la línea que señala. Así vas a distinguir el error buscado de una falla de infraestructura. También podés leer los logs fallidos desde el host:
 
 ```bash
 gh run view RUN_ID --log-failed
@@ -36,6 +36,6 @@ app/estado.ts(1,14): error TS2322:
 Type 'string' is not assignable to type 'number'.
 ```
 
-La evidencia requerida es `completed` con `failure`, en el SHA del error, y una falla de tipos por asignar string a number. Un fallo de descarga o de runner no demuestra esta prueba. El segundo runner debe salir después de su único job.
+Para dar por hecha esta prueba, necesitás ver `completed` con `failure` en el SHA del error y la falla de tipos por asignar string a number. Un fallo de descarga o de runner no demuestra lo mismo. Esperá también a que el segundo runner salga después de su único job.
 
 No uses `gh run watch`. **No sigas si** el run está en otro SHA o falló por otra causa: leé el primer step fallido antes de corregir la prueba.

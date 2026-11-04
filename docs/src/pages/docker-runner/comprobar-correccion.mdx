@@ -7,9 +7,9 @@ showFeedback: false
 
 # Comprobar la corrección y cerrar el runner
 
-**Dónde:** navegador y terminal del host en `lab`, rama `development`. **Antes:** tercer runner escuchando y SHA corregido publicado.
+Con el tercer runner escuchando y el SHA corregido publicado, seguí desde el navegador y la terminal del host en `lab`, en la rama `development`. Vamos a comprobar la corrección y después cerrar el runner.
 
-**Elegí un solo dispatch.** Por web, **Actions → Checks del workshop → Run workflow → development → Run workflow**. O, con permiso Actions: Read and write, desde el host:
+**Elegí un solo dispatch.** En la web, abrí **Actions → Checks del workshop → Run workflow → development → Run workflow**. Como alternativa, con permiso Actions: Read and write, ejecutá desde el host:
 
 ```bash
 gh workflow run checks.yml --ref development
@@ -34,9 +34,9 @@ Compará las tres ejecuciones por ID y SHA, no sólo por su posición en la list
 | Corrección | Tercer SHA y checks completos |
 | En tu proyecto | Los mismos comandos que usa tu equipo |
 
-“Se ve la página” y “pasa el chequeo de tipos” son observaciones distintas. En tu proyecto usá tu linter, typecheck o tests habituales. Para automatizar sobre PR y admitir código de terceros, diseñá antes el aislamiento del runner y sus permisos. Esta práctica manual y efímera no es una configuración de producción.
+Ver la página y pasar el chequeo de tipos son observaciones distintas. Cuando lleves esta práctica a tu proyecto, usá tu linter, typecheck o tests habituales. Antes de automatizar sobre PR y admitir código de terceros, diseñá el aislamiento del runner y sus permisos. Esta práctica manual y efímera no es una configuración de producción.
 
-Esperá a que termine el runner. `exec` hace salir su container tras el único job. Desde el host:
+Para cerrar, esperá a que termine el runner. `exec` hace salir su container tras el único job. Comprobalo desde el host:
 
 ```bash
 docker ps

@@ -18,9 +18,9 @@ Vocs es la única guía del participante. El README explica cómo abrirla y la p
 
 El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded y Poppins. El código ahora usa Inconsolata explícita y colores por sintaxis. No se entrega un paquete de fuentes tipográficas.
 
-## Revisión pedagógica local pendiente de aprobación
+## Revisión técnica y pedagógica publicada
 
-Se revisaron introducción, preparación, los seis capítulos y cierre con el criterio de explicar los términos al usarlos, sin omitir detalles técnicos. Hay cambios locales en 66 páginas: modelo, harness y agente; operaciones de Git y deployments; imagen, container y runner; permisos y persistencia; redes y requests; firma y filtros; revisión por SHA y decisión humana. El cierre también sirve si se interrumpe un capítulo. No se cambiaron rutas, navegación, capturas, PPTX, starter ni configuración de deployment. No hubo commit ni push.
+Se revisaron introducción, preparación, los seis capítulos y cierre con el criterio de explicar los términos al usarlos, sin omitir detalles técnicos. Se ajustaron 66 páginas: modelo, harness y agente; operaciones de Git y deployments; imagen, container y runner; permisos y persistencia; redes y requests; firma y filtros; revisión por SHA y decisión humana. El cierre también sirve si se interrumpe un capítulo. No se cambiaron rutas, navegación, capturas, PPTX, starter ni configuración de deployment. Esta revisión se publicó en `main` con el commit firmado `63e757f`; GitHub confirmó su firma como válida.
 
 Los bloques de código originales se conservaron íntegros. La única diferencia entre bloques es el ejemplo nuevo `pwd` en preparación. Los 126 bloques Bash del curso pasan `bash -n`, que comprueba sintaxis, no ejecución.
 
@@ -28,9 +28,22 @@ El build aislado pasó con Node 26.10.0 y pnpm 10.20.0, con enlaces internos est
 
 Estas comprobaciones cubren la guía publicada localmente. No se repitieron ejercicios contra GitHub, Vercel, Telegram, modelos ni Cloudflare, ni se certificaron esas integraciones. La revisión no autoriza publicarlas o consumir servicios pagos. El archivo preexistente no versionado `docs/src/pages.gen.ts` se conservó sin cambios.
 
+## Reescritura con voz docente
+
+Por pedido del usuario se reescribió la narrativa de las 111 páginas del curso, incluidas opciones y referencias, con voz de docente que acompaña la práctica. Los campos repetidos de ubicación, requisitos y comprobación se integraron al relato sin eliminar esas condiciones. Se explican el propósito de cada paso y la lectura del resultado. Las advertencias de riesgo siguen visibles junto a las acciones. También se aclaró que, al mover el starter, la `.git` del material queda dentro de `github-ai-automation-lab/`, fuera de `lab`.
+
+La comparación contra la versión previa confirmó que se conservaron íntegros los bloques de código, prompts y configuración, frontmatter, encabezados, imports, imágenes y destinos de enlaces de las 111 páginas. No se cambiaron rutas, sidebar, app, PPTX ni configuración de deployment. Los 126 bloques Bash pasan `bash -n`. El archivo ajeno no versionado `docs/src/pages.gen.ts` se mantuvo intacto y fuera de los cambios.
+
+El build aislado pasó con Node 26.10.0 y pnpm 10.20.0, con validación estricta de enlaces y búsqueda local. Generó 632 archivos públicos. El recorrido HTTP comprobó las 111 rutas con estado 200 y H1 esperado. Chromium comprobó 13 páginas representativas a 1280 y 320 px, con texto nuevo visible, imágenes cargadas y sin overflow horizontal ni errores de navegador. Se observó la presentación del primer commit en escritorio y de las opciones de build de Docker en móvil. El enlace Next desde primer commit hasta publicar el repo funcionó.
+
+La revisión semántica detectó una inferencia incorrecta entre no estar versionado y estar ignorado en la página de build. Se corrigió, se reconstruyó Vocs y se volvió a comprobar esa página en ambos anchos. Una prueba local descartable con dos repositorios Git mostró que `git ls-files` vacío puede preceder tanto a un archivo que `git add .` prepara como a uno excluido por `.gitignore`. `git status --ignored` distinguió este último con `!! .next/`. Se retiraron esos repositorios de prueba.
+
+Estas pruebas comprueban la guía y su navegación, no las integraciones externas del taller. No se ejecutaron ejercicios contra cuentas reales, llamadas a modelos, cambios de webhooks ni consumos pagos durante esta pasada.
+
 ## Decisiones del usuario que deben conservarse
 
 - Público con muy poca experiencia; se requieren nociones de Git, GitHub, programación y conceptos generales de informática, que se retoman durante el recorrido. No hace falta experiencia con automatización o agentes. Pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.
+- Voz de docente que acompaña la práctica. Explicar para qué hacemos cada paso y cómo leer su resultado, con prosa natural en español rioplatense. Evitar fichas repetidas de "Dónde", "Antes" y "Comprobación", frases telegráficas y muletillas. Ubicación, requisitos, resultados y condiciones para detenerse siguen siendo obligatorios, pero pueden integrarse al relato. Conservar advertencias de seguridad visibles junto a la acción.
 - Seis ejercicios: landing y Vercel; Docker y runner; Hermes y Telegram; túnel; webhook sin IA; review solicitada por etiqueta.
 - Taller muy introductorio, práctico e improvisado, diseñado por The Red Guild para darse inicialmente en NodoSerrano. Pensado para sumar herramientas y práctica que mejoren las posibilidades de inserción laboral. La portada presenta objetivos generales antes del mapa técnico de capítulos.
 - Empezar haciendo: dos diapositivas de apertura y el primer ejercicio. Enseñar Git, virtualización, redes y webhooks justo al necesitarlos.

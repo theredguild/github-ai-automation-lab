@@ -9,7 +9,7 @@ import provider from '../../../assets/hermes-openrouter-provider.png'
 
 # Configurar proveedor y modelo
 
-**Dónde:** shell de `lab-agent`, `/workspace`, usuario `node`. **Antes:** instalación oficial terminada y credencial privada del proveedor disponible.
+Con la instalación oficial terminada y la credencial privada del proveedor disponible, seguí en la shell de `lab-agent`, dentro de `/workspace` y como usuario `node`. Abrí el asistente de configuración:
 
 ```bash
 hermes setup
@@ -21,12 +21,12 @@ En el wizard nativo elegí **Full Setup** cuando esa opción esté disponible. N
 
 Referencia de la interfaz oficial, no evidencia de una integración ejecutada durante este taller. [Tutorial de referencia de OpenRouter](https://openrouter.ai/blog/tutorials/hermes-agent/).
 
-En el catálogo elegí una entrada `:free`, verificá contexto de al menos 64K y soporte de herramientas, y seleccioná su ID exacto en Hermes. Revisá el precio y los límites vigentes que muestra tu cuenta. No hay un modelo gratuito fijo garantizado; disponibilidad y cuota pueden cambiar. Continuá sin fallback a modelos pagos.
+Ahora elegí en el catálogo una entrada `:free`. Antes de seleccionarla, verificá que tenga contexto de al menos 64K y soporte de herramientas, y usá su ID exacto en Hermes. Revisá también el precio y los límites vigentes que muestra tu cuenta. No hay un modelo gratuito fijo garantizado, porque la disponibilidad y la cuota pueden cambiar. **Continuá sin fallback a modelos pagos.**
 
-El contexto de 64K indica cuánta información puede manejar el modelo en una consulta, medida en tokens, unidades de texto que no equivalen exactamente a palabras. Ese espacio se reparte entre instrucciones, conversación, resultados de herramientas y respuesta. El soporte de herramientas o *tool calling* permite que el modelo pida una operación a Hermes; no le concede permisos sobre archivos ni cuentas.
+El contexto de 64K indica cuánta información puede manejar el modelo en una consulta. Se mide en tokens, unidades de texto que no equivalen exactamente a palabras. Ese espacio se reparte entre instrucciones, conversación, resultados de herramientas y respuesta. El soporte de herramientas, o *tool calling*, permite que el modelo pida una operación a Hermes. No le concede permisos sobre archivos ni cuentas.
 
 Si no hay una opción gratuita compatible, detené esta parte. Como alternativa elegida conscientemente, podés conservar un proveedor que ya tengas configurado, con sus límites y consentimiento explícito antes de cualquier consumo pago. No habilites esa alternativa automáticamente para salvar un error de cuota.
 
 El wizard guarda secretos en el perfil del agente. No pegues credenciales en PR, Telegram, comandos compartidos ni capturas. No hace falta exportar tokens de GitHub.
 
-**Comprobación:** el wizard muestra proveedor y modelo elegidos y guarda la configuración. **No sigas si** el ID no corresponde al modelo revisado, faltan herramientas o desconocés el costo. Consultá [modelos gratuitos](https://openrouter.ai/docs/guides/routing/model-variants/free) y [tool calling](https://openrouter.ai/docs/guides/features/tool-calling).
+Antes de salir del wizard, comprobá que muestre el proveedor y el modelo que elegiste y que guarde la configuración. **No sigas si** el ID no corresponde al modelo revisado, faltan herramientas o desconocés el costo. Podés consultar [modelos gratuitos](https://openrouter.ai/docs/guides/routing/model-variants/free) y [tool calling](https://openrouter.ai/docs/guides/features/tool-calling).

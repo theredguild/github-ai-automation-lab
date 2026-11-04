@@ -9,13 +9,13 @@ import kernel from '../../../assets/course-e2-kernel.png'
 
 # Docker y runner
 
-Volvé al host. En este capítulo vas a construir una imagen de herramientas y ejecutar un check normal en un runner propio. Después introducirás un error de tipos y comprobarás su corrección sobre otro commit.
+Volvé al host para este capítulo. Vamos a construir una imagen de herramientas y ejecutar un check normal en un runner propio. Después vas a introducir un error de tipos y comprobar su corrección sobre otro commit.
 
-El punto de partida es `lab`, con `main` y `development` publicadas tras integrar el primer PR. No se trabaja dentro de Codespaces. El punto de llegada son tres ejecuciones identificadas por SHA y ningún runner de la práctica activo antes de dar acceso al agente.
+Retomá el proyecto en `lab`, con `main` y `development` publicadas tras integrar el primer PR. No trabajes dentro de Codespaces. Al terminar vamos a comparar tres ejecuciones identificadas por SHA y dejar todos los runners de la práctica cerrados antes de dar acceso al agente.
 
-Host es la máquina que aloja procesos, física o virtual. Una VM tiene su propio kernel y corre sobre un hipervisor. Un container Linux aísla procesos y filesystem, pero comparte el kernel Linux de su host. En Docker Desktop ese host Linux suele estar dentro de una VM. Cada borde Container A/B encierra procesos y archivos, no un kernel propio.
+Antes de construir, fijate en la diferencia entre los entornos del diagrama. El host es la máquina que aloja los procesos, física o virtual. Una máquina virtual, o VM, tiene su propio kernel y corre sobre un hipervisor. Un container Linux aísla procesos y filesystem, pero comparte el kernel Linux de su host. En Docker Desktop ese host Linux suele estar dentro de una VM. Por eso cada borde Container A/B encierra procesos y archivos, no un kernel propio.
 
-Compartir el kernel no vuelve seguro cualquier código que ejecutes dentro de un container. En este capítulo vas a usar código propio y una instancia sin acceso a carpetas ni credenciales del host. El runner es el programa que recibe y ejecuta trabajos de GitHub Actions; Docker le da el entorno donde corre.
+Compartir el kernel no vuelve seguro cualquier código que ejecutes dentro de un container. Acá vas a usar código propio y una instancia sin acceso a carpetas ni credenciales del host. Dentro de ella correrá el runner, el programa que recibe y ejecuta trabajos de GitHub Actions. Docker le da el entorno donde corre.
 
 <img src={kernel} alt="Host con máquinas virtuales y containers que comparten el kernel Linux correspondiente" />
 

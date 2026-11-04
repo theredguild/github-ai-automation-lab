@@ -9,44 +9,39 @@ showFeedback: false
 
 ## Sobre este taller
 
-Este es un taller muy introductorio, diseñado por **The Red Guild** para darse inicialmente en **NodoSerrano**. Tiene un formato práctico e improvisado: vamos a probar, equivocarnos y explicar lo que aparezca durante el recorrido.
+Este es un taller muy introductorio que diseñamos en **The Red Guild** para darlo inicialmente en **NodoSerrano**. Tiene un formato práctico e improvisado. Vamos a probar, equivocarnos y detenernos a explicar lo que aparezca durante el recorrido.
 
-Está pensado para personas que quieren sumar herramientas y práctica para mejorar sus posibilidades al buscar trabajo. El objetivo es aprender formas de resolver tareas que aparecen en equipos de desarrollo: automatizar lo repetitivo, delegar trabajo con criterio y comprobar los resultados.
+Está pensado para quienes quieren sumar herramientas y práctica para mejorar sus posibilidades al buscar trabajo. Vamos a trabajar con tareas que aparecen en equipos de desarrollo y aprender a automatizar lo repetitivo, delegar con criterio y comprobar lo que recibimos.
 
 ## Qué necesitás saber
 
-Alcanza con tener algunas nociones de **Git, GitHub, programación y conceptos generales de informática**. No hace falta dominarlos: vamos a retomar y explicar los conceptos necesarios a medida que aparezcan.
+Con algunas nociones de **Git, GitHub, programación y conceptos generales de informática** ya podés seguir el taller. No hace falta dominarlos. Vamos a retomar los conceptos que necesitemos a medida que aparezcan.
 
-Como referencia, conviene que puedas reconocer archivos y carpetas de un proyecto, leer un fragmento sencillo de código y ubicar qué son un repositorio y un commit. No hace falta memorizar comandos ni saber construir una aplicación desde cero.
+Como referencia, conviene que puedas reconocer archivos y carpetas de un proyecto, leer un fragmento sencillo de código y ubicar qué son un repositorio y un commit. No esperamos que memorices comandos ni que sepas construir una aplicación desde cero.
 
-No necesitás experiencia previa con automatización ni agentes.
+Si todavía no trabajaste con automatizaciones o agentes, no hay problema. Vamos a empezar por ahí.
 
 ## Qué vas a aprender
 
-Hacer un cambio suele traer más trabajo: comprobar que todo siga funcionando, avisar y pedir una revisión. La propuesta es que esas tareas dejen de depender de que alguien se acuerde de ejecutarlas una por una.
+Cuando hacemos un cambio en un proyecto, el trabajo no termina al guardar el archivo. Después tenemos que comprobar que todo siga funcionando, avisar y pedir una revisión. En este taller vamos a buscar una forma de resolver esas tareas sin depender de que alguien se acuerde de hacerlas una por una.
 
-Una automatización sigue reglas que dejamos preparadas: cuando ocurre algo, ejecuta determinados pasos. Un agente permite delegar tareas cuyo recorrido no está completamente definido de antemano, pero también puede equivocarse.
+Para algunas alcanza con una automatización que siga reglas preparadas de antemano. Para otras vamos a usar un agente, al que podemos darle un objetivo sin definirle todo el recorrido. Eso también nos obliga a revisar lo que hace, porque puede equivocarse.
 
-Para hablar de agentes vamos a distinguir estas piezas. Los nombres no siempre se usan igual entre productos; en este curso los usaremos así:
+Antes de seguir, conviene distinguir el modelo, el harness y el agente. Es común encontrar esos nombres mezclados entre productos. Acá vamos a usarlos con este sentido.
 
-| Concepto | Qué significa acá |
-| --- | --- |
-| Modelo | Recibe contexto y genera respuestas o propone acciones. No ejecuta por sí mismo los comandos de tu computadora. |
-| [Harness](https://openai.com/index/unlocking-the-codex-harness/) | Es el software que organiza la ejecución: llama al modelo, ejecuta las herramientas solicitadas, devuelve sus resultados y mantiene el contexto. También puede aplicar límites y pedir aprobaciones. |
-| Agente | Es el sistema que combina esas piezas con instrucciones, herramientas y permisos para trabajar sobre un objetivo, eligiendo pasos según lo que va encontrando. |
+El modelo recibe el contexto y genera una respuesta o propone una acción. No ejecuta por sí mismo los comandos de tu computadora.
 
-En el taller, Hermes aporta el software que organiza ese trabajo y el modelo se configura por separado. Al conjunto preparado para recibir un pedido, leer cambios y devolver observaciones lo llamaremos nuestro agente revisor. El container será su entorno de ejecución, no el harness.
+Para que esas acciones ocurran necesitamos un [Harness](https://openai.com/index/unlocking-the-codex-harness/). Es el software que llama al modelo, mantiene el contexto, ejecuta las herramientas solicitadas y devuelve sus resultados. También puede aplicar límites y pedir aprobaciones.
 
-En este recorrido vas a aprender a:
+Cuando configuramos esas piezas con instrucciones, herramientas y permisos para trabajar sobre un objetivo, tenemos un agente. Puede elegir pasos según lo que va encontrando. No es solamente el modelo ni es un tipo de harness.
 
-- **Automatizar tareas repetitivas** y definir cuándo deben ejecutarse.
-- **Conectar acciones** para que el resultado de una ponga en marcha el siguiente paso.
-- **Delegarle trabajo a un agente**, dándole un objetivo concreto, contexto y permisos limitados.
-- **Comprobar los resultados**, detectar fallas y decidir cuándo intervenir.
+En el taller vamos a usar Hermes para organizar ese trabajo y configurar el modelo por separado. El container será el entorno donde corre, no el harness. Al conjunto preparado para recibir un pedido, leer cambios y devolver observaciones lo llamaremos nuestro agente revisor.
 
-Primero vas a hacer cada parte para entender cómo funciona. Después vas a automatizarla y observar qué ocurre ante cambios y errores. Vas a distinguir qué se resuelve con reglas claras, qué requiere interpretación y qué decisiones conviene mantener en tus manos.
+Primero vamos a hacer cada parte para entender cómo funciona. Después vamos a automatizar las tareas repetitivas y decidir cuándo deben ejecutarse. También vamos a conectar acciones para que el resultado de una ponga en marcha el siguiente paso y observar qué ocurre ante cambios y errores.
 
-Al terminar, vas a tener un flujo que recibe un pedido de revisión, le permite a un agente leer los cambios y devuelve sus observaciones. Vos vas a comprobarlas, corregir lo que corresponda y decidir si integrás el cambio. En este taller, integrar el código sigue siendo una decisión y una acción humana.
+Al delegarle trabajo al agente, vamos a darle un objetivo concreto, contexto y permisos limitados. Nos va a tocar comprobar sus resultados, detectar fallas y decidir cuándo intervenir. Así podremos distinguir qué se resuelve con reglas claras y qué necesita interpretación.
+
+Al terminar, vas a tener un flujo que recibe un pedido de revisión, le permite al agente leer los cambios y devuelve sus observaciones. Vos vas a comprobarlas, corregir lo que corresponda y decidir si integrás el cambio. En este taller, esa decisión y la acción de integrar el código siguen en tus manos.
 
 ## Recorrido del taller
 
@@ -62,6 +57,6 @@ Al terminar, vas a tener un flujo que recibe un pedido de revisión, le permite 
 
 [Empezar por los requisitos](/preparacion/requisitos).
 
-Las capturas son referencias oficiales o públicas identificadas. Algunas muestran interfaces históricas y repos de ejemplo. Los diagramas pertenecen al material del taller; los SHA dibujados son ilustrativos. Ninguna captura o salida de ejemplo prueba tu integración: comprobá tu repo, commit, URL y respuesta reales.
+A lo largo del curso vas a encontrar capturas oficiales o públicas con su procedencia indicada. Sirven para orientarte, pero algunas muestran interfaces históricas y repositorios de ejemplo. Los diagramas son del taller y los SHA que aparecen dibujados son ilustrativos. Para comprobar tu ejercicio, mirá siempre tu repo, tu commit, tu URL y tu respuesta real.
 
-Las [opciones y diagnósticos](/opcional) quedan fuera de la secuencia principal. Consultalos cuando corresponda y usá su enlace de regreso para retomar el paso.
+Las [opciones y diagnósticos](/opcional) quedan fuera de la secuencia principal. No hace falta recorrerlos todos. Cuando necesites uno, seguí su enlace de regreso para retomar el paso donde estabas.

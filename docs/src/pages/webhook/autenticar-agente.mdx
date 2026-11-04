@@ -7,9 +7,9 @@ description: "Iniciá una sesión separada con permisos mínimos para leer el PR
 
 # Autenticar GitHub dentro del agente
 
-**Dónde:** host, carpeta `lab`; después shell de `lab-agent`, `/workspace`. La branch no cambia. **Antes:** container y perfil existentes, [proyecto y perfil escribibles](/hermes-telegram/comprobar-permisos), y repo privado propio. No hagas este login en Codespaces ni en el runner.
+Empezá desde el host, en la carpeta `lab`. Vamos a abrir una shell en `/workspace` dentro del `lab-agent` existente, sin cambiar de branch. Antes de continuar necesitás conservar su perfil, tener [proyecto y perfil escribibles](/hermes-telegram/comprobar-permisos) y usar tu repo privado propio. No hagas este login en Codespaces ni en el runner.
 
-Abrí la shell dedicada y reconocé su sesión actual:
+Primero fijate qué sesión reconoce el agente. Esta sesión es independiente de la del host:
 
 ```bash
 docker exec -it lab-agent bash
@@ -28,7 +28,7 @@ Creá otro PAT fino con vencimiento corto, por ejemplo 7 días, para tu cuenta p
 
 No necesita Actions, Workflows, Administration, permisos de organización ni Issues para estas tareas. El token tampoco concede derechos que tu cuenta no tenga.
 
-Dentro de `lab-agent`:
+Con el PAT preparado, seguí dentro de `lab-agent` para iniciar sesión y consultar su estado:
 
 ```bash
 gh auth login
@@ -41,6 +41,6 @@ Comprobá cuenta, origen de credencial y protocolo sin usar opciones que muestre
 
 El container puede guardar la credencial de `gh` en texto plano. No prometemos un almacén cifrado y no uses `--insecure-storage`. Esa configuración queda fuera de `hermes-home`, en el filesystem del container. Conservála sólo mientras haga falta y revocá el PAT al terminar. No copies el perfil del host, no montes su home y no compartas esta sesión con el runner.
 
-**Comprobación:** `gh auth status` identifica la cuenta prevista y el PAT está limitado al repo y permisos indicados. **No sigas si** aparece otra cuenta, el token proviene de un entorno inesperado o falta acceso al repo. Nunca pegues tokens en Hermes, Telegram, código, argumentos, capturas ni chats.
+Al terminar, `gh auth status` debe identificar la cuenta prevista. Comprobá también que el PAT esté limitado al repo y a los permisos indicados. **No sigas si** aparece otra cuenta, el token proviene de un entorno inesperado o falta acceso al repo. Nunca pegues tokens en Hermes, Telegram, código, argumentos, capturas ni chats.
 
 Referencia: [login nativo de GitHub CLI](https://cli.github.com/manual/gh_auth_login).

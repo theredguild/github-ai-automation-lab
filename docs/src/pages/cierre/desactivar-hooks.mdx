@@ -7,12 +7,12 @@ showFeedback: false
 
 # Desactivar los hooks de práctica
 
-**Dónde:** GitHub, tu repo → **Settings → Webhooks**. **Antes:** decidiste detener la práctica y no necesitás nuevas reviews, aunque haya quedado un paso incompleto.
+Vamos a impedir nuevas entregas antes de apagar los receptores. Este paso sirve aunque haya quedado un ejercicio incompleto, siempre que hayas decidido detener la práctica y ya no necesites nuevas reviews. En GitHub, abrí tu repo y entrá en **Settings → Webhooks**.
 
-Identificá los hooks de este taller por sus rutas `/api/github` y `/webhooks/github-pr-review`. Abrí cada uno que hayas creado, desmarcá **Active** y guardá. Conservá su historial de entregas. Si no llegaste a crear uno, no hay nada que desactivar en ese caso.
+Identificá los hooks del taller por sus rutas `/api/github` y `/webhooks/github-pr-review`. Abrí cada uno que hayas creado, desmarcá **Active** y guardá, conservando su historial de entregas. Si no llegaste a crear alguno, no hay nada que desactivar en ese caso.
 
-Desactivar el hook impide nuevas entregas de GitHub. No cierra el túnel, no apaga el gateway ni cancela una tarea que ya empezó. El secret del hook también sigue guardado en su configuración.
+Con esto GitHub deja de enviar nuevas entregas. El túnel y el gateway siguen funcionando, las tareas que ya empezaron no se cancelan y el secret del hook permanece en su configuración. Por eso el cierre continúa en las páginas siguientes.
 
-También podés pedir a Hermes que desactive **sólo los hooks que creó para esta práctica**, mientras conserve la sesión necesaria. No modifiques hooks ajenos.
+Si preferís delegarlo, todavía podés pedirle a Hermes que desactive **sólo los hooks que creó para esta práctica**, mientras conserve la sesión necesaria. No modifiques hooks ajenos.
 
-**Comprobación:** todos los hooks que creaste para la práctica están inactivos. Si todavía querés delegar parte del cierre al agente, hacelo antes de revocar su credencial. Si no podés acceder a GitHub, detené igualmente los procesos locales en el paso siguiente y retomá la desactivación cuando recuperes acceso; no dejes el túnel abierto mientras tanto.
+Comprobá que todos los hooks que creaste para la práctica estén inactivos. Si querés delegar otra parte del cierre al agente, hacelo antes de revocar su credencial. Si no podés acceder a GitHub, seguí igualmente con la parada de los procesos locales y retomá la desactivación cuando recuperes acceso. **No dejes el túnel abierto mientras tanto.**

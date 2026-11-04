@@ -7,7 +7,7 @@ showFeedback: false
 
 # Diagnóstico del túnel por capas
 
-**Dónde:** host, terminal de consultas y logs separados de Next y `cloudflared`. **Antes:** identificá hostname del arranque actual, origen `http://lab-app:3000` y containers propios de la práctica.
+Si alguna consulta falla, vamos a buscar el primer tramo que dejó de responder. Usá la terminal de consultas del host y mantené separados los logs de Next y de `cloudflared`. Antes de cambiar nada, identificá el hostname del arranque actual, el origen `http://lab-app:3000` y los containers que pertenecen a esta práctica.
 
 | Síntoma | Primera comprobación |
 | --- | --- |
@@ -19,13 +19,13 @@ showFeedback: false
 | 404 u origen sano pero ruta ausente | Path y Route Handler de la aplicación que recibe |
 | URL anterior ya no responde | Hostname del último proceso cloudflared |
 
-Volvé a la primera capa que falla, no a la última que muestra un síntoma. Consultá primero [host](/tunel/consultar-host), luego [red interna](/tunel/consultar-red) y finalmente [URL pública](/tunel/consultar-publico). No intentes corregir una app detenida abriendo más túneles.
+Empezá por la primera capa que falla, no por la última que muestra un síntoma. Consultá primero [host](/tunel/consultar-host), luego [red interna](/tunel/consultar-red) y finalmente [URL pública](/tunel/consultar-publico). Si la app está detenida, abrir más túneles no va a recuperarla.
 
-`127.0.0.1` pertenece al entorno del cliente; el connector necesita `lab-app:3000` dentro de `red-taller`, no su propio localhost. Una conexión pública activa tampoco implica que Next esté disponible.
+Recordá que `127.0.0.1` pertenece al entorno donde corre el cliente. Dentro de `red-taller`, el connector necesita llegar a `lab-app:3000`, no a su propio localhost. Por la misma razón, que la conexión pública esté activa no implica que Next esté disponible.
 
 Si la red ya existe, revisala con `docker network inspect red-taller` en el host antes de reutilizarla. No borres redes, containers ni volúmenes ajenos. Para un hostname nuevo, actualizá enlaces y sólo los webhooks de esta práctica que aún apunten al anterior.
 
-**Comprobación:** respuestas sanas y coincidentes en las tres capas, con hostname vigente. **No sigas si** el origen público apunta a otro servicio o devuelve información privada. Detené sólo el túnel de la práctica en su terminal.
+Cuando recuperes el servicio, compará las respuestas de las tres capas. Deben estar sanas, coincidir y usar el hostname vigente. **No sigas si** el origen público apunta a otro servicio o devuelve información privada. Detené sólo el túnel de la práctica en su terminal.
 
 [Documentación de diagnóstico de Cloudflare](https://developers.cloudflare.com/tunnel/troubleshooting/).
 

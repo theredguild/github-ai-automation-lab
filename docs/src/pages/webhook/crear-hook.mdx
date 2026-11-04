@@ -9,15 +9,15 @@ import hooks from '../../../assets/webhook-list.png'
 
 # Crear un único webhook de Next
 
-**Dónde:** Hermes CLI en `lab-agent`, `/workspace`, o navegador del repo propio. Branch sin cambios. **Antes:** [receptor configurado](/webhook/preparar-receptor), túnel actual hacia `lab-app:3000`, hostname público real y secret privado de `.env.local`.
+Ahora vamos a conectar GitHub con el [receptor configurado](/webhook/preparar-receptor). Necesitás el túnel actual hacia `lab-app:3000`, su hostname público real y el secret privado de `.env.local`. Podés hacerlo con Hermes CLI en `lab-agent`, en `/workspace`, o desde el navegador de tu repo propio. La branch no cambia.
 
-Elegí **una sola** forma. Un hook delegado y otro manual para la misma URL producen entregas duplicadas distintas; no prueban la deduplicación por GUID.
+Elegí **una sola** forma. Si creás uno con Hermes y otro a mano para la misma URL, vas a recibir entregas duplicadas con IDs distintos. Eso no prueba la deduplicación por GUID.
 
-En ambas opciones reemplazá `TU_URL_PUBLICA` por el hostname que imprimió el túnel actual, sin `https://` ni rutas. La URL final debe tener un solo `https://` y terminar en `/api/github`.
+En cualquiera de las opciones, reemplazá `TU_URL_PUBLICA` por el hostname que imprimió el túnel actual, sin `https://` ni rutas. Antes de guardar, fijate que la URL final tenga un solo `https://` y termine en `/api/github`.
 
 ## Delegar a Hermes
 
-Sólo si su PAT incluye Webhooks: Read and write, enviá esta tarea. No incluyas secretos en el mensaje:
+Si elegís Hermes, su PAT debe incluir Webhooks: Read and write. Sólo con ese permiso enviá esta tarea, sin incluir secretos en el mensaje:
 
 ```text
 Configurá un único webhook en TU_USUARIO/REPO.
@@ -46,6 +46,6 @@ El secret no es el bot token de Telegram ni la API key del modelo. No lo pegues 
 
 Captura de referencia del taller; no acredita una ejecución propia. Los campos y cuentas visibles son ejemplos.
 
-**Comprobación:** en **Settings → Webhooks** encontrás exactamente un hook de esta práctica, con hostname actual, path `/api/github`, JSON, Pull requests y TLS verificado. Identificá su ID y dónde ver sus entregas. No hace falta copiar una secuencia de PATCH a la API.
+Después de crear el hook, abrí **Settings → Webhooks**. Debe haber exactamente uno de esta práctica, con el hostname actual, path `/api/github`, JSON, Pull requests y TLS verificado. Identificá su ID y dónde consultar sus entregas. No hace falta copiar una secuencia de PATCH a la API.
 
-El `ping` inicial puede fallar mientras Next todavía no haya leído la configuración nueva. No reemplaza la prueba de PR. **No sigas si** creaste dos hooks equivalentes, usaste otro repo o deshabilitaste la verificación TLS. Corregí sólo el hook de tu práctica; no alteres servicios ajenos.
+El `ping` inicial puede fallar mientras Next todavía no haya leído la configuración nueva. Ese ping no reemplaza la prueba de PR que vamos a hacer. **No sigas si** creaste dos hooks equivalentes, usaste otro repo o deshabilitaste la verificación TLS. Corregí sólo el hook de tu práctica, sin alterar servicios ajenos.

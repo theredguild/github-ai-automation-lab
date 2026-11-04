@@ -7,7 +7,7 @@ showFeedback: false
 
 # Leer el gitignore incluido
 
-**Dónde:** editor del host, archivo `lab/.gitignore`, rama `main`. **Antes:** primer push comprobado. No reemplaces el archivo por este fragmento; ya incluye más reglas para caches y metadatos.
+Con el primer push ya comprobado, abrí `lab/.gitignore` en el editor del host, todavía en la rama `main`. Antes de instalar y construir la app, vamos a entender por qué este archivo ya estaba en el starter. El fragmento muestra algunas de sus reglas. No reemplaces el archivo real, que incluye otras para caches y metadatos.
 
 ```text
 **/node_modules/
@@ -20,12 +20,12 @@ showFeedback: false
 *.key
 ```
 
-`node_modules/` contiene dependencias descargables. `.next/` contiene archivos generados. `.vercel/` guarda metadatos locales de Vercel. `.env.local`, claves `.pem` y `.key` pueden contener secretos. La excepción `!.env.example` permite guardar una plantilla de variables, nunca credenciales.
+Las primeras reglas dejan afuera cosas que podemos volver a generar. `node_modules/` contiene dependencias descargables, `.next/` contiene archivos generados y `.vercel/` guarda metadatos locales de Vercel. Otras reglas ayudan a evitar que agregues secretos, porque `.env.local` y las claves `.pem` y `.key` pueden contenerlos.
 
-Comprobá esas reglas en el archivo real. `.gitignore` indica qué archivos locales nuevos no añadir. **Ignorar no deja de seguir algo ya versionado.**
+Buscá esas reglas en el archivo real. `.gitignore` le indica a Git qué archivos locales nuevos no añadir. **Ignorar no deja de seguir algo ya versionado.** Si Git ya registraba un archivo, va a seguir registrando sus cambios aunque después lo agregues a `.gitignore`.
 
-Estas reglas no borran archivos del disco ni cifran secretos. Git sigue registrando cambios de un archivo ya versionado aunque después lo agregues a `.gitignore`. La excepción `!` vuelve a permitir un nombre que otra regla ignoraba; en `.env.example` dejá sólo nombres de variables y valores de muestra sin secretos.
+Tampoco borra archivos del disco ni cifra secretos. La excepción `!` vuelve a permitir un nombre que otra regla ignoraba. Por eso `!.env.example` permite guardar una plantilla de variables. En esa plantilla dejá sólo nombres y valores de muestra, nunca credenciales.
 
-Si trabajás sobre un repo existente con artefactos seguidos, consultá [reparar artefactos](/opcional/reparar-artefactos), no ejecutes esa reparación como paso obligatorio del starter. Quitar seguimiento no elimina commits anteriores; una credencial publicada exige revocación o rotación.
+Si venís trabajando sobre un repo existente que ya sigue artefactos, podés consultar [reparar artefactos](/opcional/reparar-artefactos). No es un paso obligatorio para este starter. Quitar el seguimiento no elimina commits anteriores, y una credencial publicada exige revocación o rotación.
 
-**No sigas si** falta el archivo protector o contiene secretos. [Referencia de gitignore](https://docs.github.com/en/get-started/git-basics/ignoring-files).
+**Si falta `.gitignore` o encontrás secretos en su contenido, frená antes de seguir.** Podés consultar la [Referencia de gitignore](https://docs.github.com/en/get-started/git-basics/ignoring-files).

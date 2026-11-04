@@ -7,22 +7,22 @@ showFeedback: false
 
 # Ver la landing en el Codespace
 
-**Dónde:** terminal del Codespace, raíz de tu repo propio. **Antes:** checkout limpio en main, sincronizado, con SHA iguales. Esto sigue siendo una demo, no el entorno para los seis ejercicios.
+Con el checkout limpio en main, sincronizado y con ambos SHA iguales, seguí en la terminal del Codespace, en la raíz de tu repo propio. Vamos a abrir la landing. Esto sigue siendo una demo, no el entorno para los seis ejercicios.
 
-Comprobá Node 22 y pnpm 10.20.0:
+Primero comprobá que tengas Node 22 y pnpm 10.20.0:
 
 ```bash
 node --version
 pnpm --version
 ```
 
-Si esas herramientas están disponibles:
+Si esas herramientas están disponibles, instalá las dependencias respetando el lockfile y arrancá el servidor de desarrollo:
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-En **Ports → 3000 → Open in Browser**, usá el puerto real que imprima Next y mantenelo **privado**.
+Abrí **Ports → 3000 → Open in Browser**. Si Next imprime otro puerto, usá ese puerto real y mantenelo **privado**.
 
-**Comprobación:** reconocés la landing. Esa URL remota no es Production de Vercel ni un endpoint de webhook. Si faltan herramientas, acceso o permisos, omití la demo y volvé al host. No sustituyas la [autenticación heredada](https://docs.github.com/en/codespaces/reference/security-in-github-codespaces) con `gh auth login`, scopes o variables de tokens.
+Comprobá que reconocés la landing. Esa URL remota no es Production de Vercel ni un endpoint de webhook. Si faltan herramientas, acceso o permisos, omití la demo y volvé al host. No sustituyas la [autenticación heredada](https://docs.github.com/en/codespaces/reference/security-in-github-codespaces) con `gh auth login`, scopes o variables de tokens.

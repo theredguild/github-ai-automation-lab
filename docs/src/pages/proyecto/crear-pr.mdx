@@ -10,11 +10,11 @@ import base from '../../../assets/github-pr-base.png'
 
 # Crear el pull request
 
-**Dónde:** navegador GitHub, tu repo; alternativa CLI en host, `lab`, rama `development`. **Antes:** cambio publicado y Preview comparado.
+Ya publicaste el cambio y comparaste Preview con Production. Ahora abrí tu repo en el navegador de GitHub para proponer que `main` reciba ese cambio. Si preferís la alternativa por CLI, usá la terminal del host en `lab`, dentro de `development`.
 
-Un PR propone integrar cambios. **Compare / head** aporta los cambios y **base** los recibe: `development → main`. Crear el PR no hace merge.
+Un pull request o PR propone integrar cambios. En el formulario, **compare / head** es la rama que los aporta y **base** es la que los recibe. Acá la dirección es `development → main`. Crear el PR todavía no hace merge.
 
-El pull request reúne el diff, la conversación, las revisiones y los resultados de checks en GitHub. Escribí qué cambiaste y cómo lo comprobaste, por ejemplo el título esperado y la URL del Preview. Así otra persona puede revisar el resultado sin adivinar tu intención.
+El PR reúne el diff, la conversación, las revisiones y los resultados de checks en GitHub. Escribí qué cambiaste y cómo lo comprobaste, por ejemplo el título esperado y la URL del Preview. Así otra persona puede revisar el resultado sin adivinar tu intención.
 
 En **Pull requests → New pull request**, elegí **base: main** y **compare: development**. Verificá el diff, escribí título y descripción y pulsá **Create pull request**.
 
@@ -36,6 +36,6 @@ gh pr list --base main --head development
 La CLI devuelve una URL como `https://github.com/TU_USUARIO/REPO/pull/NUMERO`. Es ejemplo; conservá tu URL y número reales.
 :::
 
-Comprobá PR abierto, base `main`, head `development` y el commit del título. `NUMERO` en comandos siguientes es tu número sin `#`.
+Antes de seguir, comprobá que el PR esté abierto, con base `main`, head `development` y el commit del título. Conservá su número, porque donde los próximos comandos dicen `NUMERO` vas a poner ese valor sin `#`.
 
 **No sigas si** el diff propone otra dirección o contiene archivos inesperados.

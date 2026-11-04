@@ -7,7 +7,7 @@ description: "Cargá el secret en un único proceso antes de comprobar la firma.
 
 # Reiniciar Next con la configuración nueva
 
-**Dónde:** terminal de `lab-app` que ejecuta Next, cwd `/workspace` del proyecto montado desde `lab`. **Antes:** [configuración privada completa](/webhook/preparar-receptor); ningún secret versionado. El túnel puede seguir abierto.
+Con la [configuración privada completa](/webhook/preparar-receptor) y ningún secret versionado, vamos a reiniciar Next para que lea las variables nuevas. Volvé a la terminal de `lab-app` donde corre el servidor, en `/workspace`, el proyecto montado desde `lab`. El túnel puede seguir abierto.
 
 Detené **sólo el proceso Next de esta práctica** con **Ctrl+C** en su propia terminal. No arranques un segundo servidor sobre el mismo puerto.
 
@@ -23,12 +23,12 @@ Con el build disponible, iniciá el proceso que leerá la configuración:
 pnpm start --hostname 0.0.0.0
 ```
 
-Desde otra terminal del **host**, carpeta `lab`:
+Dejá ese proceso activo y, desde otra terminal del **host** en la carpeta `lab`, comprobá que la app responda:
 
 ```bash
 curl -i http://127.0.0.1:3000/api/health
 ```
 
-**Comprobación:** Next escucha sin conflicto de puerto y health responde 200 con el servicio esperado. Esa ruta prueba disponibilidad, no firma ni aceptación de eventos. El `0.0.0.0` del proceso es interno al container; el puerto publicado del host sigue limitado a loopback.
+Next debe escuchar sin conflicto de puerto y health debe responder 200 con el servicio esperado. Con esto comprobamos disponibilidad, todavía no la firma ni la aceptación de eventos. Recordá que el `0.0.0.0` del proceso es interno al container. El puerto publicado del host sigue limitado a loopback.
 
 **No sigas si** falló el build, hay dos procesos compitiendo por 3000 o health no corresponde a tu app. Hermes no reinicia este container; no le montes el socket Docker para hacerlo. La prueba de 401 requiere este reinicio previo.

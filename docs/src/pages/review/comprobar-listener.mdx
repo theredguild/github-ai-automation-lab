@@ -7,18 +7,18 @@ description: "Probá el gateway desde loopback antes de exponerlo por el túnel.
 
 # Comprobar la salud del listener
 
-**Dónde:** otra terminal del **host**, cwd `lab`. No uses `localhost` desde otro container: allí designaría ese otro entorno. **Antes:** [gateway único activo](/review/iniciar-listener) y publicación original de 8644 limitada a loopback.
+Antes de exponer el gateway por el túnel, vamos a comprobar que responda localmente. Abrí otra terminal del **host**, en `lab`, con el [gateway único activo](/review/iniciar-listener) y la publicación original de 8644 limitada a loopback. No uses `localhost` desde otro container, porque allí designaría ese otro entorno.
 
 ```bash
 curl -i http://127.0.0.1:8644/health
 ```
 
-Ejemplo de estado esperado, no resultado de una ejecución:
+Esperamos un estado como éste, que es un ejemplo y no el resultado de una ejecución:
 
 ```text
 HTTP/1.1 200 OK
 ```
 
-**Comprobación:** listener del gateway responde 200. Health no demuestra que el modelo pueda leer el PR o publicar, ni prueba que el túnel llegue al destino correcto. Es sólo la capa local del host.
+Si recibís 200, el listener del gateway responde desde el host. Eso es lo único que comprueba este health. Todavía no sabemos si el modelo puede leer el PR o publicar, ni si el túnel llega al destino correcto.
 
 **No sigas si** hay conexión rechazada, timeout o respuesta de otro servicio. Revisá el proceso y su configuración sin publicar 8644 en todas las interfaces, cambiar permisos del filesystem ni recrear el agente.

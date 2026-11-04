@@ -10,9 +10,9 @@ import platform from '../../../assets/runner-platform.png'
 
 # Registrar el runner inicial
 
-**Dónde:** navegador en tu repo y terminal nueva del host en `lab`; luego Bash dentro de `lab-runner`. **Antes:** workflow sincronizado en `main` y `development`, imagen `taller` disponible.
+Con el workflow sincronizado en `main` y `development` y la imagen `taller` disponible, abrí tu repo en el navegador y una terminal nueva del host en `lab`. Desde ahí vamos a crear `lab-runner` y continuar en su Bash.
 
-Esta instancia corresponde a la ejecución baseline. No reutilices la configuración ni el token de una ejecución anterior. Este primer run comprobará el estado correcto antes de introducir el error.
+Este primer run va a comprobar el estado correcto antes de introducir el error. Lo llamamos baseline porque después vamos a comparar las otras ejecuciones con él. Usá una instancia nueva, sin reutilizar la configuración ni el token de una ejecución anterior.
 
 <img src={polling} alt="Runner inicia una conexión saliente hacia GitHub y recibe jobs sin túnel" />
 
@@ -26,7 +26,7 @@ En GitHub abrí **Settings → Actions → Runners → New self-hosted runner**.
 
 Ese token temporal autoriza registrar el runner en este repo y tiene vencimiento. No es el PAT con el que autenticás `gh` en el host. No copies ese PAT dentro del runner ni lo uses para responder al registro.
 
-Desde el host:
+Antes de crearla, mirá qué containers están activos desde el host:
 
 ```bash
 docker ps
@@ -60,8 +60,8 @@ La terminal debe quedar esperando con un mensaje como:
 Listening for Jobs
 ```
 
-GitHub debe mostrarlo disponible con `self-hosted`, `linux` y `workshop`. `--ephemeral` asigna un solo job y luego da de baja el runner. `exec` reemplaza la shell; al terminar el job, sale el proceso principal del container y `--rm` elimina la instancia. No esperes volver a una shell dentro del runner al acabar.
+Buscá también el runner disponible en GitHub con `self-hosted`, `linux` y `workshop`. Cada opción cumple una parte distinta del cierre. `--ephemeral` le asigna un solo job y luego da de baja el runner. `exec` reemplaza la shell, de modo que al terminar el job sale el proceso principal del container. Entonces `--rm` elimina la instancia. No esperes volver a una shell dentro del runner al acabar.
 
-Este container no recibe proyecto del host, perfil de Hermes, sesión de `gh`, home del host ni socket Docker. El checkout descarga el repo. Sólo necesita salida hacia GitHub y las descargas del job. Ejecutá únicamente código de la práctica que controles. El registro web no requiere Administration en el PAT.
+**No montes en este container el proyecto del host, el perfil de Hermes, la sesión de `gh`, el home del host ni el socket Docker.** El checkout descarga el repo y el runner sólo necesita salida hacia GitHub y las descargas del job. Ejecutá únicamente código de la práctica que controles. El registro web no requiere Administration en el PAT.
 
 **No sigas si** no está escuchando, tiene etiquetas distintas o configuraste otro repo. Dejá abierta esta terminal mientras iniciás la ejecución desde otra terminal del host o desde el navegador.

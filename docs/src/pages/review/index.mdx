@@ -7,9 +7,9 @@ description: "Filtrá antes del modelo y seguí una revisión hasta su comentari
 
 # 6. La review
 
-La etiqueta `ai-review` pedirá revisar un PR concreto y la respuesta volverá como comentario a GitHub. Pedir la review es una acción explícita de una persona, no algo que ocurre con cada push. Ahora usamos el receptor **nativo del gateway de Hermes**, no un puente Python ni otro backend personalizado.
+En este capítulo vamos a pedir una review de un PR concreto con la etiqueta `ai-review` y a seguir la respuesta hasta su comentario en GitHub. La solicitud depende de una acción explícita de una persona, no de cada push. Para recibirla usaremos el receptor **nativo del gateway de Hermes**, sin un puente Python ni otro backend personalizado.
 
-**Dónde:** navegador del repo, host en `lab` y container existente `lab-agent` en `/workspace`. **Antes:** [hook de Next inactivo](/webhook/desactivar-hook), PR propio abierto `development → main`, perfil Hermes con proveedor, modelo y Telegram conservados, y sesión de GitHub limitada dentro del agente.
+Vas a trabajar entre el navegador de tu repo, el host en `lab` y el container existente `lab-agent` en `/workspace`. Antes de empezar, comprobá que el [hook de Next esté inactivo](/webhook/desactivar-hook) y que tengas un PR propio abierto `development → main`. También necesitás conservar el perfil de Hermes con proveedor, modelo y Telegram, y la sesión de GitHub limitada dentro del agente.
 
 | Componente | Destino en este capítulo |
 | --- | --- |
@@ -22,9 +22,9 @@ La etiqueta `ai-review` pedirá revisar un PR concreto y la respuesta volverá c
 
 El **hook** es la configuración en GitHub que envía eventos a una URL. En Hermes, el **listener** escucha las peticiones HTTP en el puerto 8644. Es parte del **gateway**, el proceso que mantiene los canales de Telegram y Webhooks y coordina la tarea del agente. Al terminar, el **adaptador** `github_comment` publica la respuesta en el PR fijado. Son partes del mismo recorrido, no cuatro agentes distintos.
 
-El receptor verifica la firma del evento antes de crear trabajo para el modelo. Luego los filtros comprueban repo, head repo, base `main`, estado abierto, no draft, acción `labeled` y etiqueta `ai-review`. Sólo un evento permitido se convierte en tarea. Un push cualquiera no solicita review. Primero probarás el caso negativo con otra etiqueta, luego seguirás una solicitud aceptada hasta el comentario.
+Antes de crear trabajo para el modelo, el receptor verifica la firma del evento. Después, los filtros comprueban repo, head repo, base `main`, estado abierto, no draft, acción `labeled` y etiqueta `ai-review`. Así, sólo un evento permitido se convierte en tarea. Vamos a probar primero que otra etiqueta quede afuera y después seguiremos una solicitud aceptada hasta el comentario. Un push cualquiera no solicita review.
 
-El estado final será una corrección verificada, publicada y revisada para el SHA nuevo, con integración humana y Production comprobado. **202 Accepted sólo acusa recepción**, no prueba que exista comentario ni que el cambio sea correcto.
+Al terminar, habrás corregido el error, comprobado y publicado la corrección, y pedido otra review para el SHA nuevo. La integración será una decisión humana y también comprobaremos Production. **202 Accepted sólo acusa recepción**, no prueba que exista comentario ni que el cambio sea correcto.
 
 Empezá por [fusionar la ruta en el perfil existente](/review/configurar-ruta). No recrees el agente, no copies credenciales al runner y no habilites un proveedor pago para resolver un fallo del gratuito.
 

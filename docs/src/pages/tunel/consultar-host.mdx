@@ -9,7 +9,7 @@ import loopbacks from '../../../assets/course-e4-localhost.png'
 
 # Consultar health desde el host
 
-**Dónde:** otra terminal del host, raíz de `lab`; Next sigue activo en `lab-app`. **Antes:** servidor iniciado en puerto 3000.
+Con Next activo en el puerto 3000 de `lab-app`, abrí otra terminal del host en la raíz de `lab`. Vamos a probar primero el acceso local, antes de sumar la red interna o el túnel:
 
 ```bash
 curl -i http://127.0.0.1:3000/api/health
@@ -26,6 +26,6 @@ HTTP/1.1 200 OK
 
 <img src={loopbacks} alt="Loopback del host y loopback de cada container son entornos distintos" />
 
-Diagrama del taller; ejemplo conceptual. `localhost` siempre vuelve al entorno donde corre el cliente. En el host, esta consulta usa la publicación de Docker. Dentro de `lab-app`, `127.0.0.1:3000` apunta a Next directamente. Dentro de otro container no apunta ni al host ni a `lab-app`.
+El diagrama del taller es conceptual y muestra por qué importa dónde corre el cliente. `localhost` siempre vuelve a ese mismo entorno. Desde el host, esta consulta usa la publicación de Docker. Dentro de `lab-app`, `127.0.0.1:3000` apunta a Next directamente. Dentro de otro container no apunta ni al host ni a `lab-app`.
 
-**Comprobación:** HTTP 200 y JSON del servicio `nodoserrano`. **No sigas si** hay connection refused, otra aplicación o un body distinto. Revisá Next y la publicación antes de probar el túnel.
+Buscá HTTP 200 y el JSON del servicio `nodoserrano`. **No sigas si** hay connection refused, responde otra aplicación o el body es distinto. Revisá Next y la publicación antes de probar el túnel.

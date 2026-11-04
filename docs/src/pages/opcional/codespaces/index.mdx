@@ -9,28 +9,28 @@ import codespaceImage from '../../../../assets/codespaces-machine.png'
 
 # Abrir la demo opcional de Codespaces
 
-**Dónde:** GitHub y luego la terminal del Codespace. **Antes:** primer push correcto, build local, Production y Preview comprobados y PR integrado. La demo no valida runner, Hermes, Telegram ni hooks de los capítulos 2–6.
+Esta demo es opcional y llega después de terminar el capítulo 1. Antes de abrirla, tenés que haber completado el primer push, el build local, la comprobación de Production y Preview y la integración del PR. Vamos a mirar la misma landing desde un entorno remoto. Esto no valida runner, Hermes, Telegram ni hooks de los capítulos 2–6.
 
-Abrí [Codespaces](https://github.com/codespaces) o **Code → Codespaces** en tu repo propio ya publicado. Preferí una instancia existente. Antes de crear otra, revisá [cuota y cuenta pagadora](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces). No actives pagos para esta demo. Si elegís crearla, usá main y 2 núcleos si están disponibles. [Procedimiento oficial](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository).
+Abrí [Codespaces](https://github.com/codespaces) o **Code → Codespaces** en tu repo propio ya publicado. Preferí una instancia existente. Antes de crear otra, revisá la [cuota y cuenta pagadora](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces). No actives pagos para esta demo. Si elegís crearla, usá main y 2 núcleos si están disponibles. Podés seguir el [Procedimiento oficial](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository).
 
 <img src={codespaceImage} alt="Abrir Codespaces desde el repositorio, captura oficial de referencia" />
 
-Captura de referencia, no ejecución de nuestra cuenta. Codespaces hace el checkout automáticamente: no crees otro repo ni clones la app o el material dentro de él.
+La captura es de referencia, no una ejecución de nuestra cuenta. Codespaces hace el checkout automáticamente. No crees otro repo ni clones la app o el material dentro de él.
 
-En una instancia existente:
+Si usás una instancia existente, abrí su terminal y comprobá el estado y la rama:
 
 ```bash
 git status
 git branch --show-current
 ```
 
-Sólo si está limpio y en main:
+Sólo si el checkout está limpio y en main, traé los cambios y compará la versión local con la remota:
 
 ```bash
 git pull --ff-only
 git rev-parse HEAD origin/main
 ```
 
-**Comprobación:** los SHA coinciden. Si hay cambios, otra rama, falla pull o difieren los SHA, omití la demo sin reset, force-push ni depuración en clase. No ejecutes `gh auth login` o `gh auth refresh`, ni imprimas/borres variables de tokens.
+Los dos SHA deben coincidir. Si hay cambios, estás en otra rama, falla el pull o difieren los SHA, omití la demo sin reset, force-push ni depuración en clase. No ejecutes `gh auth login` o `gh auth refresh`, ni imprimas o borres variables de tokens.
 
 Si omitís la demo, [seguí en el host con Docker](/docker-runner).

@@ -7,15 +7,13 @@ showFeedback: false
 
 # Dejar de seguir artefactos generados
 
-**Dónde:** host, `lab`. **Antes:** tenés un repo existente; este paso no es obligatorio para el starter recién publicado.
-
-Comprobá qué sigue Git:
+Esta reparación es para un repo existente que ya versionó dependencias o builds. No es un paso obligatorio para el starter recién publicado. Si ese es tu caso, abrí la terminal del host en `lab` y primero miremos qué archivos sigue Git:
 
 ```bash
 git ls-files node_modules .next
 ```
 
-Sin salida significa que esas carpetas no están versionadas. En ese caso no retires nada. Si aparecen archivos, revisá primero `.gitignore` en el editor. Ejecutá sólo la línea correspondiente a cada carpeta seguida:
+Si no hay salida, esas carpetas no están versionadas y no tenés que retirar nada. Si aparecen archivos, revisá primero `.gitignore` en el editor. Después ejecutá sólo la línea correspondiente a cada carpeta seguida:
 
 ```bash
 git rm -r --cached node_modules
@@ -25,10 +23,10 @@ git rm -r --cached node_modules
 git rm -r --cached .next
 ```
 
-`--cached` retira del índice sin borrar del disco. No agregues `-f` si Git rechaza la operación. Revisá `git status`, añadí `.gitignore` si lo editaste y confirmá/publicá la reparación. No quites todo el proyecto del índice.
+La opción `--cached` retira los archivos del índice sin borrarlos del disco. Si Git rechaza la operación, no agregues `-f`. Revisá `git status`, añadí `.gitignore` si lo editaste y confirmá y publicá la reparación. No quites todo el proyecto del índice.
 
-Esto no elimina archivos de commits anteriores. Si un archivo grande provoca rechazo del push, revisá el historial con el instructor, sin force-push improvisado. Si publicaste una credencial, revocala o rotala.
+Esto no elimina los archivos de commits anteriores. Si un archivo grande provoca el rechazo del push, revisá el historial con el instructor, sin improvisar un force-push. Si publicaste una credencial, revocala o rotala.
 
-**Comprobación:** los artefactos afectados ya no aparecen en `git ls-files` y tus archivos locales siguen presentes. [Referencia de ignore](https://docs.github.com/en/get-started/git-basics/ignoring-files).
+Al terminar, comprobá que los artefactos afectados ya no aparezcan en `git ls-files` y que tus archivos locales sigan presentes. Podés consultar la [Referencia de ignore](https://docs.github.com/en/get-started/git-basics/ignoring-files).
 
 [Volver a leer .gitignore](/proyecto/leer-gitignore).

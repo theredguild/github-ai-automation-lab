@@ -9,15 +9,15 @@ import hmac from '../../../assets/course-e5-hmac.png'
 
 # Preparar el receptor firmado
 
-**Dónde:** editor del host en `lab` y Hermes CLI dentro de `lab-agent`, `/workspace`. Branch de trabajo `development`. **Antes:** [sesión de GitHub del agente](/webhook/autenticar-agente), bind mount escribible y receptor provisto `app/api/github/route.ts`.
+Vamos a preparar el receptor provisto en `app/api/github/route.ts` sobre la branch `development`. Usá el editor del host en `lab` y Hermes CLI dentro de `lab-agent`, en `/workspace`. Antes de empezar necesitás la [sesión de GitHub del agente](/webhook/autenticar-agente) y el bind mount escribible.
 
-El secret es un valor privado compartido entre GitHub y este receptor. No es el PAT: el PAT autoriza a `gh` a usar la API de GitHub; el secret permite comprobar la firma de las entregas entrantes. HMAC-SHA256 usa ese secret y el body para calcular una firma. Verificarla permite detectar cambios en el body y comprobar que lo firmó alguien con el secret. No cifra el contenido ni decide qué repositorios o eventos vas a atender.
+Acá aparece otra credencial, con una tarea distinta del PAT. El PAT autoriza a `gh` a usar la API de GitHub. El secret es un valor privado que comparten GitHub y este receptor para comprobar la firma de las entregas entrantes. HMAC-SHA256 calcula esa firma usando el secret y el body. Verificarla permite detectar cambios en el body y comprobar que lo firmó alguien que conoce el secret. No cifra el contenido ni decide qué repositorios o eventos vas a atender.
 
-El receptor corre en el runtime Node y compara las firmas con `timingSafeEqual`, para evitar que el tiempo de comparación revele en qué posición difieren. La firma se calcula sobre los bytes originales, antes de interpretar JSON. Leer los datos y volver a serializarlos puede cambiar espacios u orden de claves aunque signifiquen lo mismo, e invalidar la firma.
+El receptor corre en el runtime Node y compara las firmas con `timingSafeEqual`, para evitar que el tiempo de comparación revele en qué posición difieren. Para calcular la firma necesita los bytes originales, antes de interpretar el JSON. Si leyeras los datos y volvieras a serializarlos, podrían cambiar los espacios o el orden de las claves. Aunque los datos significaran lo mismo, esos bytes distintos invalidarían la firma.
 
 <img src={hmac} alt="GitHub y el receptor calculan HMAC-SHA256 sobre los mismos bytes con el mismo secret" />
 
-Diagrama del taller; ejemplo conceptual. Ambos extremos deben usar el mismo secret.
+El diagrama del taller es conceptual. Para que las firmas coincidan, ambos extremos deben usar el mismo secret.
 
 ```text
 al recibir POST:
@@ -29,21 +29,21 @@ al recibir POST:
   registrar metadata y responder
 ```
 
-El código provisto limita el body a 128 KiB, exige `application/json`, valida repo y delivery ID, permite `ping` y `pull_request` y registra sólo metadata acotada. La deduplicación conserva como máximo 1000 IDs durante una hora en memoria de una instancia; reiniciar pierde ese estado. No es una cola durable ni protección completa contra replay.
+El código provisto limita el body a 128 KiB, exige `application/json`, valida el repo y el delivery ID, permite `ping` y `pull_request` y registra sólo metadata acotada. También recuerda entregas para no procesarlas dos veces. Guarda como máximo 1000 IDs durante una hora en la memoria de una instancia, y pierde ese estado al reiniciar. No es una cola durable ni protección completa contra replay.
 
-La firma y los filtros cumplen tareas distintas. Un body que dice contener tu repo no prueba su origen: primero se verifica HMAC. Después, los filtros de repo y evento deciden si ese aviso válido corresponde al trabajo permitido. No reemplaces una comprobación por la otra.
+Fijate que la firma y los filtros responden preguntas distintas. Que el body diga contener tu repo no prueba su origen, por eso primero verificamos HMAC. Después, los filtros de repo y evento deciden si ese aviso válido corresponde al trabajo permitido. No reemplaces una comprobación por la otra.
 
-Elegí **una** forma de preparar la configuración. No ejecutes ambas pisando variables existentes.
+Para preparar la configuración, elegí **una** de las dos formas siguientes. No ejecutes ambas pisando variables existentes.
 
 ## Delegar a Hermes
 
-Dentro de la shell del agente, en `/workspace`:
+Si elegís delegarlo, abrí Hermes dentro de la shell del agente, en `/workspace`:
 
 ```bash
 hermes chat
 ```
 
-Prompt para Hermes, no comando Bash. Reemplazá sólo el repo con el tuyo:
+El siguiente bloque es un prompt para Hermes, no un comando Bash. Reemplazá sólo el repo con el tuyo:
 
 ```text
 Revisá app/api/github/route.ts de este proyecto.
@@ -60,16 +60,16 @@ Mostrame un resumen sin credenciales, qué cambió y cómo comprobarlo.
 El bind mount permite escribir `.env.local` en el proyecto que usa `lab-app`. Hermes no tiene el socket Docker y no puede reiniciar otros containers. No se lo concedas para evitar un paso humano.
 
 :::details[Alternativa manual: mismo resultado, sin delegar]
-Si `.env.local` no existe, copiá `.env.example` a `.env.local`. Si ya existe, editá sólo las dos claves necesarias y conservá las demás variables. En una terminal privada, no proyectada, generá el valor:
+Si preferís hacerlo a mano y `.env.local` no existe, copiá `.env.example` a `.env.local`. Si ya existe, editá sólo las dos claves necesarias y conservá las demás variables. **Generá el valor en una terminal privada, no proyectada**, porque el siguiente comando lo imprime:
 
 ```bash
 openssl rand -hex 32
 ```
 
-Ese comando imprime un secret nuevo. Pegalo sólo en `WEBHOOK_SECRET` dentro del archivo privado y completá `GITHUB_WEBHOOK_REPO` con tu `owner/repo`. Nunca copies el valor a esta guía, un chat o un commit.
+El resultado es un secret nuevo. Pegalo sólo en `WEBHOOK_SECRET` dentro del archivo privado y completá `GITHUB_WEBHOOK_REPO` con tu `owner/repo`. Nunca copies el valor a esta guía, un chat o un commit.
 :::
 
-En el host, carpeta `lab`, comprobá exclusión y cambios sin mostrar el contenido del archivo:
+Con cualquiera de las dos opciones terminada, volvé al host, en la carpeta `lab`. Vamos a comprobar la exclusión y los cambios sin mostrar el contenido del archivo:
 
 ```bash
 git check-ignore .env.local
@@ -77,6 +77,6 @@ git status --short
 git diff -- app/api/github/route.ts
 ```
 
-**Comprobación:** `git check-ignore` identifica `.env.local` y el resumen confirma las dos claves sin revelar valores. El diff conserva firma, límites y filtros; ningún paso añade IA. **No sigas si** el secret aparece en archivos versionados, `.env.local` no está ignorado o se eliminaron validaciones. Si hubo exposición, revocá o rotá la credencial antes de continuar.
+Buscá que `git check-ignore` identifique `.env.local` y que el resumen confirme las dos claves sin revelar valores. Revisá el diff para comprobar que conserva firma, límites y filtros, y que ningún paso añade IA. **No sigas si** el secret aparece en archivos versionados, `.env.local` no está ignorado o se eliminaron validaciones. Si hubo exposición, revocá o rotá la credencial antes de continuar.
 
 Referencia: [validar entregas de GitHub](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries).

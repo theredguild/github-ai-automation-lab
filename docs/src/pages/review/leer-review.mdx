@@ -7,15 +7,15 @@ description: "Uní evento, lectura de commits y comentario antes de confiar en l
 
 # Leer y contrastar la review
 
-**Dónde:** host, cwd `lab`, navegador del PR propio y logs del gateway en `lab-agent`. **Antes:** [solicitud ai-review aceptada](/review/solicitar-review), GUID y SHA base/head anotados. El PR sigue abierto y no draft.
+Ahora vamos a comprobar qué hizo el agente con la [solicitud ai-review aceptada](/review/solicitar-review). Trabajá con el host en `lab`, el navegador de tu PR y los logs del gateway en `lab-agent`. Tené a mano el GUID y los SHA base y head anotados, y comprobá que el PR siga abierto y no draft.
 
-Abrí la conversación, reemplazando `NUMERO`:
+Abrí la conversación, reemplazando `NUMERO` por el número de tu PR:
 
 ```bash
 gh pr view NUMERO --web
 ```
 
-Comprobá en orden, sin tomar el 202 como final del recorrido:
+Seguí esta secuencia para unir la recepción con el resultado, sin tomar el 202 como final del recorrido:
 
 1. GitHub entregó `pull_request/labeled` a la URL actual con `ai-review`.
 2. El gateway aceptó y los filtros coincidieron.
@@ -27,12 +27,12 @@ Comprobá en orden, sin tomar el 202 como final del recorrido:
 
 ## Evaluar el contenido, no sólo su presencia
 
-Para el fallo de práctica, buscá que identifique `app/capacidad.ts`, suma en vez de resta, y efecto concreto: 20 de capacidad con 5 ocupados devuelve 25 en lugar de 15. La respuesta debe incluir ambos SHA revisados, base y head, y separar hipótesis de errores demostrados.
+En el fallo que introdujimos, buscá que el comentario identifique `app/capacidad.ts` y explique que hay una suma en vez de una resta. La consecuencia debe ser concreta, con 20 de capacidad y 5 ocupados devuelve 25 en lugar de 15. La respuesta también debe incluir ambos SHA revisados, base y head, y separar hipótesis de errores demostrados.
 
-Una respuesta plausible no aprueba automáticamente el cambio. Si no ejecutó tests, no debe afirmar que los ejecutó. En este flujo el revisor tiene prohibido ejecutar código del PR; una afirmación de tests ejecutados requiere cuestionar el recorrido, no celebrarla como evidencia. También revisá que el comentario no obedezca instrucciones embebidas en el diff ni revele credenciales.
+Que la respuesta suene plausible no aprueba el cambio. Si el agente no ejecutó tests, no debe afirmar que los ejecutó. En este flujo, además, tiene prohibido ejecutar código del PR. Si dice haber corrido tests, cuestioná el recorrido en vez de tomarlo como evidencia favorable. Revisá también que el comentario no obedezca instrucciones embebidas en el diff ni revele credenciales.
 
-La protección por prompt y la segunda comprobación de SHA no vuelven atómica la publicación: el PR puede cambiar entre comprobación y comentario. Siempre contrastá el estado actual. El adaptador publica; el modelo no debe construir una llamada para publicar por herramientas.
+Contrastá siempre el estado actual del PR. La protección por prompt y la segunda comprobación de SHA no hacen atómica la publicación, porque el PR puede cambiar entre la comprobación y el comentario. El adaptador se ocupa de publicar; el modelo no debe construir una llamada para hacerlo por herramientas.
 
-**Comprobación:** podés unir GUID de solicitud, repo/PR, ambos SHA, lectura de la comparación y comentario pertinente. La persona decide si el hallazgo es correcto.
+Antes de pasar a la corrección, deberías poder unir el GUID de solicitud con el repo y PR, ambos SHA, la lectura de la comparación y un comentario pertinente. Esa cadena permite saber qué se revisó. Decidir si el hallazgo es correcto sigue siendo tarea de una persona.
 
-**No sigas si** falta comentario, faltan SHA, corresponden a otra versión, el texto inventa verificaciones o propone integrar automáticamente. Usá [diagnóstico de review](/opcional/diagnostico-review) y volvé a esta página al recuperar la cadena de evidencia. No cambies automáticamente a un modelo pago: revisá disponibilidad, límites, herramientas y `toolsets` del proveedor gratuito.
+**No sigas si** falta el comentario, faltan SHA, corresponden a otra versión, el texto inventa verificaciones o propone integrar automáticamente. Usá el [diagnóstico de review](/opcional/diagnostico-review) y volvé a esta página cuando recuperes la cadena de evidencia. No cambies automáticamente a un modelo pago. Revisá disponibilidad, límites, herramientas y `toolsets` del proveedor gratuito.

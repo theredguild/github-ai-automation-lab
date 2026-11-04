@@ -9,11 +9,11 @@ import actions from '../../../assets/course-e2-actions.png'
 
 # Leer workflow, job y steps
 
-**Dónde:** host, editor en `lab`, rama `development`. **Antes:** imagen explorada y repositorio propio publicado.
+Volvé al editor del host, en `lab` y en la rama `development`. Con la imagen ya explorada y tu repositorio propio publicado, vamos a leer el trabajo que recibirá el runner.
 
-Abrí `docs/snippets/checks.yml`. Viajó con la app y ya no está en `hackerspace-site/` dentro del checkout del material. Leé el archivo completo. Todavía no está activado en `.github/workflows/`.
+Abrí `docs/snippets/checks.yml`. Viajó con la app y ya no está en `hackerspace-site/` dentro del checkout del material. Leé el archivo completo antes de activarlo en `.github/workflows/`.
 
-GitHub Actions organiza el trabajo así:
+Para seguir el archivo y después reconocer su resultado en GitHub, distingamos estas partes de Actions:
 
 | Parte | Qué significa acá |
 | --- | --- |
@@ -24,7 +24,7 @@ GitHub Actions organiza el trabajo así:
 | Runner | Programa que recibe el job y ejecuta sus steps en su entorno |
 | Check | Resultado que GitHub muestra para ese trabajo sobre un commit |
 
-CI significa integración continua: ejecutar comprobaciones repetibles sobre cambios de código para detectar fallas antes de integrarlos. Acá practicamos esas comprobaciones con inicio manual. Publicar un commit, iniciar el workflow y obtener un resultado son acciones distintas.
+CI significa integración continua. Consiste en ejecutar comprobaciones repetibles sobre cambios de código para detectar fallas antes de integrarlos. Acá vamos a practicarlas con inicio manual. Tené presente que publicar un commit, iniciar el workflow y obtener un resultado son acciones distintas.
 
 <img src={actions} alt="Workflow contiene un job que selecciona runner y ejecuta checkout, instalación, lint y typecheck" />
 
@@ -44,7 +44,7 @@ jobs:
     timeout-minutes: 10
 ```
 
-`workflow_dispatch` permite el inicio manual. No hay un trigger `push`: enviar un commit no ejecutará este workflow. `workshop` debe coincidir con la etiqueta del runner. `contents: read` limita la credencial del job y el timeout limita su duración.
+Fijate en `workflow_dispatch`, que permite el inicio manual. No hay un trigger `push`, así que enviar un commit no ejecutará este workflow. La etiqueta `workshop` debe coincidir con la del runner. `contents: read` limita la credencial del job y el timeout limita su duración.
 
 Dentro del mismo job:
 
@@ -58,8 +58,8 @@ Dentro del mismo job:
       - run: pnpm typecheck
 ```
 
-Checkout descarga en el runner el código de la versión que se va a comprobar. Está fijado a un commit de la acción y no conserva su credencial en Git. La instalación respeta el lockfile; Biome revisa reglas de código y TypeScript comprueba tipos sin necesitar abrir la página en un navegador.
+El primer step, checkout, descarga en el runner el código de la versión que vas a comprobar. Está fijado a un commit de la acción y no conserva su credencial en Git. Después la instalación respeta el lockfile, Biome revisa reglas de código y TypeScript comprueba tipos sin necesitar abrir la página en un navegador.
 
-Los steps corren en orden. Si uno falla, los siguientes de este archivo no se ejecutan y el job queda fallido. Un check verde sólo confirma las comprobaciones incluidas aquí: este workflow no ejecuta tests ni hace un deployment.
+Leelos en ese orden, porque así se ejecutan. Si un step falla, los siguientes de este archivo no se ejecutan y el job queda fallido. Cuando veas un check verde, recordá qué comprobó este archivo. Este workflow no ejecuta tests ni hace un deployment.
 
 Comprobá en el archivo real el evento, las etiquetas y los cuatro steps. **No sigas si** el contenido no coincide o apunta a otro runner.

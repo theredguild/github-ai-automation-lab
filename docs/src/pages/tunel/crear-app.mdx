@@ -9,7 +9,7 @@ import portMap from '../../../assets/course-e4-port-map.png'
 
 # Crear el container de la aplicación
 
-**Dónde:** host, raíz de tu `lab`, rama `development`. **Antes:** `red-taller` disponible, puerto 3000 del host libre y nombre `lab-app` libre para una instancia nueva.
+Desde el host, en la raíz de tu `lab` y sobre `development`, vamos a crear la instancia de la app. Antes de ejecutar el comando, comprobá que `red-taller` esté disponible, que el puerto 3000 del host esté libre y que ninguna instancia use el nombre `lab-app`.
 
 ```bash
 docker run -it --name lab-app \
@@ -19,12 +19,12 @@ docker run -it --name lab-app \
   taller
 ```
 
-`WORKDIR` y `CMD` ya vienen en la imagen. La shell abre `/workspace`; el bind mount muestra el proyecto actual, no una segunda copia de la app. No uses la carpeta original del material ni montes tu home.
+La shell abre en `/workspace` porque `WORKDIR` y `CMD` ya vienen definidos en la imagen. El bind mount te muestra el proyecto actual, no una segunda copia de la app. Por eso importa ejecutar el comando desde tu `lab`. No uses la carpeta original del material ni montes tu home.
 
 <img src={portMap} alt="Puerto 3000 del loopback del host reenviado al puerto 3000 de lab-app" />
 
-Diagrama del taller; ejemplo conceptual. `-p 127.0.0.1:3000:3000` publica sólo en loopback del host. Un puerto publicado no es un túnel.
+El diagrama del taller es conceptual. `-p 127.0.0.1:3000:3000` publica sólo en loopback del host. Un puerto publicado no es un túnel.
 
-La opción `-p` se lee como `dirección del host:puerto del host:puerto del container`. Acá Docker recibe en `127.0.0.1:3000` del host y reenvía al puerto 3000 de `lab-app`. Esto prepara el acceso, pero todavía falta iniciar un servidor que escuche dentro del container.
+Leé la opción `-p` como `dirección del host:puerto del host:puerto del container`. Docker recibe en `127.0.0.1:3000` del host y reenvía al puerto 3000 de `lab-app`. Ya preparamos ese acceso, pero todavía falta iniciar un servidor que escuche dentro del container.
 
-**Comprobación:** estás dentro de `lab-app` en `/workspace` con los archivos de tu proyecto. **No sigas si** Docker informa nombre ocupado, puerto ocupado o montaste otra carpeta. No elimines un container existente para liberar el nombre sin identificarlo. Si es esta misma instancia de la práctica y está detenida, recuperala desde el host con `docker start -ai lab-app` en lugar de crear otra.
+Fijate que estés dentro de `lab-app`, en `/workspace`, y que veas los archivos de tu proyecto. **No sigas si** Docker informa nombre ocupado, puerto ocupado o montaste otra carpeta. No elimines un container existente para liberar el nombre sin identificarlo. Si es esta misma instancia de la práctica y está detenida, recuperala desde el host con `docker start -ai lab-app` en lugar de crear otra.

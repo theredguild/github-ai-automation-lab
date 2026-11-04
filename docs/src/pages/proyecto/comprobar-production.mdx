@@ -11,17 +11,17 @@ import tracking from '../../../assets/vercel-setup-environments-branch-tracking-
 
 # Comprobar el primer Production
 
-**Dónde:** navegador, mismo proyecto Vercel y GitHub. **Antes:** primer deployment Ready desde `main`.
+El primer deployment desde `main` ya está Ready. Ahora vamos a comprobar qué publicó. Seguí en el navegador con el mismo proyecto Vercel y tu repo en GitHub.
 
-En el detalle del deployment verificá entorno **Production**, estado **Ready**, rama `main`, commit y URL. Abrí la URL y reconocé la landing original. Abrí el enlace del commit en GitHub y compará su SHA con el deployment.
+En el detalle del deployment buscá el entorno **Production**, el estado **Ready**, la rama `main`, el commit y la URL. Abrí esa URL y reconocé la landing original. Después abrí el enlace del commit en GitHub y compará su SHA con el del deployment.
 
-Production es la versión que sirve la URL principal del proyecto. El SHA permite comprobar qué código se publicó, aunque varios commits tengan el mismo mensaje o se vean iguales. **Ready** indica que Vercel preparó el deployment, no que revisó el contenido ni que la app está libre de errores.
+Production es la versión que sirve la URL principal del proyecto. El SHA nos permite saber qué código se publicó, aunque varios commits tengan el mismo mensaje o se vean iguales. **Ready** indica que Vercel preparó el deployment, no que revisó el contenido ni que la app está libre de errores.
 
 <img src={production} alt="Detalle de estado, rama y URL de un deployment Production" />
 
 Referencia oficial de Vercel de otro proyecto, no evidencia de nuestra publicación.
 
-La pestaña **Deployment** muestra estado y URL de esa versión; **Logs**, salida de la ejecución; **Resources**, archivos y funciones publicados.
+Para orientarte en el panel, la pestaña **Deployment** muestra el estado y la URL de esa versión. En **Logs** podés ver la salida de la ejecución, y en **Resources**, los archivos y funciones publicados.
 
 <img src={deployment} alt="Pestañas Deployment, Logs y Resources de Vercel" />
 
@@ -33,6 +33,6 @@ En **Project → Settings → Git**, corroborá el repo conectado. En **Settings
 
 Captura pública de Vercel Community, septiembre de 2025. Muestra una configuración de referencia, no nuestra cuenta.
 
-El primer deployment de un proyecto es Production; por eso importamos `main` antes de crear otra rama. No crees otro proyecto Vercel para Preview. El entorno Vercel **Development** no es nuestra rama Git `development`; esa rama debe desplegar como Preview.
+Importamos `main` primero porque el primer deployment de un proyecto es Production. Cuando publiquemos otra rama, vamos a usar este mismo proyecto para Preview, no otro nuevo. Tené presente que el entorno Vercel **Development** no es nuestra rama Git `development`. Esa rama debe desplegar como Preview.
 
 **No sigas si** entorno, rama, SHA o página no coinciden. [Diagnóstico](/opcional/diagnostico-vercel), [integración Git](https://vercel.com/docs/git) y [entornos](https://vercel.com/docs/deployments/environments).

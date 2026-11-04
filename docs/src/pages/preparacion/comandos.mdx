@@ -7,31 +7,31 @@ showFeedback: false
 
 # Leer comandos y reconocer la terminal
 
-**Dónde:** esta página explica cómo leer las instrucciones; todavía no creás containers.
+Antes de empezar, vamos a ver cómo leer los comandos y reconocer en qué terminal estamos trabajando. Por ahora seguimos en tu equipo. Todavía no vamos a crear containers.
 
-Cada página indica dónde trabajar. Cuando diga **host**, se refiere a tu equipo o WSL2. Más adelante crearemos otros entornos y los identificaremos por nombre. No ejecutes un comando del host dentro de la shell de otro entorno.
+Cada página te va a indicar dónde trabajar. Cuando diga **host**, se refiere a tu equipo o WSL2. Más adelante vamos a crear otros entornos y los identificaremos por nombre. Si una página indica host, ejecutá el comando ahí, no en la shell de otro entorno.
 
-La carpeta actual es el punto de partida de las rutas relativas. Si una instrucción menciona `app/page.tsx`, ese archivo se busca desde la carpeta donde estás. Una ruta que empieza con `/`, como `/workspace`, es absoluta y parte de la raíz del entorno donde se ejecuta el comando.
+También importa la carpeta donde estás. Si una instrucción menciona `app/page.tsx`, esa ruta se busca a partir de tu carpeta actual. A eso lo llamamos una ruta relativa. En cambio, una ruta que empieza con `/`, como `/workspace`, es absoluta y parte de la raíz del entorno donde ejecutás el comando.
 
-Para ver tu carpeta actual:
+Probá este comando para ver tu carpeta actual:
 
 ```bash
 pwd
 ```
 
-`cd` cambia de carpeta. `cd ..` sube a la carpeta que contiene la actual y `.` representa la carpeta actual. Cuando una página diga `cwd`, se refiere a esa carpeta. Cuando diga `branch`, se refiere a la rama de Git.
+Para cambiar de carpeta usamos `cd`. Con `cd ..` subís a la carpeta que contiene la actual, mientras que `.` representa la carpeta actual. Si encontrás `cwd` en una página, se refiere a esa carpeta. Si encontrás `branch`, se refiere a la rama de Git.
 
-Algunos ejemplos usan marcadores como `TU_USUARIO/REPO` o `NUMERO`. Cuando la página indique reemplazarlos, escribí tus datos en su lugar. No cambies los nombres de variables como `WEBHOOK_SECRET`: la aplicación espera ese nombre exacto y vos configurás su valor.
+En algunos ejemplos vas a ver marcadores como `TU_USUARIO/REPO` o `NUMERO`. Cuando la página te pida reemplazarlos, escribí tus datos en su lugar. No hagas lo mismo con nombres de variables como `WEBHOOK_SECRET`. La aplicación espera ese nombre exacto y vos configurás su valor.
 
 | Valor | Qué reemplazás |
 | --- | --- |
 | `TU_USUARIO/REPO` | Propietario y nombre de tu repo, no del material |
 | `NUMERO` | Número real del pull request, o PR, sin `#` |
 
-Una línea terminada en `\` continúa en la siguiente. Pegá ese bloque completo. Las líneas que empiezan con `#` son comentarios.
+Cuando una línea termina en `\`, el comando continúa en la siguiente. Pegá el bloque completo. Las líneas que empiezan con `#` son comentarios y no forman parte de lo que se ejecuta.
 
-Los bloques `text` muestran **ejemplos de salida** o **tareas para el agente**, según su rótulo. No son comandos de Bash. Los fragmentos de archivos se editan en el archivo indicado; no se pegan como comandos.
+No todos los bloques son comandos para pegar en la terminal. Los que dicen `text` pueden mostrar una salida de ejemplo o una tarea para el agente, según su rótulo. Si ves un fragmento de un archivo, abrilo en el editor y hacé el cambio ahí.
 
-Cuando un proceso ocupa una terminal, dejala abierta y usá otra para el siguiente paso. `Ctrl+C` detiene ese proceso, no necesariamente el container, el túnel remoto o el Codespace.
+Si un proceso queda ocupando una terminal, dejala abierta y usá otra para el paso siguiente. `Ctrl+C` detiene ese proceso, pero no necesariamente detiene también el container, el túnel remoto o el Codespace.
 
-**Antes de avanzar:** podés leer la carpeta actual con `pwd` y reconocer qué valores de un comando tendrías que reemplazar. Si la terminal o la carpeta no coinciden con la página, corregí eso antes de copiar comandos.
+Antes de avanzar, fijate qué carpeta te muestra `pwd` y qué valores tendrías que reemplazar en un comando de ejemplo. Cuando copies instrucciones de otra página, comprobá que estés en la terminal y la carpeta que pide. Si no coinciden, corregí eso primero.

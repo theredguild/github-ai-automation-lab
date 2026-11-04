@@ -9,17 +9,17 @@ import branches from '../../../assets/course-commit-branch.png'
 
 # Comprobar Production después del merge
 
-**Dónde:** navegador, PR GitHub y mismo proyecto Vercel. **Antes:** PR integrado con merge commit; conservaste `development`.
+El PR ya quedó integrado con un merge commit y conservaste `development`. Nos falta comprobar qué pasó con Production. Abrí el PR de GitHub y el mismo proyecto Vercel en el navegador.
 
 <img src={branches} alt="main avanza al merge mientras development conserva su referencia" />
 
-Diagrama del taller; ejemplo conceptual. La branch es una referencia, no una copia independiente de todos los archivos.
+El diagrama del taller es conceptual. Fijate que `main` avanza al merge mientras `development` conserva su referencia. Una branch es una referencia, no una copia independiente de todos los archivos.
 
-Esperá el nuevo deployment de **Production** desde `main`. Comprobá **Ready**, rama, commit y URL. Abrí la landing y buscá tu título nuevo, por ejemplo "Aprender y construir en comunidad".
+Esperá el nuevo deployment de **Production** desde `main`. Comprobá **Ready**, la rama, el commit y la URL. Después abrí la landing y buscá tu título nuevo, por ejemplo "Aprender y construir en comunidad".
 
-Compará el SHA con el commit que quedó en `main`. El merge puede tener un SHA distinto de la cabeza del PR; no compares Production contra el antiguo SHA de `development` como si fueran iguales.
+Compará el SHA con el commit que quedó en `main`. El merge puede tener un SHA distinto de la cabeza del PR, así que no compares Production contra el antiguo SHA de `development` como si fueran iguales.
 
-Antes de seguir, identificá:
+Para cerrar el capítulo, comprobá que podés identificar estos resultados:
 
 - Tu repo propio con `main` y `development`, archivos confirmados y enviados.
 - El PR integrado y su commit de merge.
@@ -31,7 +31,7 @@ Antes de seguir, identificá:
 
 ### Trasladarlo a tu proyecto
 
-Se conservan repo, branches, commits, PR, integración Git con Vercel y comparación Preview/Production. Se adaptan framework, directorio raíz, gestor, lockfile, comando de build y variables que realmente necesita la app. No cambies el recorrido de Git para compensar un ajuste del framework.
+Cuando uses este recorrido en otro proyecto, vas a conservar el repo, las branches, los commits, el PR, la integración Git con Vercel y la comparación Preview/Production. Lo que vas a adaptar es el framework, el directorio raíz, el gestor, el lockfile, el comando de build y las variables que realmente necesita esa app. No cambies el recorrido de Git para compensar un ajuste del framework.
 
 La [demo opcional de Codespaces](/opcional/codespaces) puede hacerse ahora, sólo para esta landing. Después volvés al host; no reemplaza el taller completo.
 

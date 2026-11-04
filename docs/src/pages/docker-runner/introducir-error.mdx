@@ -7,7 +7,7 @@ showFeedback: false
 
 # Publicar un error de tipos controlado
 
-**Dónde:** host, editor y Bash en `lab`, rama `development`. **Antes:** baseline correcto y primer runner terminado.
+Cuando el baseline haya pasado y el primer runner haya terminado, volvé al editor y a Bash del host en `lab`, en la rama `development`. Ahora vamos a introducir una falla conocida para aprender a reconocerla en los logs.
 
 En `app/estado.ts`, cambiá deliberadamente:
 
@@ -33,7 +33,7 @@ git push origin development
 git rev-parse HEAD
 ```
 
-Anotá el nuevo SHA como versión con error y comprobalo en `development` de GitHub. El workflow es manual: **el push por sí solo no lo ejecuta**. Todavía falta una instancia efímera nueva y un dispatch.
+Anotá el nuevo SHA como versión con error y comprobalo en `development` de GitHub. Nos va a permitir distinguir esta prueba del baseline. El workflow es manual, así que **el push por sí solo no lo ejecuta**. Todavía falta una instancia efímera nueva y un dispatch.
 
 También podés editar el archivo con el editor web de GitHub y confirmar en `development`, en lugar de duplicar la edición local. Si elegís esa vía, en el host ejecutá `git pull --ff-only` estando en `development` y anotá el SHA con `git rev-parse HEAD` antes de continuar.
 

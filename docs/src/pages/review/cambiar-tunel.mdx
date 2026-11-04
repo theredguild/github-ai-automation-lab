@@ -7,11 +7,11 @@ description: "Reemplazá el origen y registrá el hostname público nuevo."
 
 # Cambiar el túnel hacia Hermes
 
-**Dónde:** terminal del host, cwd `lab`. **Antes:** [agente conectado a red-taller](/review/conectar-agente), gateway sano en 8644 e imagen `taller` disponible. Hook antiguo `/api/github` inactivo.
+Vamos a cambiar el destino del túnel de Next a Hermes. Usá una terminal del host, en `lab`, después de [conectar el agente a red-taller](/review/conectar-agente). Necesitás el gateway sano en 8644 y la imagen `taller` disponible. El hook antiguo `/api/github` debe seguir inactivo.
 
-Detené el túnel anterior con **Ctrl+C en su propia terminal**. Eso libera el nombre `lab-tunnel` del connector iniciado con `--rm`. No borres containers ajenos para resolver un conflicto de nombre.
+Detené el túnel anterior con **Ctrl+C en su propia terminal**. Como ese connector se inició con `--rm`, al terminar libera el nombre `lab-tunnel`. No borres containers ajenos para resolver un conflicto de nombre.
 
-Iniciá el nuevo Quick Tunnel:
+Iniciá el nuevo Quick Tunnel hacia el gateway:
 
 ```bash
 docker run --rm -it --name lab-tunnel \
@@ -27,8 +27,8 @@ Copiá el **hostname nuevo** que imprime cloudflared. El origen ahora es `http:/
 curl -i https://TU_URL_PUBLICA/health
 ```
 
-**Comprobación:** hostname nuevo alcanza el health del gateway y responde 200. La URL del hook será `https://TU_URL_PUBLICA/webhooks/github-pr-review`. Dejá el proceso del túnel activo.
+Si el hostname nuevo alcanza el health del gateway y responde 200, ya comprobaste el recorrido público hasta Hermes. La URL del hook será `https://TU_URL_PUBLICA/webhooks/github-pr-review`. Dejá el proceso del túnel activo para recibir las entregas.
 
-El hostname anterior no se actualiza por sí solo en GitHub. HTTPS no autentica un evento y el túnel expone **todo el servicio de destino**, no únicamente el path del hook. No expongas rutas de administración o datos que no deban ser públicos.
+El hostname anterior no se actualiza por sí solo en GitHub. **HTTPS no autentica un evento y el túnel expone todo el servicio de destino**, no únicamente el path del hook. No expongas rutas de administración o datos que no deban ser públicos.
 
 **No sigas si** el origen sigue siendo Next, el hostname es viejo, el connector no resuelve `lab-agent` o health público falla. No publiques puertos del host en todas las interfaces ni desactives la firma como solución.

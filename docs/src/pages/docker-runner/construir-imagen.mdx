@@ -7,7 +7,7 @@ showFeedback: false
 
 # Elegir UID y construir la imagen
 
-**Dónde:** host, Bash en `lab`, sin sesión root. **Antes:** receta leída e instructor disponible para revisar permisos.
+Seguí en Bash del host, dentro de `lab` y sin una sesión root. Con la receta leída y el instructor disponible para revisar permisos, vamos a elegir la identidad de la imagen antes de construirla.
 
 La imagen usa el usuario `node` con UID/GID `1000:1000` por defecto. UID es el número que identifica al usuario y GID, el de su grupo. Linux usa esos números para decidir quién puede leer o escribir un archivo, aunque los usuarios tengan nombres distintos dentro y fuera del container. Esto importará cuando montemos el proyecto del host en el agente.
 
@@ -36,11 +36,11 @@ En lugar de la opción A, reemplazá `TU_UID` por el número de `id -u` y `TU_GI
 docker build -t taller   --build-arg WORKSHOP_UID=TU_UID   --build-arg WORKSHOP_GID=TU_GID .
 ```
 
-No ejecutes después el build básico sobre la imagen adaptada. No construyas desde una sesión root ni arregles permisos con `chmod 777`. Si hay un conflicto de IDs, detenete y resolvelo con el instructor.
+**No ejecutes después el build básico sobre la imagen adaptada. No construyas desde una sesión root ni arregles permisos con `chmod 777`.** Si hay un conflicto de IDs, detenete y resolvelo con el instructor.
 
-`-t taller` da un nombre corto a la imagen. El punto final elige la carpeta actual como contexto de build, es decir, los archivos disponibles durante la construcción, salvo los excluidos por `.dockerignore`. Docker usa el `Dockerfile` de esa carpeta. No versionamos etiquetas en este ejercicio.
+En cualquiera de las opciones, `-t taller` da un nombre corto a la imagen. El punto final elige la carpeta actual como contexto de build, es decir, los archivos disponibles durante la construcción, salvo los excluidos por `.dockerignore`. Por eso importa estar en `lab`, ya que Docker usa el `Dockerfile` de esa carpeta. No versionamos etiquetas en este ejercicio.
 
-Tras finalizar la única opción elegida:
+Cuando termine la única opción que elegiste, buscá la imagen:
 
 ```bash
 docker image ls taller

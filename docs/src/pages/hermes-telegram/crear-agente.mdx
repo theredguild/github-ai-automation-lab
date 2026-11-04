@@ -7,7 +7,7 @@ showFeedback: false
 
 # Crear la instancia del agente
 
-**Dónde:** host, terminal nueva, raíz de tu `lab`, rama `development`. **Antes:** imagen `taller` construida con los IDs elegidos en Docker y runner anterior cerrado. El nombre `lab-agent` debe estar libre para crear una instancia nueva.
+Abrí una terminal nueva del host en la raíz de tu `lab`, en la rama `development`. Necesitás la imagen `taller` construida con los IDs elegidos en Docker y el runner anterior cerrado. El nombre `lab-agent` debe estar libre para crear esta instancia.
 
 ```bash
 docker run -it --name lab-agent \
@@ -17,20 +17,20 @@ docker run -it --name lab-agent \
   taller
 ```
 
-La terminal queda dentro de `lab-agent`, en `/workspace`, con el usuario `node`. Los dos `-v` conectan almacenamiento con carpetas del container, pero tienen funciones distintas:
+Después de ejecutar el comando, la terminal queda dentro de `lab-agent`, en `/workspace`, con el usuario `node`. Fijate en los dos `-v`. Ambos conectan almacenamiento con carpetas del container, pero vamos a usarlos para cosas distintas:
 
 | Montaje | Qué conserva |
 | --- | --- |
 | `"$PWD":/workspace` | Un bind mount conecta la carpeta actual del host con `/workspace`. Los cambios en cualquiera de los dos lados modifican los mismos archivos del proyecto |
 | `hermes-home:/home/node/.hermes` | Un volumen con nombre, administrado por Docker, conserva el perfil privado de Hermes, separado del proyecto |
 
-El proyecto está montado **con escritura**. Después Hermes podrá preparar su receptor y `.env.local`; también podría modificar o borrar otros archivos de esa carpeta si una herramienta se lo permite. El container no convierte ese acceso en sólo lectura ni garantiza que una acción sea segura.
+El proyecto está montado **con escritura**. Más adelante Hermes podrá preparar su receptor y `.env.local`. Ese mismo acceso también le permite modificar o borrar otros archivos de la carpeta si una herramienta se lo permite. **El container no convierte ese acceso en sólo lectura ni garantiza que una acción sea segura.**
 
-El volumen del perfil conserva configuración y secretos aunque detengas la instancia o crees otra que use ese mismo volumen. No pertenece al runner, no lo agregues al repo ni lo compartas. Los archivos instalados fuera del volumen y del proyecto quedan en el container, no en la imagen `taller`.
+El volumen del perfil conserva configuración y secretos aunque detengas la instancia o crees otra que use ese mismo volumen. Así vas a poder retomar la configuración sin guardarla en el proyecto. **No lo agregues al repo ni lo compartas con el runner o con otras personas.** Los archivos instalados fuera del volumen y del proyecto quedan en el container, no en la imagen `taller`.
 
 El puerto 8644 queda publicado sólo en la dirección local `127.0.0.1` del host, para el receptor de un ejercicio posterior. Telegram no necesita esa publicación. Todavía no hace falta una red compartida.
 
-No montes tu home, configuración `gh` del host ni socket Docker.
+**No montes tu home, la configuración `gh` del host ni el socket Docker.**
 
 A diferencia del container de exploración, éste no lleva `--rm`. Al salir de la shell inicial, se detiene pero conserva su estado y nombre. Más abajo tenés cómo retomarlo sin crear otra instancia ni perder el perfil.
 
@@ -40,4 +40,4 @@ Elegí recuperación en lugar de ejecutar otro `docker run`. Con la misma imagen
 Si cambiaste IDs o necesitás reemplazar una instancia con credenciales, seguí la [migración del instructor en el repositorio autenticado](https://github.com/theredguild/github-ai-automation-lab/blob/main/docs/INSTRUCTOR.md#migrar-una-instancia-y-su-perfil). No borres el volumen ni descartes el container anterior.
 :::
 
-**Comprobación:** ves la shell del container en `/workspace`. **No sigas si** montaste otra carpeta o necesitás migrar un perfil existente.
+Antes de continuar, comprobá que estés en la shell del container, dentro de `/workspace`. **No sigas si** montaste otra carpeta o necesitás migrar un perfil existente.

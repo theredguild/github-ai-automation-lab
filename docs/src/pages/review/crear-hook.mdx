@@ -7,13 +7,13 @@ description: "Apuntá sólo el hook de review al path y secret del receptor nati
 
 # Crear el hook del gateway
 
-**Dónde:** Hermes CLI en `lab-agent`, `/workspace`, o navegador del repo propio. **Antes:** [etiquetas preparadas](/review/crear-etiquetas), hostname **nuevo** del túnel, ruta nativa activa y secret nuevo del gateway. El hook de Next sigue inactivo.
+Ahora vamos a indicarle a GitHub dónde entregar los eventos de esta review. Podés hacerlo desde Hermes CLI en `lab-agent`, dentro de `/workspace`, o desde el navegador de tu repo. Antes de empezar, necesitás las [etiquetas preparadas](/review/crear-etiquetas), el hostname **nuevo** del túnel, la ruta nativa activa y el secret nuevo del gateway. El hook de Next debe seguir inactivo.
 
-Elegí **una** forma de crear o actualizar este hook. No crees uno por cada alternativa.
+Elegí **una** de las formas siguientes para crear o actualizar este hook. Son alternativas para el mismo resultado, no un motivo para crear dos hooks.
 
 ## Delegar al agente
 
-Requiere Webhooks: Read and write en su PAT. Prompt, sin secretos:
+Para delegar esta operación, el PAT del agente necesita Webhooks: Read and write. Enviá este prompt sin agregar secretos:
 
 ```text
 Creá o actualizá sólo el webhook de esta review en TU_USUARIO/REPO.
@@ -36,8 +36,8 @@ En **Settings → Webhooks → Add webhook**, o editando exclusivamente un hook 
 No reutilices por suposición el secret del receptor Next. Ambos extremos de **este hook** deben coincidir. El secret no es el PAT de GitHub, token de Telegram ni API key del modelo.
 :::
 
-GitHub usa ese secret para firmar cada entrega y el receptor lo usa para verificarla. No lo envía como contraseña en el evento. La sesión `gh`, en cambio, usa el PAT para leer el PR y publicar el comentario. Son accesos distintos.
+GitHub usa ese secret para firmar cada entrega y el receptor lo usa para verificarla. No lo envía como contraseña en el evento. En cambio, la sesión `gh` usa el PAT para leer el PR y publicar el comentario. Conviene distinguirlos porque permiten operaciones diferentes.
 
-**Comprobación:** web muestra un único hook de esta review con hostname actual, path nativo, JSON, Pull requests, TLS verificado y activo. `/api/github` permanece inactivo con historial conservado. El ping inicial no es una review ni reemplaza un `pull_request/labeled`.
+Al terminar, revisá en la web que haya un único hook de esta review, con hostname actual, path nativo, JSON, Pull requests, TLS verificado y activo. Comprobá también que `/api/github` permanezca inactivo y conserve su historial. El ping inicial sólo comprueba una entrega de inicio; no es una review ni reemplaza un `pull_request/labeled`.
 
-**No sigas si** hay hooks duplicados, URL vieja, secret de otro receptor o TLS sin verificar. Corregí sólo los hooks de tu práctica; no modifiques reglas ni hooks ajenos.
+**No sigas si** hay hooks duplicados, una URL vieja, un secret de otro receptor o TLS sin verificar. Corregí sólo los hooks de tu práctica; no modifiques reglas ni hooks ajenos.

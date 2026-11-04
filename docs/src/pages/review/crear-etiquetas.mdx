@@ -9,16 +9,16 @@ import labels from '../../../assets/github-labels.png'
 
 # Crear las etiquetas del experimento
 
-**Dónde:** navegador de tu repo GitHub, **Issues o Pull requests → Labels**. Host en `lab` para abrir el PR si hace falta. **Antes:** [gateway accesible con hostname nuevo](/review/cambiar-tunel) y PR propio abierto `development → main`. Branch sin cambios.
+Vamos a preparar dos etiquetas para distinguir una solicitud de review de un evento que debe quedar afuera. En el navegador de tu repo GitHub, abrí **Issues o Pull requests → Labels**. Necesitás el [gateway accesible con hostname nuevo](/review/cambiar-tunel) y un PR propio abierto `development → main`. Si hace falta abrir el PR, usá el host en `lab`; no cambiamos de rama en este paso.
 
-Creá `ai-review` y `prueba-webhook` **si no existen**. Conservá las etiquetas existentes con esos nombres. El nombre debe coincidir exactamente con el filtro, incluida la etiqueta positiva `ai-review`. Crear una etiqueta sólo la deja disponible en el repo; aplicarla a un PR es lo que produce el evento `labeled`.
+Creá `ai-review` y `prueba-webhook` **si no existen**. Si ya están, conservalas. Los nombres deben coincidir exactamente con los que vamos a usar, en particular `ai-review` con el filtro positivo. Crear una etiqueta sólo la deja disponible en el repo. Aplicarla a un PR es lo que produce el evento `labeled`.
 
 <img src={labels} alt="Entrada al panel Labels del repositorio de GitHub para crear etiquetas" />
 
 Captura de referencia del taller; los datos visibles no son evidencia de tu repo.
 
-En el PR, ubicá el selector lateral **Labels** que permite agregar y quitar cada etiqueta. Todavía no agregues `ai-review`: primero probaremos el filtro negativo con el hook configurado.
+En el PR, ubicá el selector lateral **Labels**, que permite agregar y quitar cada etiqueta. Todavía no agregues `ai-review`. Primero vamos a configurar el hook y probar el filtro negativo.
 
-Podés pedir a Hermes que cree sólo las dos etiquetas ausentes como alternativa a crearlas en la web. El permiso Pull requests del PAT alcanza para ese endpoint; no agregues Issues ni permisos de organización por reflejo. Para **solicitar** la review usaremos el selector web Labels, sin depender de consultas adicionales de `gh pr edit`.
+Como alternativa a la web, podés pedirle a Hermes que cree sólo las dos etiquetas ausentes. El permiso Pull requests del PAT alcanza para ese endpoint; no agregues Issues ni permisos de organización por reflejo. Para **solicitar** la review usaremos el selector web Labels, sin depender de consultas adicionales de `gh pr edit`.
 
-**Comprobación:** ambas etiquetas existen y encontraste el selector del PR correcto. **No sigas si** estás en un repo ajeno o el nombre positivo no coincide con el filtro. Si `ai-review` ya está aplicada, recordá que deberá quitarse y volver a agregarse para producir un evento nuevo `labeled`.
+Antes de avanzar, fijate que ambas etiquetas existan y que hayas encontrado el selector del PR correcto. **No sigas si** estás en un repo ajeno o el nombre positivo no coincide con el filtro. Si `ai-review` ya está aplicada, habrá que quitarla y volver a agregarla cuando pidamos la review para producir un evento nuevo `labeled`.

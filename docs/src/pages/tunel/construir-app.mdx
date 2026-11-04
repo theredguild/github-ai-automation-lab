@@ -7,12 +7,12 @@ showFeedback: false
 
 # Construir la aplicación de origen
 
-**Dónde:** shell de `lab-app`, `/workspace`, rama montada `development`. **Antes:** instalación con lockfile terminada correctamente.
+Con la instalación terminada correctamente, quedate en la shell de `lab-app`, en `/workspace` y con `development` montada. Vamos a construir los archivos actuales para usar el servidor de producción de Next:
 
 ```bash
 pnpm build
 ```
 
-Usaremos el servidor de producción de Next, no `pnpm dev`. Necesita este build de los archivos actuales.
+En este recorrido no usamos `pnpm dev`. El servidor de producción necesita que este build termine antes de arrancar.
 
-**Comprobación:** build finaliza sin error y vuelve la shell. **No sigas si** falló compilación o generación de rutas. No ejecutes `start` contra un build incompleto o desactualizado.
+Cuando vuelva la shell, fijate que el build haya finalizado sin error. **No sigas si** falló la compilación o la generación de rutas. No ejecutes `start` contra un build incompleto o desactualizado.

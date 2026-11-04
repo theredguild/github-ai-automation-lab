@@ -12,7 +12,7 @@ import options from '../../../assets/github-merge-options.png'
 
 # Integrar con un merge commit
 
-**Dónde:** navegador, PR GitHub; alternativa CLI en host, `lab`. **Antes:** diff y Preview revisados, requisitos de checks y aprobaciones satisfechos.
+Ya revisaste el diff y el Preview. Antes de integrar, los requisitos de checks y aprobaciones tienen que estar satisfechos. Seguí en el PR de GitHub en el navegador, o usá la alternativa por CLI desde el host, en `lab`. Primero comparemos cómo puede quedar registrado el cambio en `main`:
 
 | Método | Qué agrega a main | Cuándo conviene |
 | --- | --- | --- |
@@ -20,9 +20,9 @@ import options from '../../../assets/github-merge-options.png'
 | Squash and merge | Agrupa cambios del PR en un commit nuevo | Rama corta que termina tras el PR |
 | Rebase and merge | Reaplica commits con SHA nuevos, sin commit de merge | Historia lineal acordada con el equipo |
 
-Son alternativas conceptuales, **no ejecutes las tres sobre el mismo PR**. En una rama larga, squash puede confundir comparaciones posteriores porque los commits originales siguen en la rama.
+Son alternativas conceptuales. **No ejecutes las tres sobre el mismo PR.** En este taller vamos a usar merge commit porque después reutilizamos `development`. En una rama larga, squash puede confundir comparaciones posteriores, ya que los commits originales siguen en la rama.
 
-Con merge commit, podés reconocer los commits originales y el punto donde se unieron las ramas. Sus dos padres son los commits de `main` y `development` que se integraron. Con squash, quien lea `main` verá una sola unidad por PR. Con rebase, verá cada commit en una línea continua, pero con identificadores distintos de los originales. Los tres métodos incorporan cambios; cambia cómo queda registrado el trabajo.
+Con un merge commit podés reconocer los commits originales y el punto donde se unieron las ramas. Sus dos padres son los commits de `main` y `development` que se integraron. Con squash, quien lea `main` verá una sola unidad por PR. Con rebase verá cada commit en una línea continua, pero con identificadores distintos de los originales. Los tres métodos incorporan los cambios. Lo que cambia es cómo queda registrado el trabajo.
 
 ### Merge commit
 
@@ -44,7 +44,7 @@ Diagrama del taller; ejemplo conceptual.
 
 ### Operación del taller
 
-En **Conversation**, revisá conversación y checks, bajá al botón verde y abrí su flecha. Elegí **Create a merge commit**, luego **Merge pull request → Confirm merge**. Conservá `development`; no la borres.
+Para hacer la operación del taller, volvé a **Conversation** y revisá la conversación y los checks. Bajá al botón verde y abrí su flecha. Elegí **Create a merge commit** y después **Merge pull request → Confirm merge**. Conservá `development`, no la borres.
 
 <img src={options} alt="Selector de métodos de integración de GitHub" />
 
@@ -59,6 +59,6 @@ gh pr view NUMERO --json state,mergeCommit
 ```
 :::
 
-Comprobá estado **Merged** y commit de merge en GitHub. Si una regla exige checks o aprobación, atendé ese requisito. **No uses bypass.**
+Después de confirmar, buscá el estado **Merged** y el commit de merge en GitHub. Si una regla exige checks o aprobación, atendé ese requisito. **No uses bypass.**
 
 **No sigas si** el PR no quedó integrado o fallan requisitos. [Métodos de merge](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github).

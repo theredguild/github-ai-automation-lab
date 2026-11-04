@@ -7,7 +7,7 @@ showFeedback: false
 
 # Instalar dependencias en lab-app
 
-**Dónde:** shell interactiva de `lab-app`, `/workspace`, rama montada `development`. **Antes:** proyecto correcto montado y lockfile presente.
+Seguimos en la shell interactiva de `lab-app`, en `/workspace`, con la rama `development` montada desde el host. Comprobá que sea el proyecto correcto y que tenga su lockfile. Vamos a instalar las dependencias respetando ese archivo:
 
 ```bash
 pnpm install --frozen-lockfile
@@ -15,6 +15,6 @@ pnpm install --frozen-lockfile
 
 Si pnpm detecta un `node_modules` creado antes en el host u otro container, puede pedir permiso para recrearlo con el store actual. En esta terminal interactiva aceptá sólo para el proyecto de la práctica y esperá a que termine.
 
-Cada instancia conserva su propio cache del store fuera del bind mount. No borres el lockfile ni edites dependencias para resolver esa pregunta. La carpeta de dependencias montada puede cambiar para ajustarse a este entorno.
+Cada instancia conserva su propio cache del store fuera del bind mount. La carpeta de dependencias montada puede cambiar para ajustarse a este entorno. No borres el lockfile ni edites dependencias para responder esa pregunta.
 
-**Comprobación:** instalación termina sin error y vuelve la shell. **No sigas si** el lockfile no coincide, falló una descarga o la pregunta menciona un proyecto distinto.
+Esperá a que la instalación termine sin error y vuelva la shell. **No sigas si** el lockfile no coincide, falló una descarga o la pregunta menciona un proyecto distinto.

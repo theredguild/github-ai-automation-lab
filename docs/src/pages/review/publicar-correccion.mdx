@@ -7,9 +7,9 @@ description: "Creá el commit concreto, hacé push y registrá el SHA nuevo del 
 
 # Publicar la corrección verificada
 
-**Dónde:** host, cwd `lab`, branch `development`. **Antes:** [resta corregida y test, lint, typecheck correctos](/review/corregir-error), ningún cambio posterior a los checks, PR propio todavía abierto.
+Vamos a publicar la versión que acabás de comprobar. Usá la terminal del host, en `lab`, sobre `development`, con la [resta corregida y test, lint y typecheck correctos](/review/corregir-error). El PR propio debe seguir abierto y no debe haber cambios posteriores a esos checks.
 
-Revisá que sólo publiques la corrección prevista. No agregues el perfil del agente ni `.env.local`:
+Revisá que sólo vayas a publicar la corrección prevista. Reemplazá `NUMERO` por tu PR antes de consultar su estado. **No agregues el perfil del agente ni `.env.local`.**
 
 ```bash
 git diff -- app/capacidad.ts
@@ -20,10 +20,10 @@ git rev-parse HEAD
 gh pr view NUMERO --json number,state,baseRefName,baseRefOid,headRefOid
 ```
 
-Reemplazá `NUMERO` por tu PR. Anotá el SHA **nuevo** de la corrección y el base actual. El `headRefOid` del PR debe coincidir con `git rev-parse HEAD`, distinto del head de la review anterior.
+Anotá el SHA **nuevo** de la corrección y el base actual. El `headRefOid` del PR debe coincidir con `git rev-parse HEAD` y ser distinto del head de la review anterior.
 
-**Comprobación:** push termina correctamente y el PR Open hacia `main` contiene la resta corregida con el SHA nuevo. Ese SHA identifica la versión que acabás de comprobar y publicar; si volvés a editarla, los checks anteriores no comprueban el cambio nuevo. La conversación anterior queda conservada como evidencia de otra versión.
+Comprobá que el push haya terminado correctamente y que el PR siga Open hacia `main`, con la resta corregida y el SHA nuevo. Ese SHA identifica la versión que acabás de comprobar y publicar. Si volvés a editarla, los checks anteriores no comprueban el cambio nuevo. Conservá la conversación anterior como evidencia de la otra versión.
 
-Este push **no vuelve a solicitar review**, aunque `ai-review` siga aplicada. Tampoco uses Redeliver sobre el evento viejo: conserva sus SHA y pediría revisar una solicitud desactualizada.
+Todavía falta pedir la review de esta corrección. Este push **no vuelve a solicitar review**, aunque `ai-review` siga aplicada. Tampoco uses Redeliver sobre el evento viejo, porque conserva sus SHA y pediría revisar una solicitud desactualizada.
 
-**No sigas si** falló el push, el PR sigue mostrando el SHA anterior o el commit incluye secretos/cambios no comprobados. No hagas force-push ni borres la conversación para ocultar el fallo de práctica.
+**No sigas si** falló el push, el PR sigue mostrando el SHA anterior o el commit incluye secretos o cambios no comprobados. No hagas force-push ni borres la conversación para ocultar el fallo de práctica.

@@ -9,16 +9,16 @@ import urlParts from '../../../assets/course-e4-url.png'
 
 # El túnel
 
-Vas a exponer una respuesta conocida antes de añadir webhooks. Partís de la imagen `taller`, el proyecto `lab` y Telegram funcionando sin túnel. Terminás con Next en `lab-app`, pruebas por tres caminos y un Quick Tunnel que podés interrumpir y recuperar.
+Antes de añadir webhooks, vamos a exponer una respuesta que ya conocemos. Para este recorrido necesitás la imagen `taller`, el proyecto `lab` y Telegram funcionando sin túnel. Al terminar vas a tener Next en `lab-app` y un Quick Tunnel que podés interrumpir y recuperar. En el camino vamos a consultar la app desde tres lugares distintos para entender cómo llega cada request.
 
 El origen es la aplicación que genera la respuesta, en este caso Next. Un cliente, como el navegador o `curl`, le envía una solicitud HTTP, también llamada request. El servidor devuelve una respuesta con un código de estado y un contenido, o body. Vamos a seguir esa misma consulta primero desde el host, después desde otro container y finalmente desde Internet.
 
-Cloudflare opera la red pública. `cloudflared` es el proceso local que abre una conexión saliente hacia esa red. No crea tu aplicación ni la reemplaza.
+Cloudflare opera la red pública y `cloudflared` es el proceso local que abre una conexión saliente hacia ella. Esa conexión nos permite llegar al origen desde Internet, pero no crea tu aplicación ni la reemplaza.
 
-Usaremos un **Quick Tunnel**, con dirección temporal `https://…trycloudflare.com`, sin crear cuenta ni registrar dominio. Sirve para la práctica, no promete dirección estable ni disponibilidad de producción.
+Usaremos un **Quick Tunnel**, con dirección temporal `https://…trycloudflare.com`, sin crear cuenta ni registrar dominio. Nos alcanza para la práctica, aunque no promete una dirección estable ni disponibilidad de producción.
 
 <img src={urlParts} alt="URL dividida en esquema HTTPS, hostname y ruta api health" />
 
-Diagrama del taller; ejemplo conceptual. En `https://HOSTNAME/api/health`, `https` es el esquema, `HOSTNAME` se resuelve por DNS y `/api/health` es la ruta que atiende Next. DNS localiza la entrada; no decide qué archivo ejecuta el backend.
+El diagrama del taller es conceptual. En `https://HOSTNAME/api/health`, `https` es el esquema, `HOSTNAME` se resuelve por DNS y `/api/health` es la ruta que atiende Next. DNS permite localizar la entrada, pero no decide qué archivo ejecuta el backend.
 
 Empezá por [crear la red compartida](/tunel/crear-red).

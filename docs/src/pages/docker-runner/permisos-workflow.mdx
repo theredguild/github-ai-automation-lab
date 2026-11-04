@@ -7,9 +7,9 @@ showFeedback: false
 
 # Autorizar la operación elegida
 
-**Dónde:** navegador, configuración del PAT fino del repositorio propio; terminal del host sólo si hace falta repetir login. **Antes:** decidir cómo crear el archivo y cómo iniciar las ejecuciones.
+Antes de agregar permisos, elegí cómo vas a crear el archivo y cómo iniciarás las ejecuciones. Abrí en el navegador la configuración del PAT fino de tu repositorio propio. Sólo necesitás la terminal del host si hace falta repetir el login.
 
-Elegí una sola forma de publicar el workflow en la página siguiente. La web es la opción más directa y no usa el permiso Workflows del PAT.
+En la página siguiente vas a publicar el workflow por una sola vía. La web es la opción más directa y no usa el permiso Workflows del PAT. Esta tabla te permite agregar únicamente lo que requiere tu elección:
 
 | Operación elegida | Permiso adicional del PAT del mismo repo |
 | --- | --- |
@@ -20,6 +20,6 @@ Elegí una sola forma de publicar el workflow en la página siguiente. La web es
 
 El PAT inicial del capítulo anterior no autoriza enviar workflows. Si elegís publicar por CLI, agregá **Workflows: Write antes del push**, no después de un rechazo. Si también vas a disparar desde CLI, agregá Actions: Read and write.
 
-Editá permisos en GitHub, no con `gh auth refresh`. Conservá el alcance a tu repo. No agregues Administration ni permisos de cuenta. Si GitHub reemplaza el token al actualizarlo, repetí [la autenticación de CLI](/proyecto/autenticar-cli) por entrada oculta en el host. Nunca pegues el token en argumentos, archivos versionados, chat o este workflow.
+Editá los permisos en GitHub, no con `gh auth refresh`, y conservá el alcance a tu repo. **No agregues Administration ni permisos de cuenta.** Si GitHub reemplaza el token al actualizarlo, repetí [la autenticación de CLI](/proyecto/autenticar-cli) por entrada oculta en el host. Nunca pegues el token en argumentos, archivos versionados, chat o este workflow.
 
 Comprobá en la pantalla del PAT los permisos de la operación elegida. **No sigas con el push del YAML si** elegiste Git y aún falta Workflows: Write.

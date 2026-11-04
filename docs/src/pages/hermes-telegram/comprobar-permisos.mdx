@@ -7,9 +7,9 @@ showFeedback: false
 
 # Comprobar permisos antes de credenciales
 
-**Dónde:** shell de `lab-agent`, `/workspace`, usuario `node`. **Antes:** instancia creada o recuperada, sin cargar credenciales nuevas.
+Seguí en la shell de `lab-agent`, dentro de `/workspace` y con el usuario `node`. Si creaste o recuperaste la instancia, todavía no cargues credenciales nuevas. Primero vamos a comprobar dónde puede escribir.
 
-El agente va a trabajar con los permisos del usuario `node`, no con los de tu sesión del host. Ver el proyecto no alcanza: necesitás comprobar que puede escribir tanto en el proyecto compartido como en el perfil. Esta prueba crea y borra un archivo en cada lugar antes de guardar secretos.
+El agente va a trabajar con los permisos de `node`, no con los de tu sesión del host. Ver el proyecto no alcanza. Necesitás comprobar escritura tanto en el proyecto compartido como en el perfil. Esta prueba crea y borra un archivo en cada lugar antes de guardar secretos:
 
 ```bash
 id
@@ -19,6 +19,6 @@ rm /workspace/.prueba-permisos
 rm /home/node/.hermes/.prueba-permisos
 ```
 
-Los dos `touch` deben terminar sin error. Los `rm` retiran sólo los archivos recién creados. Revisá que `id` corresponda al usuario e IDs de la imagen elegida.
+Fijate en que los dos `touch` terminen sin error y que `id` corresponda al usuario e IDs de la imagen elegida. Los `rm` retiran sólo los archivos que acabás de crear para la prueba.
 
 Un volumen nuevo hereda el propietario de la imagen; uno existente conserva el suyo. **No sigas si** falla cualquiera de las escrituras. Revisá propietario, permisos e IDs del build con el instructor antes de configurar secretos. No cambies a root ni uses `chmod 777`. Si hay que cambiar IDs o conservar un perfil, usá la [migración autenticada del instructor](https://github.com/theredguild/github-ai-automation-lab/blob/main/docs/INSTRUCTOR.md#migrar-una-instancia-y-su-perfil).

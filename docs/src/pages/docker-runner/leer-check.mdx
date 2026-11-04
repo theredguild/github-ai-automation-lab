@@ -9,9 +9,9 @@ import logs from '../../../assets/workflow-log.png'
 
 # Leer el resultado inicial
 
-**Dónde:** navegador en la ejecución inicial o host en `lab`. **Antes:** `RUN_ID` y SHA baseline anotados.
+Con el `RUN_ID` y el SHA baseline anotados, abrí la ejecución inicial en el navegador. Si preferís consultar por CLI, seguí en la terminal del host en `lab`.
 
-En el navegador abrí el job `check` y desplegá cada step. Buscá checkout, instalación con lockfile, Biome y TypeScript.
+En el navegador, entrá al job `check` y desplegá cada step. Buscá checkout, instalación con lockfile, Biome y TypeScript para relacionar lo que ocurrió con el archivo que leímos.
 
 <img src={logs} alt="Vista de steps y logs de un job de GitHub Actions para localizar el primer fallo" />
 
@@ -28,6 +28,6 @@ El JSON consulta un estado puntual. El navegador permite seguir la ejecución y 
 
 Si queda **Queued**, revisá que la terminal del runner siga escuchando y sus etiquetas incluyan `self-hosted`, `linux` y `workshop`. Si aparece **Failure**, localizá el primer step fallido y leé archivo, línea y mensaje antes de reintentar. No confundas estar en cola con un error de TypeScript.
 
-El baseline esperado termina con `status` igual a `completed`, `conclusion` igual a `success`, y todos los checks completos en el SHA inicial de `development`. Verificá el SHA en la página del run. Después el runner efímero debe terminar y su terminal regresar al host.
+Esperá a que el baseline termine con `status` igual a `completed`, `conclusion` igual a `success` y todos los checks completos en el SHA inicial de `development`. Verificá ese SHA en la página del run, no sólo el color del resultado. Después el runner efímero debe terminar y su terminal regresar al host.
 
 **No sigas si** el baseline falla o el run corresponde a otro commit. El error deliberado sólo tiene sentido después de este resultado correcto.

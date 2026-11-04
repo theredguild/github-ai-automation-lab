@@ -7,17 +7,17 @@ showFeedback: false
 
 # Clonar el material
 
-**Dónde:** host, en una terminal Bash de tu equipo o WSL2, dentro de la carpeta donde guardás proyectos. **Antes:** [Git](https://git-scm.com/install/), [GitHub CLI](https://cli.github.com/) y acceso de lectura al material ya resuelto con tu cuenta o credencial existente.
+Vamos a traer el material a tu equipo, el host donde vas a trabajar. Abrí una terminal Bash en tu equipo o WSL2 y ubicate en la carpeta donde guardás proyectos. Para este paso necesitás [Git](https://git-scm.com/install/), [GitHub CLI](https://cli.github.com/) y acceso de lectura al material con tu cuenta o credencial existente.
 
-`git clone` descarga un repositorio con su historial y crea una carpeta local; no crea un repositorio nuevo en tu cuenta. A esa copia local también la llamamos checkout.
+`git clone` descarga el repositorio con su historial y crea una carpeta local. A esa copia la llamamos checkout. No crea un repositorio nuevo en tu cuenta, eso lo haremos después para tu aplicación.
 
-El material todavía es privado. El token limitado al sitio que crearás más adelante no permite leerlo. No reemplaces ahora una credencial que necesitás para este clone.
+El material todavía es privado. El token limitado al sitio que vas a crear más adelante no permite leerlo, así que no reemplaces ahora la credencial que necesitás para este clone.
 
 ```bash
 git clone https://github.com/theredguild/github-ai-automation-lab.git
 cd github-ai-automation-lab
 ```
 
-Comprobá en el editor que abriste el material y que contiene `hackerspace-site/`, guía y presentación. Este checkout no será el repositorio de tu aplicación.
+Cuando termine, fijate en el editor que abriste el material y que contiene `hackerspace-site/`, guía y presentación. Vamos a separar la app en el próximo paso. Este checkout no será su repositorio.
 
 **No sigas si** el clone o el `cd` falla. Resolvé el acceso antes de mover archivos; no publiques el material privado en otro repo.

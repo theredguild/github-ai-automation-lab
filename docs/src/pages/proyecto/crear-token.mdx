@@ -10,7 +10,7 @@ import selected from '../../../assets/github-pat-selected-repository.png'
 
 # Crear un token limitado
 
-**Dónde:** navegador, configuración de tu cuenta personal de GitHub. **Antes:** tu repo privado ya existe. Un personal access token es una credencial, no código ni una contraseña para guardar en archivos.
+Con tu repo privado ya creado, vamos a preparar la credencial que usará la terminal para acceder a él. Seguí en el navegador y abrí la configuración de tu cuenta personal de GitHub. Un personal access token es una credencial, no código ni una contraseña para guardar en archivos.
 
 Abrí [Fine-grained personal access tokens → Generate new token](https://github.com/settings/personal-access-tokens/new):
 
@@ -25,7 +25,7 @@ Abrí [Fine-grained personal access tokens → Generate new token](https://githu
 | Pull requests | Read and write |
 | Metadata | Read-only, automático |
 
-Contents permite leer y enviar archivos y commits. Pull requests permite crear y revisar propuestas de cambio. Metadata da acceso a datos básicos del repo. El token identifica tu cuenta ante las herramientas y limita las operaciones sobre repos privados a los seleccionados; no crea el repo ni sube archivos.
+Con estos permisos, Contents te permite leer y enviar archivos y commits, y Pull requests te permite crear y revisar propuestas de cambio. Metadata da acceso a los datos básicos del repo. El token identifica tu cuenta ante las herramientas y limita las operaciones sobre repos privados a los seleccionados. No crea el repo ni sube archivos por sí mismo.
 
 <img src={expiry} alt="Nombre y vencimiento de un token fino en la interfaz histórica de GitHub" />
 
@@ -35,9 +35,9 @@ Referencia oficial de GitHub de 2022, interfaz histórica.
 
 Referencia oficial de GitHub de 2022, cuentas y repositorios de ejemplo. Esta captura corresponde al PAT, no a la GitHub App que instalarás para Vercel.
 
-No copies permisos de Issues de otras capturas. No hacen falta permisos de cuenta ni Administration. Estos permisos alcanzan para Git y PR del capítulo; los permisos de otros ejercicios se agregan cuando hacen falta.
+Guiate por la tabla, no por los permisos de Issues que puedan aparecer en otras capturas. No hacen falta permisos de cuenta ni Administration. Estos permisos alcanzan para Git y PR de este capítulo. Vamos a agregar los de otros ejercicios cuando los necesitemos.
 
-La selección limita el acceso privado; el token también puede leer repos públicos y no concede derechos que tu cuenta no tenga. Si una organización exige aprobación, no supongas que funciona. Usamos tu repo personal.
+La selección limita el acceso privado, pero el token también puede leer repos públicos. Tampoco concede derechos que tu cuenta no tenga. Si una organización exige aprobación, no supongas que ya funciona. Por eso acá usamos tu repo personal.
 
 Revisá selección y permisos, generá el token y copialo en privado para el login. **No lo proyectes, captures, guardes en el repo ni pegues en un chat.**
 

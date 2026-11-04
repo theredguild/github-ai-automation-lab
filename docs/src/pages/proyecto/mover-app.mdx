@@ -7,24 +7,24 @@ showFeedback: false
 
 # Mover y verificar la app
 
-**Dónde:** host, Bash en `github-ai-automation-lab/`. **Antes:** clone correcto y un destino hermano que todavía no exista. El ejemplo usa `lab`.
+Ahora vamos a separar la aplicación del material para que tenga su propio historial. Seguí en Bash, en el host y dentro de `github-ai-automation-lab/`, con el clone ya completado. La app va a quedar en una carpeta hermana que todavía no exista. En el ejemplo la llamamos `lab`.
 
-No hagas `mkdir lab` antes. Revisá su ausencia en el explorador y mové la carpeta completa:
+**No hagas `mkdir lab` antes.** Revisá en el explorador que ese destino no exista y mové la carpeta completa:
 
 ```bash
 mv hackerspace-site ../lab
 ```
 
-Si `lab` ya existe, `mv` puede anidar la app en vez de renombrarla. Si el destino existe o el comando falla, detenete y elegí otro nombre; no copies otra vez ni inicialices nada.
+**Si el destino existe o el comando falla, detenete y elegí otro nombre.** `mv` puede anidar la app dentro de un `lab` existente en vez de renombrarla. No copies otra vez ni inicialices nada.
 
-Después del movimiento correcto:
+Una vez que el movimiento haya terminado correctamente, entremos en la app y comprobemos dónde quedó:
 
 ```bash
 cd ../lab
 pwd
 ```
 
-El directorio debe terminar en `/lab`. Ejemplo de salida, no comando:
+La ruta que devuelve `pwd` debe terminar en `/lab`. Esta es una salida de ejemplo, no un comando:
 
 ```text
 /home/TU_USUARIO/proyectos/lab
@@ -45,8 +45,8 @@ lab/
     devcontainer.json
 ```
 
-Mover incluye archivos ocultos. La `.git` del taller quedó un nivel arriba: no hay que borrarla. El checkout del material mostrará la carpeta como eliminada; no confirmes esos cambios allí. Desde ahora trabajás sólo en `lab`; guía y presentación quedan en el material o se consultan desde GitHub.
+Al mover la carpeta completa también llevaste los archivos ocultos. La `.git` del taller quedó dentro de `github-ai-automation-lab/`, fuera de `lab`, y no hay que borrarla. En el checkout del material vas a ver la carpeta como eliminada, pero no confirmes esos cambios allí.
 
-`Dockerfile` está junto a `package.json`. `.devcontainer/` sólo configura la demo remota posterior, no reemplaza ese Dockerfile.
+Desde ahora trabajás sólo en `lab`. La guía y la presentación quedan en el material o podés consultarlas desde GitHub. Fijate también que `Dockerfile` esté junto a `package.json`. Lo usaremos más adelante. `.devcontainer/` sólo configura la demo remota posterior y no reemplaza ese archivo.
 
 **No sigas si** falla `cd`, la ruta no es la app externa o faltan los archivos. No ejecutes `git init` en el material.

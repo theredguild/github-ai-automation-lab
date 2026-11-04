@@ -7,9 +7,9 @@ showFeedback: false
 
 # Iniciar Git y revisar identidad
 
-**Dónde:** host, `lab`, junto a `package.json` y `Dockerfile`. **Antes:** ruta y estructura verificadas, app sin inicializar y login comprobado. Todavía no instalaste dependencias. El starter ya trae `.gitignore`.
+Vamos a iniciar el historial de tu aplicación. Seguí en la terminal del host, dentro de `lab`, junto a `package.json` y `Dockerfile`. Para hacerlo, la ruta y la estructura ya tienen que estar verificadas, la app debe seguir sin inicializar y el login tiene que haber funcionado. Todavía no instales dependencias. El starter ya trae `.gitignore`.
 
-`git init -b main` crea el repositorio local en una carpeta oculta `.git` y nombra `main` a la rama inicial. Ahí Git guardará el historial. Los archivos que editás en `lab` forman la copia de trabajo o working tree; todavía no hay un commit ni conexión con el repo de GitHub.
+`git init -b main` crea el repositorio local en una carpeta oculta `.git` y llama `main` a la rama inicial. Ahí Git guardará el historial. Los archivos que editás en `lab` forman la copia de trabajo o working tree. Por ahora no hay ningún commit ni conexión con el repo de GitHub.
 
 ```bash
 git init -b main
@@ -17,19 +17,19 @@ git config user.name
 git config user.email
 ```
 
-Nombre y email del commit son distintos del login de GitHub. Si faltan o pertenecen a otra persona, configurá sólo este repo con tus datos reales:
+Fijate qué nombre y email devolvieron las consultas. Esos datos identifican al autor de los commits y son distintos del login de GitHub. Si faltan o pertenecen a otra persona, configurá sólo este repo con tus datos reales:
 
 ```bash
 git config user.name "Tu nombre"
 git config user.email "TU_EMAIL"
 ```
 
-Repetí las consultas para verificar el valor. Comprobá la rama:
+Repetí las consultas de nombre y email para comprobar que quedaron bien. Después revisá la rama en la que vas a trabajar:
 
 ```bash
 git branch --show-current
 ```
 
-Debe mostrar `main`. La identidad se guarda localmente al omitir `--global`.
+La salida debe ser `main`. Como configuraste la identidad sin `--global`, esos valores quedan guardados sólo para este repo.
 
 **No sigas si** estás en el material, faltan los archivos de app o la identidad sigue siendo ajena.

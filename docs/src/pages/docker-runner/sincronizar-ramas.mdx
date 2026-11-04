@@ -7,7 +7,7 @@ showFeedback: false
 
 # Sincronizar main y development
 
-**Dónde:** host, Bash en `lab`. **Antes:** workflow visible en `main` de GitHub, tanto si usaste web como CLI.
+Cuando veas el workflow en `main` de GitHub, volvé a Bash del host en `lab`. Tanto si lo publicaste por web como por CLI, vamos a traerlo a las dos ramas locales. Primero mirá el estado de tu copia:
 
 ```bash
 git status
@@ -15,7 +15,7 @@ git status
 
 Guardá cambios pendientes antes de cambiar de rama. Revisá archivos sin seguimiento: si creaste el YAML localmente pero elegiste publicarlo por web, un archivo local con el mismo nombre puede impedir el pull. Conservá su contenido fuera de la ruta en conflicto después de revisarlo; no borres trabajo ni fuerces el checkout.
 
-Con el árbol listo, ambas alternativas ejecutan el bloque completo:
+Con el árbol listo, ejecutá el bloque completo. Primero actualiza `main` y después lleva ese workflow a `development` y la publica:
 
 ```bash
 git switch main
@@ -25,6 +25,6 @@ git merge main
 git push origin development
 ```
 
-Leé `.github/workflows/checks.yml` en `development` local y en GitHub. Debe contener el mismo workflow manual. `git status` debe indicar rama `development` sin cambios pendientes.
+Leé `.github/workflows/checks.yml` en `development` local y en GitHub para confirmar que ambas copias contienen el mismo workflow manual. Al terminar, `git status` debe indicar la rama `development` sin cambios pendientes.
 
 **No sigas si** hay conflictos, falla el fast-forward o el push no publicó la sincronización. Resolvé ese estado antes de registrar el primer runner.

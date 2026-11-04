@@ -10,9 +10,9 @@ import logs from '../../../assets/vercel-check-build-logs.png'
 
 # Desplegar Production desde main
 
-**Dónde:** navegador, configuración del nuevo proyecto Vercel. **Antes:** importación de tu repo personal, sin otro proyecto para Preview.
+Sigamos en el navegador, en la configuración del nuevo proyecto Vercel, después de importar tu repo personal. Vamos a publicar primero `main` como Production. No hace falta otro proyecto para Preview.
 
-Antes de pulsar **Deploy**, revisá:
+Antes de pulsar **Deploy**, compará la configuración con estos valores:
 
 | Campo | Valor |
 | --- | --- |
@@ -26,13 +26,13 @@ Antes de pulsar **Deploy**, revisá:
 
 <img src={framework} alt="Autodetección del framework en la configuración de Vercel" />
 
-Recorte de documentación oficial de Vercel. Ubica el selector, no demuestra un deployment del taller. Usá los valores de la tabla y no copies overrides ajenos.
+La captura es un recorte de documentación oficial de Vercel. Te ayuda a ubicar el selector, pero no demuestra un deployment del taller. Usá los valores de la tabla y no copies overrides ajenos.
 
-No sobrescribas Install Command con un `pnpm install` genérico: Vercel puede seleccionar otra versión del gestor. Para fijar exactamente `pnpm@10.20.0`, se habilita Corepack según la [documentación de gestores](https://vercel.com/docs/package-managers); no hace falta en el camino básico de autodetección.
+Dejá Install Command en autodetección. No lo sobrescribas con un `pnpm install` genérico, porque Vercel puede seleccionar otra versión del gestor. Si necesitás fijar exactamente `pnpm@10.20.0`, se habilita Corepack según la [documentación de gestores](https://vercel.com/docs/package-managers). No hace falta en el camino básico de autodetección.
 
 El receptor de webhooks se usará localmente después. No cargues sus secretos aquí ni en variables `NEXT_PUBLIC_*`.
 
-Pulsá **Deploy**, abrí **Build Logs** y esperá **Ready**.
+Con esos valores revisados, pulsá **Deploy**, abrí **Build Logs** y seguí el build hasta que aparezca **Ready**.
 
 <img src={logs} alt="Ubicación de Build Logs en un deployment de Vercel" />
 

@@ -7,9 +7,9 @@ description: "Publicá un cambio visible y elegí entre actualizar el PR abierto
 
 # Generar un evento real de PR
 
-**Dónde:** host, cwd `lab`, branch `development`. **Antes:** [request sin firma rechazada con 401](/webhook/rechazar-sin-firma), hook único activo, túnel actual y sesión de Git del host. Guardá cualquier trabajo pendiente antes de cambiar de branch.
+Vamos a provocar un evento real con un cambio visible en el proyecto. Volvé al host, a la carpeta `lab` y la branch `development`. Antes de empezar necesitás la [request sin firma rechazada con 401](/webhook/rechazar-sin-firma), un único hook activo, el túnel actual y la sesión de Git del host. Guardá cualquier trabajo pendiente antes de cambiar de branch.
 
-Actualizá la rama existente, sin reset ni force-push:
+Primero actualizá la rama existente, sin reset ni force-push:
 
 ```bash
 git status
@@ -17,7 +17,7 @@ git switch development
 git pull --ff-only
 ```
 
-En el editor de `lab` cambiá el `h1` de `app/page.tsx`, por ejemplo para presentar el HackerSpace de Nodo Serrano, o una descripción visible. Guardá el archivo. Esto es una acción de edición, no un comentario que Bash pueda ejecutar por vos.
+En el editor de `lab`, cambiá el `h1` de `app/page.tsx`, por ejemplo para presentar el HackerSpace de Nodo Serrano, o una descripción visible. Guardá el archivo antes de seguir con los comandos. Esta parte la hacés en el editor, no escribiendo un comentario en Bash.
 
 ```bash
 git diff -- app/page.tsx
@@ -27,10 +27,10 @@ git push
 gh pr list --base main --head development
 ```
 
-Decidí con el resultado de la lista:
+La lista nos permite decidir si hace falta crear un PR:
 
-- **Ya hay un PR abierto development → main:** usá ese PR. El push produce una actualización `synchronize`; no crees un PR idéntico.
-- **No hay un PR abierto de esa rama:** crealo ahora y dejalo abierto:
+- Si **ya hay un PR abierto de development hacia main**, usá ese PR. El push produce una actualización `synchronize`, así que no crees otro idéntico.
+- Si **no hay un PR abierto de esa rama**, crealo con el comando siguiente y dejalo abierto:
 
 ```bash
 gh pr create --base main --head development \
@@ -38,7 +38,7 @@ gh pr create --base main --head development \
   --body "Cambio de texto para observar el webhook."
 ```
 
-En ambos casos, identificá el número y el head real. Reemplazá `NUMERO` por el valor mostrado:
+En ambos casos necesitamos reconocer el número y el head real del PR. Reemplazá `NUMERO` por el valor mostrado:
 
 ```bash
 gh pr list --base main --head development
@@ -46,6 +46,6 @@ gh pr view NUMERO --json number,state,isDraft,baseRefName,headRefName,headRefOid
 gh pr view NUMERO --web
 ```
 
-**Comprobación:** PR propio abierto de `development` hacia `main`, con el commit recién publicado. Anotá su número y SHA head. No lo integres todavía; continuará en la review.
+Comprobá que tu PR siga abierto, vaya de `development` hacia `main` y contenga el commit recién publicado. Anotá su número y SHA head para reconocerlo después en la entrega. No lo integres todavía, porque vamos a continuar con él en la review.
 
 **No sigas si** falló pull o push, el diff contiene secretos o cambios ajenos, o el PR apunta a otra rama o repo. Un `ping` del alta del hook no sustituye al evento `pull_request` que acabás de provocar.

@@ -7,20 +7,20 @@ showFeedback: false
 
 # Crear la red compartida
 
-**Dónde:** host, terminal nueva, raíz de tu `lab`, rama `development`. **Antes:** Docker activo e imagen `taller` disponible. Detené cualquier `pnpm dev` del host que use el puerto 3000.
+Abrí una terminal nueva en el host, en la raíz de tu `lab` y sobre la rama `development`. Comprobá que Docker esté activo y que tengas disponible la imagen `taller`. Si dejaste un `pnpm dev` del host usando el puerto 3000, detenelo antes de continuar.
 
-Ahora sí hace falta una red compartida para app y connector. La exploración de Docker, el runner y Telegram no la necesitaron.
+Ahora vamos a conectar la app y el connector mediante una red compartida. No la necesitamos para explorar Docker, usar el runner o conectar Telegram, pero sí para que estos dos containers puedan encontrarse por nombre.
 
 ```bash
 docker network create red-taller
 ```
 
-**Comprobación:** Docker devuelve el identificador de la red creada. Si informa que ya existe, no repitas la creación ni la borres. Revisala desde el host:
+Docker debería devolver el identificador de la red creada. Si informa que ya existe, no repitas la creación ni la borres. Primero revisala desde el host:
 
 ```bash
 docker network inspect red-taller
 ```
 
-Reutilizala sólo si corresponde a esta práctica. Debe ser una red `bridge`. Permite resolver `lab-app` desde sus containers, pero no publica por sí sola puertos hacia Internet.
+Reutilizala sólo si corresponde a esta práctica y es una red `bridge`. En ella, los containers pueden resolver el nombre `lab-app`. Crear la red no publica por sí solo ningún puerto hacia Internet.
 
 **No sigas si** la red existente es ajena o Docker no pudo crearla. No borres redes de otros proyectos.

@@ -9,20 +9,20 @@ import polling from '../../../assets/course-hermes-polling.png'
 
 # Mantener un gateway activo
 
-**Dónde:** shell de `lab-agent`, `/workspace`, terminal dedicada al gateway. **Antes:** canal Telegram y allowlist guardados.
+Con el canal Telegram y la allowlist guardados, seguí en la shell de `lab-agent`, dentro de `/workspace`. Vamos a dedicar esta terminal al gateway.
 
-Si el wizard ya inició el gateway, conservá esa instancia. Sólo si no hay uno activo, ejecutá:
+Primero fijate si el wizard ya lo inició. Si hay un gateway activo, conservá esa instancia. Sólo si no hay ninguno, ejecutá:
 
 ```bash
 hermes gateway run
 ```
 
-Dejá esa terminal abierta. El gateway es el proceso que mantiene los canales conectados. Usá sólo una instancia por bot; no arranques otra para intentar corregir una demora.
+Dejá esa terminal abierta. El gateway es el proceso que mantiene los canales conectados. **Usá sólo una instancia por bot. No arranques otra para intentar corregir una demora.**
 
-Guardar la configuración no deja el bot funcionando por sí solo. Necesitás el container activo y el proceso del gateway en ejecución para recibir mensajes y devolver respuestas.
+Guardar la configuración no deja el bot funcionando por sí solo. Para recibir mensajes y devolver respuestas, necesitás mantener activos tanto el container como el proceso del gateway.
 
 <img src={polling} alt="El gateway de Hermes inicia consultas HTTPS de long polling a Telegram sin entrada pública" />
 
 Diagrama del taller; ejemplo conceptual. Telegram usa **long polling** en este recorrido. El gateway consulta la API de Telegram por HTTPS desde adentro. No necesitás un túnel ni publicar un puerto para esta conversación.
 
-**Comprobación:** logs del único gateway muestran el canal activo sin error de credenciales o conflicto. **No sigas si** hay dos gateways para el mismo bot o falla su conexión. Revisá el [diagnóstico](/opcional/diagnostico-hermes).
+Mirá los logs del único gateway y comprobá que muestren el canal activo sin errores de credenciales o conflictos. **No sigas si** hay dos gateways para el mismo bot o falla su conexión. Revisá el [diagnóstico](/opcional/diagnostico-hermes).

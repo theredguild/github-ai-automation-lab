@@ -7,9 +7,9 @@ showFeedback: false
 
 # Crear la rama development
 
-**Dónde:** host, `lab`, inicialmente `main`. **Antes:** primer Production comprobado y copia de trabajo limpia.
+Ya comprobamos el primer Production. Vamos a preparar el cambio en una rama aparte para no modificar todavía esa versión. Volvé a la terminal del host, en `lab` e inicialmente en `main`, y comprobá que la copia de trabajo esté limpia.
 
-Con la copia limpia, `git switch main` selecciona la rama local `main`. `git pull --ff-only` trae sus cambios remotos y sólo avanza si no necesita combinar historias divergentes. Luego `git switch -c development` crea una rama desde ese punto y te deja trabajando en ella.
+Con la copia limpia, `git switch main` selecciona la rama local `main`. Después, `git pull --ff-only` trae sus cambios remotos y sólo avanza si no necesita combinar historias divergentes. Por último, `git switch -c development` crea una rama desde ese punto y te deja trabajando en ella.
 
 ```bash
 git status
@@ -20,16 +20,16 @@ git switch -c development
 
 Comprobá con `git branch --show-current` que estás en `development`. Si ya existe, no la recrees: elegí en su lugar `git switch development`, después de comprobar qué contiene.
 
-Una branch es una referencia a un commit; un SHA identifica ese commit. Crear la rama todavía no cambia contenido ni Production.
+Una branch es una referencia a un commit, y un SHA identifica ese commit. Al crear `development` todavía no cambiaste el contenido ni Production.
 
-Al cambiar de rama, Git ajusta los archivos de tu copia de trabajo a la versión seleccionada. No crea otra carpeta del proyecto. En `development` vas a preparar y probar el cambio sin mover `main` hasta el merge.
+Cuando cambiás de rama, Git ajusta los archivos de tu copia de trabajo a la versión seleccionada. No crea otra carpeta del proyecto. En `development` vamos a preparar y probar el cambio sin mover `main` hasta el merge.
 
 | Intención | Comando usado aquí | Equivalente anterior |
 | --- | --- | --- |
 | Crear y entrar | `git switch -c development` | `git checkout -b development` |
 | Volver a main existente | `git switch main` | `git checkout main` |
 
-Son alternativas, no comandos para ejecutar todos. `checkout` también restaura archivos; usamos `switch` porque deja clara la intención de cambiar ramas.
+La tabla muestra alternativas, no comandos para ejecutar todos. `checkout` también restaura archivos. Acá usamos `switch` porque deja clara la intención de cambiar ramas.
 
 **No sigas si** falla el pull o Git advierte que perderías cambios. Revisá `git status`; no fuerces ni cambies de comando para ocultar el conflicto. [Manual de switch](https://git-scm.com/docs/git-switch).
 

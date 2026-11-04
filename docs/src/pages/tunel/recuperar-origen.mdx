@@ -7,9 +7,7 @@ showFeedback: false
 
 # Recuperar el origen
 
-**Dónde:** host para recuperar el container; luego shell de `lab-app`, `/workspace`. **Antes:** `lab-app` detenido por la práctica y terminal del túnel aún activa.
-
-Desde el host:
+Vamos a recuperar el mismo `lab-app` que detuvimos en la práctica, sin crear otro. La terminal del túnel debe seguir activa. Empezá en el host, con este comando para volver a la shell del container, en `/workspace`:
 
 ```bash
 docker start -ai lab-app
@@ -21,7 +19,7 @@ Cuando vuelva Bash dentro de `lab-app`, iniciá de nuevo Next con el build que y
 pnpm start --hostname 0.0.0.0
 ```
 
-Dejá ese proceso activo. En otra terminal del host repetí las tres consultas. En la última, reemplazá `TU_URL_PUBLICA` por el hostname actual del túnel, sin `https://` ni rutas:
+Dejá Next activo. En otra terminal del host repetí las tres consultas para comprobar cada camino. En la última, reemplazá `TU_URL_PUBLICA` por el hostname actual del túnel, sin `https://` ni rutas:
 
 ```bash
 curl -i http://127.0.0.1:3000/api/health
@@ -31,7 +29,7 @@ docker run --rm --network red-taller \
 curl -i https://TU_URL_PUBLICA/api/health
 ```
 
-**Comprobación:** las tres devuelven HTTP 200 y `{"status":"ok","service":"nodoserrano"}`. **No sigas si** alguna capa sigue fallando. Revisá [diagnóstico del túnel](/opcional/diagnostico-tunel).
+Las tres consultas deben devolver HTTP 200 y `{"status":"ok","service":"nodoserrano"}`. Así podés reconocer que el mismo origen volvió a responder por cada camino. **No sigas si** alguna capa sigue fallando. Revisá [diagnóstico del túnel](/opcional/diagnostico-tunel).
 
 ## Comprobar un cambio de hostname
 

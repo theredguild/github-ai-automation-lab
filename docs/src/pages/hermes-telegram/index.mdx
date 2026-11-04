@@ -7,7 +7,7 @@ showFeedback: false
 
 # Hermes y Telegram
 
-Vas a configurar el agente y conversar desde terminal y Telegram antes de darle eventos de GitHub. Partís de la imagen `taller`, el proyecto local `lab` y el runner del ejercicio anterior cerrado. Terminás con un perfil persistente, una conversación con el modelo y un bot limitado a tu usuario.
+Vamos a configurar el agente y conversar desde terminal y Telegram antes de darle eventos de GitHub. Retomá la imagen `taller` y el proyecto local `lab`, con el runner del ejercicio anterior cerrado. Al terminar vas a tener un perfil persistente, una conversación con el modelo y un bot limitado a tu usuario.
 
 | Parte | Qué hace en esta práctica |
 | --- | --- |
@@ -18,8 +18,8 @@ Vas a configurar el agente y conversar desde terminal y Telegram antes de darle 
 | Canal | Terminal o Telegram, por donde enviás mensajes y recibís respuestas |
 | Entorno | El container `lab-agent`, con archivos, programas y permisos para ejecutar herramientas |
 
-Hermes aporta el harness; Docker aporta el entorno, no el harness. El modelo no ejecuta comandos por su cuenta: pide usar una herramienta y Hermes procesa ese pedido según la configuración y los permisos disponibles.
+Al configurar cada parte, fijate en quién hace qué. Hermes aporta el harness y Docker aporta el entorno, no el harness. El modelo no ejecuta comandos por su cuenta. Pide usar una herramienta y Hermes procesa ese pedido según la configuración y los permisos disponibles.
 
-Estas piezas no son intercambiables. Una respuesta por terminal comprueba esa conversación con el modelo, no que el bot de Telegram o GitHub estén integrados.
+Vamos a probar cada canal por separado porque estas piezas no son intercambiables. Una respuesta por terminal comprueba esa conversación con el modelo, no que el bot de Telegram o GitHub estén integrados.
 
 Empezá por [crear la instancia del agente](/hermes-telegram/crear-agente).

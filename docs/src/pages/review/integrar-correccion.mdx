@@ -7,11 +7,11 @@ description: "Revisá el diff final, cumplí reglas e identificá el deploy de m
 
 # Integrar con decisión humana y comprobar Production
 
-**Dónde:** navegador del PR y Vercel; CLI del host en `lab` como alternativa de merge. **Antes:** [review nueva del SHA corregido comprobada](/review/solicitar-nueva-review), diff humano revisado y tests, lint y tipos correctos para esa corrección. Ningún cambio posterior sin comprobar.
+Llegamos a la decisión de integrar. Antes de tomarla, necesitás la [review nueva del SHA corregido comprobada](/review/solicitar-nueva-review), el diff revisado por una persona y tests, lint y tipos correctos para esa corrección. No debe haber cambios posteriores sin comprobar. Trabajá en el navegador del PR y Vercel; si elegís el merge por CLI, usá el host en `lab`.
 
-En **Files changed** corroborá resta, archivos esperados y ausencia de secretos. Leé la conversación críticamente. Cumplí checks y aprobaciones que exijan las reglas del repo. El comentario del agente no sustituye revisión humana ni otorga permiso para saltarlas. GitHub no permite aprobar tu propio PR; en práctica individual evaluá y comentá, sin fingir otra aprobación.
+En **Files changed**, fijate que esté la resta, que los archivos sean los esperados y que no haya secretos. Leé críticamente la conversación y cumplí los checks y las aprobaciones que exijan las reglas del repo. El comentario del agente no sustituye la revisión humana ni da permiso para saltarlas. GitHub no permite aprobar tu propio PR. Si practicás por tu cuenta, evaluá y comentá sin fingir otra aprobación.
 
-Elegí **una sola** forma de integrar:
+Cuando estén cumplidos esos controles, elegí **una sola** forma de integrar:
 
 - **Web:** **Conversation → Create a merge commit**, revisá y confirmá. Conservá `development` porque se reutiliza.
 - **CLI alternativa:** reemplazá `NUMERO` por tu PR:
@@ -20,20 +20,20 @@ Elegí **una sola** forma de integrar:
 gh pr merge NUMERO --merge
 ```
 
-No ejecutes ambos métodos ni uses bypass. Luego consultá el resultado:
+No ejecutes ambos métodos ni uses bypass. Después del merge, consultá el resultado:
 
 ```bash
 gh pr view NUMERO --json state,mergeCommit
 ```
 
-En Vercel abrí el proyecto vinculado, buscá el deployment nuevo de **main / Production** y esperá estado **Ready**. Contrastá repo, rama, SHA del deployment con el commit integrado, entorno y URL. El merge commit tiene su propio SHA, distinto del head corregido que revisaste. Para este deployment, la referencia es el commit integrado en `main`.
+En Vercel, abrí el proyecto vinculado y buscá el deployment nuevo de **main / Production**. Esperá a que esté **Ready** y contrastá repo, rama, SHA del deployment, entorno y URL. El SHA debe corresponder al commit integrado en `main`. El merge commit tiene su propio SHA, distinto del head corregido que revisaste, por eso ahora usamos el commit de integración como referencia.
 
-Abrí **esa URL de Production**, no el Preview ni el túnel. Comprobá la landing y que el cálculo de lugares libres refleje la resta. Ready indica que el deployment está disponible, no que el comportamiento del código sea correcto. Un deployment anterior en Ready no demuestra este merge.
+Abrí **esa URL de Production**, no el Preview ni el túnel. Comprobá la landing y que el cálculo de lugares libres refleje la resta. Ready indica que el deployment está disponible, no que el comportamiento del código sea correcto. Tampoco alcanza con encontrar un deployment anterior en Ready.
 
-**Comprobación:** PR figura Merged, commit de integración reconocido y Production nuevo de `main` está Ready con comportamiento esperado. El fallo de práctica no quedó integrado como versión final.
+Podemos dar el recorrido por completado cuando el PR figure Merged, identifiques el commit de integración y el Production nuevo de `main` esté Ready con el comportamiento esperado. El fallo de práctica no debe quedar integrado como versión final.
 
-**No sigas si** faltan checks/aprobaciones, no se pudo integrar, Vercel falló, el deployment pertenece a otro SHA o la página conserva comportamiento incorrecto. No uses un comentario del modelo para saltar estos controles. Para problemas de deploy consultá [diagnóstico de Vercel](/opcional/diagnostico-vercel).
+**No sigas si** faltan checks o aprobaciones, no se pudo integrar, Vercel falló, el deployment pertenece a otro SHA o la página conserva el comportamiento incorrecto. No uses un comentario del modelo para saltar estos controles. Para problemas de deploy, consultá el [diagnóstico de Vercel](/opcional/diagnostico-vercel).
 
 ## En tu proyecto
 
-Adaptá prompt al lenguaje y checks de tu equipo, conservando repo y rama base fijados en toda la ruta, intención explícita para pedir revisión, filtros previos al modelo y destino fijo. Separá código no confiable, credenciales y jobs. Definí quién evalúa el resultado antes de integrar. **No ejecutes PRs de terceros en la instancia que tiene tu sesión de GitHub o el perfil del agente.**
+Cuando lleves este recorrido a tu proyecto, adaptá el prompt al lenguaje y a los checks de tu equipo. Conservá el repo y la rama base fijados en toda la ruta, una intención explícita para pedir revisión, filtros previos al modelo y destino fijo. Separá código no confiable, credenciales y jobs, y definí quién evalúa el resultado antes de integrar. **No ejecutes PRs de terceros en la instancia que tiene tu sesión de GitHub o el perfil del agente.**

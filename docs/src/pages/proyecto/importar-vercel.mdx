@@ -10,7 +10,7 @@ import appPermissions from '../../../assets/github-vercel-app-repository-permiss
 
 # Importar el repo en Vercel
 
-**Dónde:** navegador, [Vercel → New Project](https://vercel.com/new). **Antes:** repo propio publicado, build local y landing comprobados.
+Ya publicaste tu repo y comprobaste tanto el build local como la landing. Ahora vamos a conectar ese repo con Vercel para que construya y publique la app. Abrí [Vercel → New Project](https://vercel.com/new) en el navegador.
 
 Iniciá sesión, elegí **Add New → Project → Import Git Repository** e importá tu repo personal.
 
@@ -18,9 +18,9 @@ Iniciá sesión, elegí **Add New → Project → Import Git Repository** e impo
 
 Referencia oficial de Vercel.
 
-Conectá la GitHub App de Vercel y autorizá sólo tu repo. Es una integración distinta del PAT de la terminal: **no pegues ese token en Vercel**.
+Para darle acceso al código, conectá la GitHub App de Vercel y autorizá sólo tu repo. Es una integración distinta del PAT de la terminal. **No pegues ese token en Vercel**.
 
-La integración Git permite que Vercel lea el código del repo y construya deployments a partir de sus commits. Un deployment es una versión publicada de la app con su URL. El repositorio puede ser privado sin que el sitio publicado lo sea; el acceso a esas URLs depende de la protección configurada en Vercel.
+Esta integración Git permite que Vercel lea el código del repo y construya deployments a partir de sus commits. Un deployment es una versión publicada de la app con su URL. Que el repositorio sea privado no significa que el sitio publicado también lo sea. El acceso a esas URLs depende de la protección configurada en Vercel.
 
 Si el repo no aparece, abrí **Configure GitHub App** o GitHub **Settings → Applications → Installed GitHub Apps → Vercel → Configure**. Revisá **Only select repositories**, seleccioná el tuyo y guardá.
 
@@ -28,6 +28,6 @@ Si el repo no aparece, abrí **Configure GitHub App** o GitHub **Settings → Ap
 
 Ejemplo genérico de GitHub App de documentación oficial de GitHub. No es el formulario de token fino ni evidencia de una instalación propia.
 
-Comprobá que el proyecto que vas a importar corresponde al propietario y repo correctos. Usá tu repo personal: uno privado de organización puede exigir un plan distinto de Hobby. No cambies visibilidad ni actives pagos como arreglo automático.
+Antes de importar, comprobá que el proyecto corresponda al propietario y repo correctos. Usá tu repo personal, porque uno privado de organización puede exigir un plan distinto de Hobby. No cambies la visibilidad ni actives pagos como arreglo automático.
 
 **No sigas si** aparece otro repo o te exige un plan pago. Consultá [diagnóstico de Vercel](/opcional/diagnostico-vercel) o la [ayuda oficial de repos no visibles](https://vercel.com/kb/guide/unable-to-find-github-repository).

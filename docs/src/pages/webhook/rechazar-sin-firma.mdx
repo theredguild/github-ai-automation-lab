@@ -7,9 +7,9 @@ description: "Comprobá 401 antes de aceptar que el receptor valida HMAC."
 
 # Rechazar una request sin firma
 
-**Dónde:** otra terminal del host, cwd `lab`, no dentro de `lab-agent`. **Antes:** [Next reiniciado](/webhook/reiniciar-app) y health correcto. Branch sin cambios.
+Con [Next reiniciado](/webhook/reiniciar-app) y health respondiendo correctamente, vamos a probar un rechazo. Usá otra terminal del host en la carpeta `lab`, no una shell de `lab-agent`. No hace falta cambiar de branch.
 
-Esta request carece deliberadamente de firma. No es un evento autorizado y no debe activar IA:
+La siguiente request carece deliberadamente de firma. No es un evento autorizado y no debe activar IA:
 
 ```bash
 curl -i -X POST http://127.0.0.1:3000/api/github \
@@ -17,15 +17,15 @@ curl -i -X POST http://127.0.0.1:3000/api/github \
   --data '{"action":"opened"}'
 ```
 
-`-X POST` elige el método; `-H` añade un encabezado que anuncia un body JSON; `--data` envía ese body. Acá falta deliberadamente `X-Hub-Signature-256`. Escribir `"action":"opened"` no convierte esos datos en una entrega auténtica de GitHub.
+En este comando, `-X POST` elige el método, `-H` añade un encabezado que anuncia un body JSON y `--data` envía ese body. Lo que falta deliberadamente es `X-Hub-Signature-256`. Escribir `"action":"opened"` no convierte esos datos en una entrega auténtica de GitHub.
 
-Ejemplo de salida esperada, no evidencia de ejecución:
+Esperamos una salida como esta. Es un ejemplo, no evidencia de ejecución:
 
 ```text
 HTTP/1.1 401 Unauthorized
 {"error":"invalid_signature"}
 ```
 
-**Comprobación:** 401 confirma rechazo de esta request sin firma. No demuestra por sí solo que una firma válida funcione; esa evidencia llegará desde GitHub. El receptor comprueba configuración antes de firma: **503 receiver_not_configured** significa que faltan variables válidas, no que la validación haya funcionado.
+Si recibís 401, comprobaste el rechazo de esta request sin firma. Todavía no demuestra que funcione una firma válida, eso lo vamos a observar con una entrega de GitHub. Prestá atención a otra respuesta posible, **503 receiver_not_configured**. El receptor comprueba la configuración antes de la firma, así que ese error significa que faltan variables válidas, no que la validación haya funcionado.
 
 **No sigas si** recibís 200, 503, error de conexión o una respuesta de otro servicio. Para 503, corregí `WEBHOOK_SECRET` y `GITHUB_WEBHOOK_REPO` en privado y repetí [el reinicio de Next](/webhook/reiniciar-app). No desactives HMAC para conseguir un 200.

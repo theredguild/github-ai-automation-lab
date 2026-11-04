@@ -9,22 +9,22 @@ import asyncReview from '../../../assets/course-e6-async.png'
 
 # Solicitar la review con una etiqueta nueva
 
-**Dónde:** navegador, selector **Labels** del PR propio; Recent Deliveries del hook; logs del gateway en `lab-agent`, `/workspace`. **Antes:** [filtro negativo demostrado](/review/comprobar-filtro), PR Open y no draft con la suma incorrecta, repo/head repo propios y base `main`. No hagas push mientras seguís esta solicitud.
+Con el [filtro negativo demostrado](/review/comprobar-filtro), ya podemos pedir la review. Usá el selector **Labels** de tu PR en el navegador y tené a mano Recent Deliveries del hook y los logs del gateway en `lab-agent`, dentro de `/workspace`. El PR debe seguir Open y no draft, con la suma incorrecta, repo y head repo propios y base `main`. **No hagas push mientras seguís esta solicitud**, para no cambiar la versión que vamos a observar.
 
-Anotá el número de PR y los SHA **base y head actuales** desde la web o, en el host, carpeta `lab`:
+Anotá el número de PR y sus SHA **base y head actuales**. Podés verlos en la web o consultar desde el host, en la carpeta `lab`:
 
 ```bash
 gh pr view NUMERO --json number,baseRefName,baseRefOid,headRefOid
 ```
 
-En **Labels** agregá **ai-review**. Debe pasar de ausente a presente para generar `labeled`. Si ya estaba, **quitála y volvé a agregarla**. Un push con la etiqueta ya presente produce otro tipo de evento y no pide revisión.
+En **Labels**, agregá **ai-review**. La etiqueta debe pasar de ausente a presente para generar `labeled`. Si ya estaba, **quitála y volvé a agregarla**. Un push con la etiqueta ya presente produce otro tipo de evento y no pide revisión.
 
-Abrí la nueva entrega del hook nativo en **Recent Deliveries**. Comprobá acción `labeled`, etiqueta `ai-review`, PR, repo, base y head SHA. Anotá GUID nuevo y hora. En los logs, seguí que los filtros coincidan y se acepte la tarea.
+Después abrí la nueva entrega del hook nativo en **Recent Deliveries**. Comprobá acción `labeled`, etiqueta `ai-review`, PR, repo y SHA base y head. Anotá el GUID nuevo y la hora para encontrarla en los logs y seguir cómo coinciden los filtros y se acepta la tarea.
 
 <img src={asyncReview} alt="GitHub recibe primero el acuse HTTP y después un comentario cuando termina la tarea de Hermes" />
 
-Diagrama del taller; ejemplo conceptual. Acuse y comentario ocurren en momentos distintos.
+En este diagrama conceptual del taller, fijate que el acuse y el comentario ocurren en momentos distintos.
 
-**Comprobación:** el gateway acepta el evento permitido. **202 Accepted** significa que aceptó la tarea para procesarla después, no que leyó correctamente el diff, terminó la review o publicó el comentario. GitHub ya recibió el acuse HTTP mientras el agente todavía puede estar trabajando o encontrar un error. El siguiente resultado se comprobará en [la conversación del PR](/review/leer-review).
+Al ver que el gateway acepta el evento permitido, habrás comprobado la recepción de la solicitud. **202 Accepted no significa que la review haya terminado.** Indica que aceptó la tarea para procesarla después, no que leyó correctamente el diff ni publicó el comentario. GitHub ya recibió el acuse HTTP, pero el agente todavía puede estar trabajando o encontrar un error. Vamos a buscar el resultado en [la conversación del PR](/review/leer-review).
 
 **No sigas si** sólo encontrás el ping, otra etiqueta, SHA distintos o un evento ignorado. Recorrelacioná antes de solicitar más trabajo. Si el estado del PR cambia, esperá un aviso de solicitud desactualizada y luego pedí una review nueva; no fuerces la publicación del análisis viejo.

@@ -7,13 +7,13 @@ showFeedback: false
 
 # Iniciar el origen HTTP
 
-**Dónde:** shell de `lab-app`, `/workspace`, terminal dedicada a Next. **Antes:** build actual terminado correctamente.
+Ahora que terminó correctamente el build actual, iniciá Next desde la shell de `lab-app`, en `/workspace`. Esta terminal va a quedar dedicada al servidor:
 
 ```bash
 pnpm start --hostname 0.0.0.0
 ```
 
-Dejá el proceso activo. Ejemplo de salida, no evidencia de una ejecución de la guía:
+Dejá el proceso activo y buscá el aviso de que está listo. Esta salida es un ejemplo, no evidencia de una ejecución de la guía:
 
 ```text
 Local: http://localhost:3000
@@ -30,4 +30,4 @@ export function GET() {
 }
 ```
 
-No necesitás crear otro receptor. **Comprobación:** Next anuncia que está listo y conserva la terminal ocupada. **No sigas si** termina con error o escucha en otro puerto. Las consultas se hacen en otra terminal, no interrumpiendo este proceso.
+No necesitás crear otro receptor para esta consulta. Cuando Next anuncie que está listo, la terminal debe seguir ocupada por el proceso. **No sigas si** termina con error o escucha en otro puerto. Vamos a hacer las consultas en otra terminal para no interrumpirlo.

@@ -9,22 +9,22 @@ import deliveries from '../../../assets/webhook-deliveries.png'
 
 # Correlacionar la entrega con los logs
 
-**Dónde:** navegador de tu repo y terminal de `lab-app` que muestra logs de Next, cwd `/workspace`. **Antes:** [PR actualizado o creado](/webhook/generar-evento), número y SHA reconocidos, túnel todavía activo.
+Vamos a seguir el aviso desde GitHub hasta Next. Necesitás el [PR actualizado o creado](/webhook/generar-evento), su número y SHA reconocidos y el túnel todavía activo. Abrí el navegador de tu repo y dejá a la vista la terminal de `lab-app`, en `/workspace`, donde aparecen los logs de Next.
 
-Abrí **Settings → Webhooks → hook de /api/github → Recent Deliveries**. Seleccioná la entrega `pull_request` de tu cambio. Podés inspeccionar el `ping` inicial, pero éste sólo prueba el alta.
+En el navegador entrá a **Settings → Webhooks → hook de /api/github → Recent Deliveries** y seleccioná la entrega `pull_request` de tu cambio. Podés inspeccionar el `ping` inicial, pero sólo prueba el alta del hook, no el evento que acabamos de provocar.
 
 <img src={deliveries} alt="Recent Deliveries de GitHub permite abrir Request y Response de cada entrega" />
 
-Captura de referencia del taller; usá los datos de tu entrega real, no los de la imagen.
+La captura es una referencia del taller. Para esta comprobación usá los datos de tu entrega real, no los de la imagen.
 
-Comprobá en orden:
+Seguí la entrega en este orden para no mezclar avisos distintos:
 
-1. URL usa el hostname actual del túnel y el path `/api/github`.
-2. **Request** contiene `X-GitHub-Event: pull_request` y `X-GitHub-Delivery`. Anotá GUID, acción y número de PR sin copiar secretos ni body completo.
-3. **Response** es 200 y el JSON indica `received` para este evento válido.
-4. Log `github-webhook` de Next contiene el mismo delivery GUID, evento, acción, repo y número. El registro no incluye secret ni body completo.
+1. Fijate que la URL use el hostname actual del túnel y el path `/api/github`.
+2. En **Request**, buscá `X-GitHub-Event: pull_request` y `X-GitHub-Delivery`. Anotá el GUID, la acción y el número de PR sin copiar secretos ni el body completo.
+3. En **Response**, comprobá que el estado sea 200 y que el JSON indique `received` para este evento válido.
+4. Buscá en Next el log `github-webhook` con el mismo delivery GUID, evento, acción, repo y número. El registro no incluye el secret ni el body completo.
 
-La correlación de GUID y repo une ambos extremos. Un 200 de otro evento o un log anterior no es evidencia de esta entrega.
+El GUID y el repo nos permiten unir ambos extremos. Un 200 de otro evento o un log anterior no demuestra que haya llegado esta entrega.
 
 | Respuesta | Interpretación en este receptor |
 | --- | --- |
@@ -39,6 +39,6 @@ La correlación de GUID y repo une ambos extremos. Un 200 de otro evento o un lo
 | 503 receiver_not_configured | Variables faltantes o inválidas; revisar configuración y reinicio |
 | 400 | Body/JSON o delivery ID inválido; inspeccionar error concreto |
 
-**Comprobación:** podés señalar una única entrega `pull_request` y su mismo GUID en respuesta y logs. **No sigas si** sólo encontrás ping, no coincide repo/GUID o necesitás eliminar firma o filtros para recibirla. Corregí la capa indicada por la respuesta, sin publicar datos privados.
+Al terminar deberías poder señalar una única entrega `pull_request` y reconocer el mismo GUID al correlacionar la entrega, su respuesta y los logs. **No sigas si** sólo encontrás ping, no coincide el repo o el GUID, o necesitás eliminar firma o filtros para recibirla. Corregí la capa indicada por la respuesta, sin publicar datos privados.
 
 Referencia: [ver entregas de GitHub](https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/viewing-webhook-deliveries).

@@ -11,11 +11,11 @@ import protection from '../../../assets/vercel-setup-preview-protection.png'
 
 # Comparar Preview y Production
 
-**Dónde:** navegador, mismo proyecto Vercel y sus URLs. **Antes:** push correcto a `development` y SHA identificado.
+El push a `development` terminó bien y ya identificaste su SHA. Abrí el mismo proyecto Vercel en el navegador para buscar esa versión y compararla con Production.
 
-Preview viene habilitado por defecto tras el primer deployment. Un push a una rama no productiva genera Preview sin otro proyecto, workflow de Actions ni compra adicional.
+Preview viene habilitado por defecto después del primer deployment. Un push a una rama no productiva genera Preview sin otro proyecto, workflow de Actions ni compra adicional.
 
-Preview publica una versión para probar el cambio antes de llevarlo a Production. No mueve la rama `main` ni reemplaza por sí solo la URL principal. Tampoco significa "privado": comprobá la protección de acceso antes de compartir su URL o incluir información sensible.
+Esta versión nos permite probar el cambio antes de llevarlo a Production. No mueve la rama `main` ni reemplaza por sí sola la URL principal. Tampoco significa "privado", así que comprobá la protección de acceso antes de compartir su URL o incluir información sensible.
 
 <img src={two} alt="main publica Production y development publica Preview dentro del mismo proyecto" />
 
@@ -27,16 +27,16 @@ En **Deployments**, filtrá rama `development` y entorno **Preview**. Verificá 
 
 Referencia oficial de Vercel.
 
-En Preview buscá tu título nuevo, por ejemplo "Aprender y construir en comunidad". En Production debe seguir "HackerSpace Nodo Serrano" hasta integrar. Compará branch y SHA y conservá ambas URLs abiertas.
+Dejá ambas URLs abiertas. En Preview buscá tu título nuevo, por ejemplo "Aprender y construir en comunidad". En Production todavía debe decir "HackerSpace Nodo Serrano", hasta que integremos el cambio. Compará también la branch y el SHA para saber qué versión estás mirando en cada una.
 
-Preview creado y Preview accesible sin login son cosas distintas. Si hay protección, usá tu sesión autorizada; no desactives seguridad para simular que funciona.
+Que Preview esté creado no significa que se pueda abrir sin login. Si hay protección, usá tu sesión autorizada. No desactives la seguridad para simular que funciona.
 
 <img src={protection} alt="Opciones de Deployment Protection que pueden requerir sesión autorizada" />
 
 Referencia oficial de Vercel.
 
-Si falta Preview, revisá repo, permisos de GitHub App y **Production → Branch Tracking = main**. Preview debe incluir las ramas no asignadas. Vercel Development no equivale a nuestra rama `development`.
+Si no encontrás Preview, revisá el repo, los permisos de la GitHub App y **Production → Branch Tracking = main**. Preview debe incluir las ramas no asignadas. Recordá que Vercel Development no equivale a nuestra rama `development`.
 
-En un proyecto con configuración previa, revisá si `git.deploymentEnabled` excluye la rama o **Build and Deployment → Ignored Build Step** cancela builds o construye sólo Production. No agregues estas opciones al camino básico. [Configuración Git](https://vercel.com/docs/project-configuration/git-configuration).
+Si el proyecto ya tenía configuración, fijate si `git.deploymentEnabled` excluye la rama o si **Build and Deployment → Ignored Build Step** cancela builds o construye sólo Production. No agregues estas opciones al camino básico. Podés consultar la [Configuración Git](https://vercel.com/docs/project-configuration/git-configuration).
 
 **No sigas si** entorno, SHA o contenido no coincide. [Diagnóstico opcional](/opcional/diagnostico-vercel).

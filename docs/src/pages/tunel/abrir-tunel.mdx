@@ -9,9 +9,9 @@ import connect from '../../../assets/course-e4-connect.png'
 
 # Abrir el Quick Tunnel
 
-**Dónde:** host, terminal nueva dedicada al túnel, raíz de `lab`. **Antes:** consultas local e interna correctas, Next activo y nombre `lab-tunnel` libre.
+Con las consultas local e interna correctas y Next todavía activo, abrí una terminal nueva del host en la raíz de `lab`. Dejala dedicada al túnel y comprobá que el nombre `lab-tunnel` esté libre.
 
-El túnel reenvía **todo el servicio** configurado, no sólo `/api/health`. La landing y las demás rutas quedan alcanzables públicamente. No apuntes al editor, daemon Docker, consola administrativa ni backend con datos privados. HTTPS protege transporte, no identifica por sí solo a quien usa la aplicación. GitHub necesitará llegar sin formulario de login interactivo en el próximo capítulo.
+**El túnel reenvía todo el servicio configurado, no sólo `/api/health`.** La landing y las demás rutas quedan alcanzables públicamente. No apuntes al editor, daemon Docker, consola administrativa ni backend con datos privados. HTTPS protege el transporte, pero no identifica por sí solo a quien usa la aplicación. En el próximo capítulo GitHub necesitará llegar sin un formulario de login interactivo.
 
 ```bash
 docker run --rm -it --name lab-tunnel \
@@ -23,8 +23,8 @@ docker run --rm -it --name lab-tunnel \
 
 <img src={connect} alt="cloudflared dentro de red-taller abre una conexión saliente a la red pública Cloudflare" />
 
-Diagrama del taller; ejemplo conceptual. Cloudflare recibe HTTPS en su red pública; `cloudflared` inicia y mantiene la conexión desde adentro hasta esa red.
+El diagrama del taller es conceptual. Cloudflare recibe HTTPS en su red pública y `cloudflared` inicia y mantiene la conexión desde adentro hasta esa red.
 
-Buscá en los logs la URL real `https://…trycloudflare.com`, copiala completa y conservá abierta esta terminal. Abrila en otra pestaña y comprobá la landing del HackerSpace. La URL no está reservada; otro arranque puede producir otro hostname.
+Buscá en los logs la URL real `https://…trycloudflare.com`, copiala completa y conservá abierta esta terminal. Abrila en otra pestaña y fijate que aparezca la landing del HackerSpace. Guardá la URL de este arranque, porque no está reservada y otro arranque puede producir otro hostname.
 
 **No sigas si** el connector no conecta o el destino `--url` no es el servicio de práctica. No abras otro connector para tapar el error. Una [dirección administrada](/opcional/tunel-administrado) queda como referencia opcional; este recorrido no necesita cuenta ni dominio.

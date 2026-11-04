@@ -7,7 +7,7 @@ showFeedback: false
 
 # Consultar health desde la red interna
 
-**Dónde:** host, terminal de consultas, raíz de `lab`. El comando crea un cliente temporal; no se ejecuta dentro de la shell de Next. **Antes:** health del host devuelve 200 y Next sigue activo.
+Si health ya devuelve 200 desde el host y Next sigue activo, vamos a consultar desde otro container. Ejecutá este comando en la terminal de consultas del host, en la raíz de `lab`, no en la shell ocupada por Next. Docker creará un cliente temporal para hacer la prueba:
 
 ```bash
 docker run --rm --network red-taller \
@@ -15,13 +15,13 @@ docker run --rm --network red-taller \
   curl -i http://lab-app:3000/api/health
 ```
 
-Debe devolver HTTP 200 y el mismo JSON:
+Buscá HTTP 200 y compará el JSON con el que recibiste desde el host:
 
 ```text
 {"status":"ok","service":"nodoserrano"}
 ```
 
-Docker resuelve el nombre `lab-app` a su dirección interna dentro de `red-taller`; no es un dominio público ni un nombre que deba resolver el host. Este cliente llega directamente al puerto 3000 del container, sin usar el puerto publicado del host. El cliente temporal desaparece al terminar por `--rm`.
+Esta vez Docker resuelve `lab-app` a su dirección interna dentro de `red-taller`. No es un dominio público ni un nombre que deba resolver el host. El cliente llega directamente al puerto 3000 del container, sin pasar por el puerto publicado del host, y desaparece al terminar gracias a `--rm`. La respuesta debe ser la misma porque seguimos consultando el mismo origen, aunque cambie el camino.
 
 | Desde dónde preguntás | Dirección del origen |
 | --- | --- |

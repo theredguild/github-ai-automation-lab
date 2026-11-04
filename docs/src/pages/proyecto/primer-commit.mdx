@@ -7,26 +7,26 @@ showFeedback: false
 
 # Crear el primer commit
 
-**Dónde:** host, `lab`, rama `main`. **Antes:** Git e identidad local configurados; todavía sin instalar dependencias. El `.gitignore` incluido evita añadir por defecto ciertos archivos locales nuevos.
+Ya creamos el repositorio y configuramos Git, pero los archivos siguen en tu computadora y todavía no tienen una versión guardada en el historial. Seguí en el host, dentro de `lab` y en la rama `main`, sin instalar dependencias aún. El `.gitignore` incluido evita añadir por defecto ciertos archivos locales nuevos.
 
-El staging, también llamado índice, es la selección que entrará en el próximo commit. `git add .` prepara los archivos nuevos no ignorados y los cambios de archivos que Git ya sigue dentro de esta carpeta. No los envía a GitHub. `git status` muestra qué quedó preparado para que lo revises antes de confirmarlo.
+Primero vamos a preparar la selección que entrará en el próximo commit. Esa selección se llama staging o índice. `git add .` prepara los archivos nuevos no ignorados y los cambios de archivos que Git ya sigue dentro de esta carpeta. No envía nada a GitHub. Después, `git status` nos permite mirar qué quedó seleccionado antes de confirmarlo.
 
 ```bash
 git add .
 git status
 ```
 
-Deben aparecer la app y su configuración: `app/`, `public/`, `package.json`, lockfile, `Dockerfile`, `.gitignore` y los demás archivos del starter. No deben aparecer guía, slides, dependencias, builds ni secretos.
+Mirá la lista que mostró `git status`. Deben aparecer la app y su configuración, incluidos `app/`, `public/`, `package.json`, lockfile, `Dockerfile`, `.gitignore` y los demás archivos del starter. No deben aparecer guía, slides, dependencias, builds ni secretos.
 
 **No sigas si** el índice contiene archivos del material, credenciales o artefactos generados. No confirmes una selección incorrecta.
 
-Después de revisar:
+Cuando la selección sea correcta, vamos a guardarla como el primer commit y consultar el resultado:
 
 ```bash
 git commit -m "Inicio del sitio"
 git log -1 --oneline
 ```
 
-Comprobá que el último commit tiene ese mensaje. Commit crea una versión local; todavía no publicó nada en GitHub.
+Comprobá que el último commit tenga el mensaje "Inicio del sitio". Acabás de crear una versión local, todavía no publicaste nada en GitHub.
 
-Un commit guarda una versión de los archivos preparados, junto con autor y mensaje. Git lo identifica con un SHA, un identificador que verás abreviado al comienzo de la salida de `git log`.
+Un commit guarda la versión de los archivos preparados junto con el autor y el mensaje. Git lo identifica con un SHA. Vas a verlo abreviado al comienzo de la salida de `git log`, y lo usaremos para reconocer esa versión sin depender sólo de su mensaje.

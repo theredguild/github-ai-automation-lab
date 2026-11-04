@@ -7,15 +7,15 @@ showFeedback: false
 
 # Verificar cliente y daemon
 
-**Dónde:** host, terminal Bash en la carpeta `lab`. **Antes:** instalar [Docker Desktop o Docker Engine](https://docs.docker.com/get-started/get-docker/) e iniciar su servicio.
+Abrí una terminal Bash del host en la carpeta `lab`. Para seguir, necesitás tener instalado [Docker Desktop o Docker Engine](https://docs.docker.com/get-started/get-docker/) y haber iniciado su servicio.
 
-El cliente es el comando `docker` que usás en la terminal. El daemon es el servicio que crea imágenes y administra containers. Necesitás que ambos se comuniquen, no sólo tener el comando instalado.
+Primero vamos a comprobar que sus dos partes se comuniquen. El cliente es el comando `docker` que usás en la terminal. El daemon es el servicio que crea imágenes y administra containers. Tener el comando instalado no alcanza si ese servicio no responde.
 
 ```bash
 docker version
 ```
 
-Debe mostrar las secciones Client y Server. Ejemplo de salida, no prueba de ejecución:
+Buscá las secciones Client y Server. La siguiente salida es un ejemplo para reconocerlas, no una prueba de ejecución:
 
 ```text
 Client: Docker Engine …

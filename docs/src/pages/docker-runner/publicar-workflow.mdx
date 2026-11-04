@@ -7,7 +7,7 @@ showFeedback: false
 
 # Publicar el workflow en main
 
-**Dónde:** navegador para la vía web, o host en `lab` para la alternativa CLI. **Antes:** snippet leído y [permisos de la vía elegida](/docker-runner/permisos-workflow) resueltos.
+Con el snippet leído y los [permisos de la vía elegida](/docker-runner/permisos-workflow) resueltos, vamos a publicar el archivo. Usá el navegador para la vía web o la terminal del host en `lab` para la alternativa CLI.
 
 **Elegí web o CLI, no ambas.** El workflow debe existir en `main` para poder iniciarlo manualmente.
 
@@ -38,6 +38,6 @@ No vuelvas a crear el mismo archivo desde la web.
 
 :::
 
-Ambas vías terminan en la misma comprobación: abrí `.github/workflows/checks.yml` en la rama `main` de GitHub y verificá el contenido completo, incluido `workflow_dispatch`. Después ambas requieren sincronizar las dos ramas de tu copia local.
+Al terminar la vía elegida, abrí `.github/workflows/checks.yml` en la rama `main` de GitHub. Verificá el contenido completo, incluido `workflow_dispatch`, para confirmar que publicaste el archivo que leímos. Tanto web como CLI requieren después sincronizar las dos ramas de tu copia local.
 
 **No sigas si** el archivo está sólo en `development`, el push fue rechazado o falta integrar el PR requerido.

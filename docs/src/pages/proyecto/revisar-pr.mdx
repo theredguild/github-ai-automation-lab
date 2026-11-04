@@ -10,17 +10,17 @@ import review from '../../../assets/github-review-submit.png'
 
 # Revisar el cambio propuesto
 
-**Dónde:** navegador, PR en GitHub; alternativa CLI en host, `lab`. **Antes:** PR y Preview del último SHA comprobados.
+Ya comprobaste el PR y el Preview del último SHA. Sigamos en el PR de GitHub para revisar el cambio antes de integrarlo. La alternativa por CLI usa la terminal del host en `lab`.
 
-Abrí **Files changed**, localizá `app/page.tsx` y compará texto eliminado y agregado. Verde muestra líneas añadidas, rojo líneas eliminadas. Abrí el Preview asociado si aparece y contrastá el título.
+Abrí **Files changed**, localizá `app/page.tsx` y compará el texto eliminado con el agregado. El verde muestra líneas añadidas y el rojo, líneas eliminadas. Si aparece el Preview asociado, abrilo y contrastá el título con ese diff.
 
 <img src={files} alt="Diff de archivos en Files changed de GitHub" />
 
 Referencia oficial de GitHub.
 
-En **Review changes** podés comentar, aprobar o pedir cambios según tus permisos. GitHub no permite aprobar tu propio PR. En práctica individual dejá un comentario; en parejas la otra persona puede revisar y aprobar.
+Desde **Review changes** podés comentar, aprobar o pedir cambios según tus permisos. GitHub no permite aprobar tu propio PR. Si trabajás individualmente, dejá un comentario. Si están en parejas, la otra persona puede revisar y aprobar.
 
-Un comentario deja una observación sin aprobar. **Approve** expresa conformidad con el cambio revisado; **Request changes** pide corregirlo antes de integrar. Ninguna de esas acciones hace merge. Si pedís una corrección, indicá archivo, problema y resultado esperado; después revisá el nuevo commit y su Preview. Que una aprobación sea obligatoria depende de las reglas del repo.
+Un comentario deja una observación sin aprobar. **Approve** expresa conformidad con el cambio revisado y **Request changes** pide corregirlo antes de integrar. Ninguna de esas acciones hace merge. Si pedís una corrección, indicá el archivo, el problema y el resultado esperado. Después revisá el nuevo commit y su Preview. Que una aprobación sea obligatoria depende de las reglas del repo.
 
 <img src={review} alt="Botón Review changes y envío de una revisión en GitHub" />
 
@@ -39,6 +39,6 @@ gh pr view NUMERO --web
 Sobre el PR de otra persona podés usar `--approve` o `--request-changes` en lugar de `--comment`, con un motivo en `--body`.
 :::
 
-Comprobá que la revisión quedó en el PR correcto. Leer el PR desde terminal y navegador no crea otra propuesta.
+Fijate que la revisión haya quedado en el PR correcto. Podés leerlo tanto desde la terminal como desde el navegador sin crear otra propuesta.
 
 **No sigas si** ves cambios inesperados o el Preview no corresponde al diff. Corregí y revisá antes de integrar.

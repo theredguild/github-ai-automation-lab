@@ -7,18 +7,18 @@ description: "Arrancá el perfil fusionado sin perder Telegram ni duplicar liste
 
 # Iniciar una única instancia del gateway
 
-**Dónde:** shell de `lab-agent`, cwd `/workspace`. **Antes:** [ruta fusionada y revisada](/review/configurar-ruta), secret privado del gateway y sesión `gh` preparada en este mismo container. Branch sin cambios.
+Ahora vamos a cargar la ruta revisada en el gateway. Usá la shell de `lab-agent`, en `/workspace`, con la [ruta fusionada y revisada](/review/configurar-ruta), el secret privado del gateway y la sesión `gh` preparada en este mismo container. No hace falta cambiar de rama.
 
-Si el gateway anterior continúa activo, detenelo con **Ctrl+C en su propia terminal**. Cambiar el YAML no basta para que ese proceso use la ruta nueva; lo reiniciás para cargarla. No recrees el container ni borres su perfil. El mismo proceso mantendrá Telegram y Webhooks activos.
+Si el gateway anterior continúa activo, detenelo con **Ctrl+C en su propia terminal**. Editar el YAML no hace que un proceso en marcha cargue la ruta nueva, por eso necesitamos reiniciarlo. No recrees el container ni borres su perfil. El mismo proceso mantendrá Telegram y Webhooks activos.
 
-Iniciá **una sola instancia** con el perfil nuevo:
+Iniciá **una sola instancia** con el perfil actualizado:
 
 ```bash
 hermes gateway run
 ```
 
-Dejá esa terminal abierta para leer recepción, filtros, tareas y errores sin mostrar configuración secreta.
+Dejá esa terminal abierta. Allí vas a poder seguir la recepción, los filtros, las tareas y los errores sin mostrar configuración secreta.
 
-**Comprobación:** gateway arranca sin conflicto en 8644 ni errores de perfil y conserva los canales previstos. Esto todavía no demuestra acceso al PR, funcionamiento del modelo o entrega de comentarios.
+Comprobá que el gateway arranque sin conflicto en 8644 ni errores de perfil y que conserve los canales previstos. Esto nos permite avanzar a la prueba local, pero todavía no demuestra acceso al PR, funcionamiento del modelo ni entrega de comentarios.
 
 **No sigas si** hay otra instancia ocupando el puerto, falta Telegram por una sobrescritura del perfil o el proceso falla al cargar Webhooks. Corregí la configuración nativa; no añadas un puente Python como sustituto.

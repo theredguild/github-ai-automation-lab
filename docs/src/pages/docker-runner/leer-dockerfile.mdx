@@ -9,9 +9,9 @@ import cycle from '../../../assets/course-e2-image-cycle.png'
 
 # Leer la receta real
 
-**Dónde:** host, editor abierto en `lab/Dockerfile`. **Antes:** Docker operativo y app completa movida a `lab`.
+Con Docker operativo y la app completa ya movida a `lab`, abrí `lab/Dockerfile` en el editor del host. Vamos a leer la receta antes de construir para saber qué herramientas y usuario tendrá la imagen.
 
-Todo está dentro de `lab`; no traigas otro Dockerfile del material.
+Los archivos necesarios ya están dentro de `lab`. No traigas otro Dockerfile del material.
 
 | Archivo dentro de lab | Para qué se usa |
 | --- | --- |
@@ -29,7 +29,7 @@ USER node
 CMD ["bash"]
 ```
 
-`FROM` elige la base; `RUN` instala durante la construcción; `WORKDIR` fija la carpeta; `USER` define el usuario de ejecución; `CMD` abre Bash al iniciar la instancia. La receta usa privilegios durante la construcción para instalar paquetes y termina con `USER node`. No ejecutes las sesiones del taller como root.
+Leé el extracto en orden. `FROM` elige la base y `RUN` instala durante la construcción. `WORKDIR` fija la carpeta de trabajo, `USER` define el usuario de ejecución y `CMD` abre Bash al iniciar la instancia. La receta usa privilegios durante la construcción para instalar paquetes y termina con `USER node`. **No ejecutes las sesiones del taller como root.**
 
 | Herramienta | Uso |
 | --- | --- |
@@ -42,9 +42,9 @@ La receta completa instala dependencias del sistema, selecciona descargas para a
 
 `.devcontainer/devcontainer.json` configura la demo opcional de Codespaces con una imagen Node independiente. No participa en este build.
 
-El Dockerfile es la receta. `docker build` la ejecuta para producir una imagen con archivos y herramientas preparados; no deja esas herramientas corriendo. `docker run` crea un container a partir de esa imagen y arranca su proceso inicial. El container tiene sus propios cambios de archivos y puede estar activo o detenido.
+El Dockerfile es la receta que acabás de leer. Cuando ejecutes `docker build`, Docker la usará para producir una imagen con archivos y herramientas preparados. Eso todavía no deja las herramientas corriendo. Con `docker run` vas a crear un container a partir de esa imagen y arrancar su proceso inicial. Cada container tiene sus propios cambios de archivos y puede estar activo o detenido.
 
-Reutilizaremos la misma imagen con instancias separadas para runner, agente y app. Esas instancias no comparten automáticamente sus archivos. Reconstruir la imagen no actualiza containers ya creados, aunque vuelvas a usar el nombre `taller`.
+Vamos a reutilizar la misma imagen con instancias separadas para runner, agente y app. Esas instancias no comparten automáticamente sus archivos. Tené presente que reconstruir la imagen no actualiza containers ya creados, aunque vuelvas a usar el nombre `taller`.
 
 <img src={cycle} alt="Dockerfile pasa por build para producir una imagen y cada run crea un container independiente" />
 

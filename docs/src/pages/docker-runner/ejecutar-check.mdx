@@ -9,9 +9,9 @@ import dispatch from '../../../assets/workflow-dispatch.png'
 
 # Iniciar el check inicial
 
-**Dónde:** navegador o segunda terminal del host en `lab`, rama `development`. **Antes:** primer `lab-runner` registrado y mostrando `Listening for Jobs`.
+Dejá el primer `lab-runner` registrado en su terminal, mostrando `Listening for Jobs`. Para iniciar el check, usá el navegador o una segunda terminal del host en `lab`, en la rama `development`.
 
-Identificá el commit baseline en el host:
+Antes de iniciarlo, identificá en el host el commit que vamos a tomar como baseline:
 
 ```bash
 git rev-parse HEAD
@@ -40,6 +40,6 @@ Anotá el ID numérico de la ejecución recién creada como `RUN_ID`. No selecci
 
 :::
 
-En ambas vías comprobá nombre del workflow, rama `development` y SHA baseline. El push anterior no inició este run: el evento es `workflow_dispatch`.
+En la ejecución que acabás de crear, comprobá el nombre del workflow, la rama `development` y el SHA baseline. Así sabés qué versión va a revisar el runner. El push anterior no inició este run, cuyo evento es `workflow_dispatch`.
 
 **No sigas si** seleccionaste otra rama o no podés relacionar la ejecución con el SHA anotado.

@@ -7,7 +7,7 @@ showFeedback: false
 
 # Encontrar dónde falló el deployment
 
-**Dónde:** tu proyecto Vercel y el repo GitHub propio. **Antes:** identificaste el commit que intentás desplegar.
+Para encontrar dónde se interrumpió el deployment, abrí tu proyecto Vercel y tu repo propio en GitHub. Tené a mano el commit que intentás desplegar. Empezá por el síntoma que estás viendo y seguí la comprobación de esa fila:
 
 | Síntoma | Primera comprobación |
 | --- | --- |
@@ -18,10 +18,10 @@ showFeedback: false
 | No aparece Preview | Branch Tracking de Production es main; Preview recibe ramas no asignadas |
 | La URL pide login | Deployment Protection, no necesariamente un build fallido |
 
-En un proyecto que ya tenía ajustes, revisá que `git.deploymentEnabled` no excluya `development` y que **Build and Deployment → Ignored Build Step** no cancele Preview. No agregues esas opciones al camino que funciona.
+Si el proyecto ya tenía ajustes, revisá que `git.deploymentEnabled` no excluya `development` y que **Build and Deployment → Ignored Build Step** no cancele Preview. No agregues esas opciones al camino que ya funciona.
 
-El entorno Vercel **Development** no es la rama Git `development`. No crees otro proyecto para lograr Preview, ni desactives protección, publiques el repo o compres un plan para ocultar un error. Repos privados de organización pueden tener restricciones distintas de un repo personal en Hobby.
+Recordá que el entorno Vercel **Development** no es la rama Git `development`. No crees otro proyecto para lograr Preview ni desactives la protección, publiques el repo o compres un plan para ocultar un error. Los repos privados de organización pueden tener restricciones distintas de un repo personal en Hobby.
 
-**Comprobación:** encontraste qué capa falla y conservaste repo, rama y SHA correctos. [Configuración Git](https://vercel.com/docs/project-configuration/git-configuration).
+Antes de volver al recorrido, identificá qué capa falla y comprobá que conservás el repo, la rama y el SHA correctos. Podés consultar la [Configuración Git](https://vercel.com/docs/project-configuration/git-configuration).
 
 [Volver a comparar Preview](/proyecto/comparar-preview).

@@ -7,7 +7,7 @@ showFeedback: false
 
 # Interrumpir el origen
 
-**Dónde:** host, terminal de consultas. **Antes:** respuestas local, interna y pública comprobadas; mantené abierta la terminal de `cloudflared`. Esta interrupción afecta sólo `lab-app` de la práctica.
+Después de comprobar las respuestas local, interna y pública, vamos a detener el origen para observar qué cambia. Usá la terminal de consultas del host y mantené abierta la de `cloudflared`. Esta interrupción debe afectar sólo a `lab-app` de la práctica.
 
 ```bash
 docker stop lab-app
@@ -16,13 +16,13 @@ curl -i https://TU_URL_PUBLICA/api/health
 
 Usá el hostname actual, no el texto literal `TU_URL_PUBLICA`. La terminal que ejecutaba Next deja de servir porque detuviste su container.
 
-**Comprobación:** la request pública deja de obtener una respuesta sana del origen. Es habitual una respuesta como esta, aunque el código puede variar:
+La request pública ya no debería obtener una respuesta sana del origen. Es habitual ver una respuesta como esta, aunque el código puede variar:
 
 ```text
 HTTP/2 502
 …
 ```
 
-El túnel puede seguir conectado y aun así fallar el origen. "El túnel está arriba" y "la app responde" son comprobaciones distintas.
+Fijate que el túnel puede seguir conectado aunque el origen haya fallado. Comprobar que el túnel está conectado y comprobar que la app responde son dos cosas distintas. Mantener la conexión de `cloudflared` no reemplaza al servidor que acabamos de detener.
 
 **No sigas si** detuviste otro container o todavía ves el JSON sano del servicio. Confirmá que consultás el hostname de este túnel y que su origen es `lab-app:3000`; no detengas recursos ajenos.

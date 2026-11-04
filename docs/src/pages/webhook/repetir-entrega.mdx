@@ -7,15 +7,15 @@ description: "Observá la deduplicación y sus límites sin reiniciar el recepto
 
 # Repetir la misma entrega
 
-**Dónde:** navegador, **Settings → Webhooks → hook de /api/github → Recent Deliveries**. Logs en `lab-app`, cwd `/workspace`. **Antes:** [entrega real recibida y correlacionada](/webhook/comprobar-entrega), mismo proceso Next todavía activo y menos de una hora desde la entrega.
+Ahora vamos a reenviar el aviso que ya recibió Next. Volvé en el navegador a **Settings → Webhooks → hook de /api/github → Recent Deliveries** y mantené visibles los logs de `lab-app`, en `/workspace`. Necesitás la [entrega real recibida y correlacionada](/webhook/comprobar-entrega), el mismo proceso Next todavía activo y menos de una hora desde la entrega.
 
-Seleccioná **esa misma entrega del PR**, anotá su delivery GUID y pulsá **Redeliver**. Abrí la nueva respuesta. No generes otro push para esta prueba: un evento nuevo tiene otro ID.
+Seleccioná **esa misma entrega del PR**, anotá su delivery GUID y pulsá **Redeliver**. Después abrí la nueva respuesta. No generes otro push para esta prueba, porque un evento nuevo tiene otro ID.
 
-Redeliver reenvía el aviso anterior con el mismo GUID, sin crear otro cambio en el PR. Sirve para reintentar una entrega fallida y, acá, observar si el receptor recuerda una que ya aceptó. Un push nuevo produce otro evento y otro GUID, aunque corresponda al mismo PR.
+Redeliver reenvía el aviso anterior con el mismo GUID, sin crear otro cambio en el PR. Sirve para reintentar una entrega fallida y, en esta prueba, para observar si el receptor recuerda una que ya aceptó. Un push nuevo produce otro evento y otro GUID, aunque corresponda al mismo PR.
 
-**Comprobación:** mientras la instancia recuerda ese GUID, responde 200 con `status: duplicate`. El receptor no vuelve a procesarlo como `received`. Su retorno temprano tampoco añade otro registro de evento recibido.
+Mientras la instancia recuerde ese GUID, debe responder 200 con `status: duplicate`, en lugar de volver a procesarlo como `received`. Ese retorno temprano tampoco añade otro registro de evento recibido. Por eso no esperamos un segundo log igual al primero.
 
-La cache está en memoria de una sola instancia, conserva IDs una hora y tiene máximo 1000. Al llegar al máximo elimina el ID más antiguo; al reiniciar se pierde toda la memoria. Por eso `received` tras reiniciar, expirar o desalojar el ID no refuta el límite documentado. No es almacenamiento durable, una cola ni defensa completa contra replay.
+Este resultado depende de una cache en memoria de una sola instancia. Conserva los IDs una hora y admite como máximo 1000. Cuando alcanza ese máximo elimina el ID más antiguo, y al reiniciar pierde toda la memoria. Si después de reiniciar, expirar o desalojar el ID recibís `received`, eso es compatible con el límite documentado. No es almacenamiento durable, una cola ni una defensa completa contra replay.
 
 **No sigas si** comparaste dos GUID distintos o reiniciaste el proceso y estás presentando eso como prueba de deduplicación. Volvé a [correlacionar una entrega nueva](/webhook/comprobar-entrega) y repetila sin reinicio. No alteres la cache ni debilites validaciones para forzar el resultado.
 

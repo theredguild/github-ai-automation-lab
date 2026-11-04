@@ -9,14 +9,14 @@ import systemMap from '../../../assets/course-mapa-final.png'
 
 # Cerrar la práctica
 
-Podés cerrar la práctica al terminar o **si te detenés en cualquier capítulo**, aunque no hayas logrado la review, el merge o el deployment. Si querés seguir investigando una entrega antes de cerrar, retomá [leer la review](/review/leer-review).
+Podés usar este cierre al terminar o **si te detenés en cualquier capítulo**, incluso antes de usar Docker o sin haber logrado la review, el merge o el deployment. Vamos a cerrar sólo lo que hayas llegado a crear, sin perder tu trabajo. Si antes querés investigar una entrega, retomá [leer la review](/review/leer-review).
 
-GitHub relaciona cambios, ejecuciones y eventos. Vercel construye deployments; el runner ejecuta checks; el túnel transporta requests. Hermes coordina la tarea y las herramientas, el modelo analiza el cambio y el adaptador publica la respuesta. Una persona conserva la decisión de integrar.
+El mapa reúne las partes que fuimos conectando. GitHub relaciona cambios, ejecuciones y eventos. Vercel construye deployments, el runner ejecuta checks y el túnel transporta requests. Hermes coordina la tarea y las herramientas, el modelo analiza el cambio y el adaptador publica la respuesta. La decisión de integrar sigue en manos de una persona.
 
 <img src={systemMap} alt="Mapa del taller: GitHub conectado con Vercel, runner, túnel y agente de review" />
 
-Diagrama del taller. No representa una ejecución certificada de nuestras cuentas.
+Este diagrama del taller muestra esas relaciones, no una ejecución certificada de nuestras cuentas.
 
-Guardá los cambios útiles con commit y push, sin incluir secretos. No publiques cambios sin revisar sólo para terminar. Después seguí el cierre: primero desactivar hooks, después detener procesos y finalmente revocar credenciales dedicadas. Son acciones distintas: dejar de recibir eventos no detiene tareas ya iniciadas, y apagar un proceso no revoca su acceso. No borres por rutina el perfil que contiene tu progreso.
+Guardá los cambios útiles con commit y push, sin incluir secretos. No publiques cambios sin revisar sólo para terminar. Después vamos a desactivar los hooks, detener los procesos y revocar las credenciales dedicadas, en ese orden. Cada paso cumple una función distinta. Dejar de recibir eventos no detiene tareas ya iniciadas, y apagar un proceso no revoca su acceso. No borres por rutina el perfil que contiene tu progreso.
 
-**Comprobación:** identificaste qué recursos llegaste a crear y hasta dónde obtuviste evidencia. Si completaste el recorrido, conservá repo, PR integrado, último SHA de `main` y deployment de Production. Si no, conservá el último resultado y el error sin credenciales. En ambos casos, [empezá el cierre](/cierre/desactivar-hooks).
+Antes de empezar, identificá qué recursos creaste y hasta dónde obtuviste evidencia. Si completaste el recorrido, conservá el repo, el PR integrado, el último SHA de `main` y el deployment de Production. Si te detuviste antes, guardá el último resultado y el error sin credenciales. En ambos casos, [empezá el cierre](/cierre/desactivar-hooks).

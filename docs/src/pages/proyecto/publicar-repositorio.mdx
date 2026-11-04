@@ -7,9 +7,9 @@ showFeedback: false
 
 # Publicar main en GitHub
 
-**Dónde:** host, `lab`, rama `main`. **Antes:** primer commit revisado y creado, autenticación HTTPS correcta y repo remoto vacío.
+Ahora sí vamos a enviar el primer commit a GitHub. Seguí en la terminal del host, en `lab` y en la rama `main`. Antes de enviarlo, el commit tiene que estar revisado y creado, la autenticación HTTPS debe ser correcta y el repo remoto debe seguir vacío.
 
-Un remote es una dirección guardada para comunicarte con otro repositorio. `origin` será el nombre local de tu repo en GitHub. La primera línea guarda esa dirección; `git push` envía los commits de `main`. La opción `-u` vincula esta rama local con `origin/main` para los próximos envíos y sincronizaciones.
+Para conectar ambos repositorios usamos un remote, una dirección guardada para comunicarnos con otro repositorio. Le vamos a poner el nombre local `origin` a tu repo de GitHub. La primera línea guarda su dirección y `git push` envía los commits de `main`. Con `-u` vinculamos esta rama local con `origin/main` para los próximos envíos y sincronizaciones.
 
 Reemplazá `TU_USUARIO/REPO` por el propietario y nombre reales:
 
@@ -18,8 +18,8 @@ git remote add origin https://github.com/TU_USUARIO/REPO.git
 git push -u origin main
 ```
 
-Esperá que el push termine sin error. Abrí tu repo en GitHub y verificá `main`, el mensaje del primer commit y `app/`, `package.json`, `Dockerfile` y `.gitignore` en raíz.
+Esperá a que el push termine sin error. Después abrí tu repo en GitHub y buscá la rama `main` y el mensaje del primer commit. En la raíz deben estar `app/`, `package.json`, `Dockerfile` y `.gitignore`. Esa comparación confirma que enviaste la app que venís preparando.
 
 **No sigas si** Git rechaza el push o el árbol remoto no es tu app. No uses force-push para tapar una historia distinta.
 
-No vuelvas a clonar. Seguís trabajando en esta misma carpeta `lab`. Ahora podés abrirla en el editor para leer los archivos que ya publicaste.
+No hace falta volver a clonar. Vamos a seguir trabajando en esta misma carpeta `lab`. Abrila en el editor para leer los archivos que acabás de publicar.

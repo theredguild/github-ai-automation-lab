@@ -7,16 +7,16 @@ showFeedback: false
 
 # Revocar los tokens dedicados
 
-**Dónde:** GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens**. **Antes:** decidiste terminar la práctica, desactivaste sus hooks y detuviste sus procesos. Si un cierre falló, no tomes ese fallo como motivo para dejar credenciales innecesarias activas; conservá qué recurso falta cerrar.
+Con los hooks desactivados y los procesos detenidos, falta retirar los accesos que ya no necesitás. En GitHub, abrí **Settings → Developer settings → Personal access tokens → Fine-grained tokens**. Si alguna parte del cierre falló, anotá qué recurso falta cerrar, pero no tomes ese fallo como motivo para dejar credenciales innecesarias activas.
 
-Revocá los PAT dedicados que generaste para el host y para el agente cuando dejen de ser necesarios. Comprobá sus nombres y repo seleccionado antes de actuar: no revoques credenciales de otros proyectos por rutina.
+Revocá los PAT dedicados que generaste para el host y el agente cuando dejen de ser necesarios. Antes de actuar, comprobá sus nombres y el repo seleccionado. **No revoques credenciales de otros proyectos por rutina.**
 
-Cerrar una sesión local o detener un container no revoca un token remoto. Borrar el perfil tampoco lo revoca. A la inversa, revocar el PAT no borra los archivos guardados ni desactiva por sí solo un webhook ya creado.
+Cerrar una sesión local, detener un container o borrar el perfil no revoca un token remoto. A la inversa, revocar el PAT no borra los archivos guardados ni desactiva por sí solo un webhook ya creado. Por eso hicimos el cierre en pasos separados.
 
-No publiques el perfil de Hermes ni la configuración de `gh`; pueden conservar otras credenciales, como las del modelo y Telegram. El volumen del perfil sigue siendo privado aunque hayas revocado los PAT. Si creaste credenciales exclusivas para la práctica en otros servicios y ya no las necesitás, retiralas desde el servicio que las emitió. No revoques credenciales compartidas con otros proyectos por rutina.
+**No publiques el perfil de Hermes ni la configuración de `gh`.** Pueden conservar otras credenciales, como las del modelo y Telegram. El volumen del perfil sigue siendo privado aunque hayas revocado los PAT. Si creaste credenciales exclusivas para la práctica en otros servicios y ya no las necesitás, retiralas desde el servicio que las emitió. No revoques credenciales compartidas con otros proyectos por rutina.
 
-El secret del webhook es una clave compartida para verificar firmas, no un PAT. Desactivar el hook no borra ese secret. Si sospechás que se expuso, reemplazalo en GitHub y en el receptor antes de volver a activar el hook; no confíes en que apagar procesos resolvió la exposición.
+Recordá que el secret del webhook es una clave compartida para verificar firmas, no un PAT. Desactivar el hook no borra ese secret. Si sospechás que se expuso, reemplazalo en GitHub y en el receptor antes de volver a activar el hook. Apagar los procesos no resuelve esa exposición.
 
-**Comprobación:** los tokens dedicados ya no aparecen activos en GitHub. Conservás tu repo, los resultados de la práctica y sabés qué perfiles y configuraciones siguen conteniendo secretos.
+Comprobá que los tokens dedicados ya no aparezcan activos en GitHub. Al cerrar, conservás tu repo y los resultados de la práctica, y sabés qué perfiles y configuraciones siguen conteniendo secretos.
 
 Para continuar con otro backend, mantené los filtros previos al modelo, los SHA fijados y la revisión humana. Las [referencias](/referencias) y los [diagnósticos](/opcional) quedan disponibles para consulta.
