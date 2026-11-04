@@ -1,6 +1,6 @@
 ---
 title: "Leer comandos y reconocer la terminal"
-description: "Distinguir host, containers, salidas ilustrativas y valores que tenés que reemplazar."
+description: "Ubicar tu carpeta, leer rutas relativas y distinguir comandos de ejemplos."
 showAskAi: false
 showFeedback: false
 ---
@@ -9,15 +9,24 @@ showFeedback: false
 
 **Dónde:** esta página explica cómo leer las instrucciones; todavía no creás containers.
 
-Cada página indica dónde trabajar. **Host** es tu equipo o WSL2. `lab-agent`, `lab-app` y `lab-runner` serán containers separados cuando lleguemos a ellos. No ejecutes un comando del host dentro de la shell de otro entorno.
+Cada página indica dónde trabajar. Cuando diga **host**, se refiere a tu equipo o WSL2. Más adelante crearemos otros entornos y los identificaremos por nombre. No ejecutes un comando del host dentro de la shell de otro entorno.
+
+La carpeta actual es el punto de partida de las rutas relativas. Si una instrucción menciona `app/page.tsx`, ese archivo se busca desde la carpeta donde estás. Una ruta que empieza con `/`, como `/workspace`, es absoluta y parte de la raíz del entorno donde se ejecuta el comando.
+
+Para ver tu carpeta actual:
+
+```bash
+pwd
+```
+
+`cd` cambia de carpeta. `cd ..` sube a la carpeta que contiene la actual y `.` representa la carpeta actual. Cuando una página diga `cwd`, se refiere a esa carpeta. Cuando diga `branch`, se refiere a la rama de Git.
+
+Algunos ejemplos usan marcadores como `TU_USUARIO/REPO` o `NUMERO`. Cuando la página indique reemplazarlos, escribí tus datos en su lugar. No cambies los nombres de variables como `WEBHOOK_SECRET`: la aplicación espera ese nombre exacto y vos configurás su valor.
 
 | Valor | Qué reemplazás |
 | --- | --- |
 | `TU_USUARIO/REPO` | Propietario y nombre de tu repo, no del material |
-| `NUMERO` | Número real del PR, sin `#` |
-| `RUN_ID` | Identificador real que muestra `gh run list` |
-| `TU_URL_PUBLICA` | Hostname de cloudflared, sin duplicar `https://` |
-| `TU_UID` y `TU_GID` | IDs comprobados para el build adaptado, si corresponde |
+| `NUMERO` | Número real del pull request, o PR, sin `#` |
 
 Una línea terminada en `\` continúa en la siguiente. Pegá ese bloque completo. Las líneas que empiezan con `#` son comentarios.
 
@@ -25,4 +34,4 @@ Los bloques `text` muestran **ejemplos de salida** o **tareas para el agente**, 
 
 Cuando un proceso ocupa una terminal, dejala abierta y usá otra para el siguiente paso. `Ctrl+C` detiene ese proceso, no necesariamente el container, el túnel remoto o el Codespace.
 
-**Antes de avanzar:** ubicá el nombre de la terminal y su carpeta actual. Si no coinciden con la página, corregí eso antes de copiar comandos.
+**Antes de avanzar:** podés leer la carpeta actual con `pwd` y reconocer qué valores de un comando tendrías que reemplazar. Si la terminal o la carpeta no coinciden con la página, corregí eso antes de copiar comandos.

@@ -26,7 +26,9 @@ No ejecutes ambos métodos ni uses bypass. Luego consultá el resultado:
 gh pr view NUMERO --json state,mergeCommit
 ```
 
-En Vercel abrí el proyecto vinculado, buscá el deployment nuevo de **main / Production** y esperá estado **Ready**. Contrastá repo, rama, SHA del deployment con el commit integrado, entorno y URL. Abrí **esa URL de Production**, no el Preview ni el túnel. Comprobá la landing y que el cálculo de lugares libres refleje la resta. Un deployment anterior en Ready no demuestra este merge.
+En Vercel abrí el proyecto vinculado, buscá el deployment nuevo de **main / Production** y esperá estado **Ready**. Contrastá repo, rama, SHA del deployment con el commit integrado, entorno y URL. El merge commit tiene su propio SHA, distinto del head corregido que revisaste. Para este deployment, la referencia es el commit integrado en `main`.
+
+Abrí **esa URL de Production**, no el Preview ni el túnel. Comprobá la landing y que el cálculo de lugares libres refleje la resta. Ready indica que el deployment está disponible, no que el comportamiento del código sea correcto. Un deployment anterior en Ready no demuestra este merge.
 
 **Comprobación:** PR figura Merged, commit de integración reconocido y Production nuevo de `main` está Ready con comportamiento esperado. El fallo de práctica no quedó integrado como versión final.
 

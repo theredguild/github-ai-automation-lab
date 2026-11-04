@@ -25,6 +25,6 @@ Abrí la nueva entrega del hook nativo en **Recent Deliveries**. Comprobá acci�
 
 Diagrama del taller; ejemplo conceptual. Acuse y comentario ocurren en momentos distintos.
 
-**Comprobación:** el gateway acepta el evento permitido. **202 Accepted** significa recepción de la tarea, no lectura correcta del diff, review terminada ni comentario publicado. El siguiente resultado se comprobará en [la conversación del PR](/review/leer-review).
+**Comprobación:** el gateway acepta el evento permitido. **202 Accepted** significa que aceptó la tarea para procesarla después, no que leyó correctamente el diff, terminó la review o publicó el comentario. GitHub ya recibió el acuse HTTP mientras el agente todavía puede estar trabajando o encontrar un error. El siguiente resultado se comprobará en [la conversación del PR](/review/leer-review).
 
 **No sigas si** sólo encontrás el ping, otra etiqueta, SHA distintos o un evento ignorado. Recorrelacioná antes de solicitar más trabajo. Si el estado del PR cambia, esperá un aviso de solicitud desactualizada y luego pedí una review nueva; no fuerces la publicación del análisis viejo.

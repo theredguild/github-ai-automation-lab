@@ -7,7 +7,9 @@ showFeedback: false
 
 # Crear el primer commit
 
-**Dónde:** host, `lab`, rama `main`. **Antes:** Git e identidad local configurados; todavía sin instalar dependencias. El `.gitignore` incluido ya protege archivos locales.
+**Dónde:** host, `lab`, rama `main`. **Antes:** Git e identidad local configurados; todavía sin instalar dependencias. El `.gitignore` incluido evita añadir por defecto ciertos archivos locales nuevos.
+
+El staging, también llamado índice, es la selección que entrará en el próximo commit. `git add .` prepara los archivos nuevos no ignorados y los cambios de archivos que Git ya sigue dentro de esta carpeta. No los envía a GitHub. `git status` muestra qué quedó preparado para que lo revises antes de confirmarlo.
 
 ```bash
 git add .
@@ -26,3 +28,5 @@ git log -1 --oneline
 ```
 
 Comprobá que el último commit tiene ese mensaje. Commit crea una versión local; todavía no publicó nada en GitHub.
+
+Un commit guarda una versión de los archivos preparados, junto con autor y mensaje. Git lo identifica con un SHA, un identificador que verás abreviado al comienzo de la salida de `git log`.

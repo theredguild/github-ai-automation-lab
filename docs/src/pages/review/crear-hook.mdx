@@ -36,6 +36,8 @@ En **Settings → Webhooks → Add webhook**, o editando exclusivamente un hook 
 No reutilices por suposición el secret del receptor Next. Ambos extremos de **este hook** deben coincidir. El secret no es el PAT de GitHub, token de Telegram ni API key del modelo.
 :::
 
+GitHub usa ese secret para firmar cada entrega y el receptor lo usa para verificarla. No lo envía como contraseña en el evento. La sesión `gh`, en cambio, usa el PAT para leer el PR y publicar el comentario. Son accesos distintos.
+
 **Comprobación:** web muestra un único hook de esta review con hostname actual, path nativo, JSON, Pull requests, TLS verificado y activo. `/api/github` permanece inactivo con historial conservado. El ping inicial no es una review ni reemplaza un `pull_request/labeled`.
 
 **No sigas si** hay hooks duplicados, URL vieja, secret de otro receptor o TLS sin verificar. Corregí sólo los hooks de tu práctica; no modifiques reglas ni hooks ajenos.

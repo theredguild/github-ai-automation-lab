@@ -11,7 +11,7 @@ import labels from '../../../assets/github-labels.png'
 
 **Dónde:** navegador de tu repo GitHub, **Issues o Pull requests → Labels**. Host en `lab` para abrir el PR si hace falta. **Antes:** [gateway accesible con hostname nuevo](/review/cambiar-tunel) y PR propio abierto `development → main`. Branch sin cambios.
 
-Creá `ai-review` y `prueba-webhook` **si no existen**. Conservá las etiquetas existentes con esos nombres. El nombre debe coincidir exactamente con el filtro, incluida la etiqueta positiva `ai-review`.
+Creá `ai-review` y `prueba-webhook` **si no existen**. Conservá las etiquetas existentes con esos nombres. El nombre debe coincidir exactamente con el filtro, incluida la etiqueta positiva `ai-review`. Crear una etiqueta sólo la deja disponible en el repo; aplicarla a un PR es lo que produce el evento `labeled`.
 
 <img src={labels} alt="Entrada al panel Labels del repositorio de GitHub para crear etiquetas" />
 

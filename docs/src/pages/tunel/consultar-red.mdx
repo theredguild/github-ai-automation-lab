@@ -21,7 +21,7 @@ Debe devolver HTTP 200 y el mismo JSON:
 {"status":"ok","service":"nodoserrano"}
 ```
 
-Docker resuelve `lab-app` dentro de `red-taller`. El cliente temporal desaparece al terminar por `--rm`.
+Docker resuelve el nombre `lab-app` a su dirección interna dentro de `red-taller`; no es un dominio público ni un nombre que deba resolver el host. Este cliente llega directamente al puerto 3000 del container, sin usar el puerto publicado del host. El cliente temporal desaparece al terminar por `--rm`.
 
 | Desde dónde preguntás | Dirección del origen |
 | --- | --- |

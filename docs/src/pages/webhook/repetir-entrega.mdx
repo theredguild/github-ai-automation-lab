@@ -11,6 +11,8 @@ description: "Observá la deduplicación y sus límites sin reiniciar el recepto
 
 Seleccioná **esa misma entrega del PR**, anotá su delivery GUID y pulsá **Redeliver**. Abrí la nueva respuesta. No generes otro push para esta prueba: un evento nuevo tiene otro ID.
 
+Redeliver reenvía el aviso anterior con el mismo GUID, sin crear otro cambio en el PR. Sirve para reintentar una entrega fallida y, acá, observar si el receptor recuerda una que ya aceptó. Un push nuevo produce otro evento y otro GUID, aunque corresponda al mismo PR.
+
 **Comprobación:** mientras la instancia recuerda ese GUID, responde 200 con `status: duplicate`. El receptor no vuelve a procesarlo como `received`. Su retorno temprano tampoco añade otro registro de evento recibido.
 
 La cache está en memoria de una sola instancia, conserva IDs una hora y tiene máximo 1000. Al llegar al máximo elimina el ID más antiguo; al reiniciar se pierde toda la memoria. Por eso `received` tras reiniciar, expirar o desalojar el ID no refuta el límite documentado. No es almacenamiento durable, una cola ni defensa completa contra replay.

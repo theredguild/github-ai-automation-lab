@@ -9,7 +9,7 @@ description: "Arrancá el perfil fusionado sin perder Telegram ni duplicar liste
 
 **Dónde:** shell de `lab-agent`, cwd `/workspace`. **Antes:** [ruta fusionada y revisada](/review/configurar-ruta), secret privado del gateway y sesión `gh` preparada en este mismo container. Branch sin cambios.
 
-Si el gateway anterior continúa activo, detenelo con **Ctrl+C en su propia terminal**. No recrees el container ni borres su perfil. El mismo proceso mantendrá Telegram y Webhooks activos.
+Si el gateway anterior continúa activo, detenelo con **Ctrl+C en su propia terminal**. Cambiar el YAML no basta para que ese proceso use la ruta nueva; lo reiniciás para cargarla. No recrees el container ni borres su perfil. El mismo proceso mantendrá Telegram y Webhooks activos.
 
 Iniciá **una sola instancia** con el perfil nuevo:
 

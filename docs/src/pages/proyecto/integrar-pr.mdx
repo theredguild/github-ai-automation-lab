@@ -22,6 +22,8 @@ import options from '../../../assets/github-merge-options.png'
 
 Son alternativas conceptuales, **no ejecutes las tres sobre el mismo PR**. En una rama larga, squash puede confundir comparaciones posteriores porque los commits originales siguen en la rama.
 
+Con merge commit, podés reconocer los commits originales y el punto donde se unieron las ramas. Sus dos padres son los commits de `main` y `development` que se integraron. Con squash, quien lea `main` verá una sola unidad por PR. Con rebase, verá cada commit en una línea continua, pero con identificadores distintos de los originales. Los tres métodos incorporan cambios; cambia cómo queda registrado el trabajo.
+
 ### Merge commit
 
 <img src={mergeHistory} alt="Historia conceptual con commits de rama y commit de merge con dos padres" />

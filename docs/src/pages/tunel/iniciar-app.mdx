@@ -20,7 +20,7 @@ Local: http://localhost:3000
 Ready in …
 ```
 
-`0.0.0.0` permite recibir conexiones por las interfaces del container. La publicación del host sigue limitada a `127.0.0.1` por la opción de Docker.
+`--hostname 0.0.0.0` define dónde escucha Next dentro del container. Esa dirección significa todas sus interfaces, no una URL para abrir en el navegador. Si escuchara sólo en el localhost del container, los otros containers no podrían llegar. La publicación del host sigue limitada a `127.0.0.1` por la opción de Docker.
 
 La ruta ya provista `app/api/health/route.ts` contiene:
 

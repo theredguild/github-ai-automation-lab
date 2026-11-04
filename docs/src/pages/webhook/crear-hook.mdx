@@ -13,6 +13,8 @@ import hooks from '../../../assets/webhook-list.png'
 
 Elegí **una sola** forma. Un hook delegado y otro manual para la misma URL producen entregas duplicadas distintas; no prueban la deduplicación por GUID.
 
+En ambas opciones reemplazá `TU_URL_PUBLICA` por el hostname que imprimió el túnel actual, sin `https://` ni rutas. La URL final debe tener un solo `https://` y terminar en `/api/github`.
+
 ## Delegar a Hermes
 
 Sólo si su PAT incluye Webhooks: Read and write, enviá esta tarea. No incluyas secretos en el mensaje:

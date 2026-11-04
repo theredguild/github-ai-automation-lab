@@ -9,6 +9,8 @@ showFeedback: false
 
 **Dónde:** shell de `lab-agent`, `/workspace`, usuario `node`. **Antes:** instancia creada o recuperada, sin cargar credenciales nuevas.
 
+El agente va a trabajar con los permisos del usuario `node`, no con los de tu sesión del host. Ver el proyecto no alcanza: necesitás comprobar que puede escribir tanto en el proyecto compartido como en el perfil. Esta prueba crea y borra un archivo en cada lugar antes de guardar secretos.
+
 ```bash
 id
 touch /workspace/.prueba-permisos

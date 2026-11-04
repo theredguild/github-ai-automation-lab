@@ -19,6 +19,8 @@ hermes gateway run
 
 Dejá esa terminal abierta. El gateway es el proceso que mantiene los canales conectados. Usá sólo una instancia por bot; no arranques otra para intentar corregir una demora.
 
+Guardar la configuración no deja el bot funcionando por sí solo. Necesitás el container activo y el proceso del gateway en ejecución para recibir mensajes y devolver respuestas.
+
 <img src={polling} alt="El gateway de Hermes inicia consultas HTTPS de long polling a Telegram sin entrada pública" />
 
 Diagrama del taller; ejemplo conceptual. Telegram usa **long polling** en este recorrido. El gateway consulta la API de Telegram por HTTPS desde adentro. No necesitás un túnel ni publicar un puerto para esta conversación.

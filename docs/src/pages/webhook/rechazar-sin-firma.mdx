@@ -17,6 +17,8 @@ curl -i -X POST http://127.0.0.1:3000/api/github \
   --data '{"action":"opened"}'
 ```
 
+`-X POST` elige el método; `-H` añade un encabezado que anuncia un body JSON; `--data` envía ese body. Acá falta deliberadamente `X-Hub-Signature-256`. Escribir `"action":"opened"` no convierte esos datos en una entrega auténtica de GitHub.
+
 Ejemplo de salida esperada, no evidencia de ejecución:
 
 ```text

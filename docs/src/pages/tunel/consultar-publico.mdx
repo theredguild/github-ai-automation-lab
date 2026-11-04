@@ -11,7 +11,7 @@ import requestPath from '../../../assets/course-e4-request-path.png'
 
 **Dónde:** host, terminal de consultas, y navegador de otro dispositivo. **Antes:** Next y `cloudflared` activos; URL copiada de los logs actuales.
 
-Reemplazá `TU_URL_PUBLICA` por el hostname real sin duplicar `https://`:
+`TU_URL_PUBLICA` es un marcador para reemplazar, no una variable de shell. Usá sólo el hostname real de los logs. Por ejemplo, si copiaste `https://ejemplo.trycloudflare.com`, reemplazalo por `ejemplo.trycloudflare.com`; el comando ya incluye `https://` y `/api/health`:
 
 ```bash
 curl -i https://TU_URL_PUBLICA/api/health
@@ -27,7 +27,7 @@ Abrí también la URL pública desde el teléfono u otro navegador. Comprobá la
 
 <img src={requestPath} alt="Request desde cliente externo a Cloudflare, por cloudflared hasta Next, y respuesta por el camino inverso" />
 
-Diagrama del taller; ejemplo conceptual. La request pública viaja por la conexión saliente que abrió el connector.
+Diagrama del taller; ejemplo conceptual. El cliente llega por HTTPS a Cloudflare. La request viaja por la conexión saliente de `cloudflared`, que consulta `http://lab-app:3000/api/health` en la red interna. Next genera la respuesta y ésta vuelve al cliente por el camino inverso. El puerto publicado del host no participa de este recorrido.
 
 | Nombre o ruta | Dónde se interpreta |
 | --- | --- |

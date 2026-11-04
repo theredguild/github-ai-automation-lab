@@ -21,7 +21,7 @@ Anotá ese SHA. Confirmá que corresponde al último commit publicado en `develo
 
 ### Web
 
-Abrí **Actions → Checks del workshop → Run workflow → development → Run workflow**. Abrí la ejecución recién creada y anotá su ID y SHA.
+Abrí **Actions → Checks del workshop → Run workflow → development → Run workflow**. Abrí la ejecución recién creada y anotá su ID numérico y SHA. En las páginas siguientes llamamos `RUN_ID` a ese ID: identifica la ejecución, no el commit ni el runner.
 
 <img src={dispatch} alt="Menú Run workflow permite seleccionar development para iniciar manualmente Checks del workshop" />
 
@@ -36,7 +36,7 @@ gh workflow run checks.yml --ref development
 gh run list --workflow checks.yml --limit 5
 ```
 
-Anotá el `RUN_ID` de la ejecución recién creada. No selecciones otra sólo porque sea la primera de una lista vieja.
+Anotá el ID numérico de la ejecución recién creada como `RUN_ID`. No selecciones otra sólo porque sea la primera de una lista vieja. Cuando un comando muestre `RUN_ID`, reemplazalo por ese número; no hace falta crear una variable de Bash.
 
 :::
 

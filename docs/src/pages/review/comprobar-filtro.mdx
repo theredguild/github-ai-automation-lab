@@ -13,7 +13,7 @@ Agregá **prueba-webhook** en el selector web Labels del PR. Si ya estaba, quit�
 
 Buscá esa entrega en **Settings → Webhooks → hook nativo → Recent Deliveries**:
 
-1. Request corresponde al PR, acción `labeled` y etiqueta `prueba-webhook`. Anotá hora y GUID.
+1. Request corresponde al PR, acción `labeled` y etiqueta `prueba-webhook`. Anotá hora y GUID, el identificador de esa entrega, para ubicar el mismo evento en los logs.
 2. Hostname y path son los actuales del gateway.
 3. Respuesta y logs muestran que el filtro no coincide y no crea una tarea de review.
 4. Contrastá logs con el uso del proveedor para comprobar que **ese evento** no inició una llamada al modelo. Considerá la hora de actualización del panel y separá cualquier actividad de otras sesiones.

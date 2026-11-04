@@ -34,6 +34,8 @@ Abrí `package.json` en el editor. Ya trae los scripts; este fragmento ilustrati
 
 La landing ya existe y `pnpm-lock.yaml` fija dependencias. No ejecutes un generador para crear otra app.
 
+Node ejecuta el código JavaScript; pnpm administra las dependencias y ejecuta los scripts de `package.json`. Instalar descarga las bibliotecas que necesita la app en `node_modules/`, pero no construye ni abre el sitio. `--frozen-lockfile` exige respetar el lockfile y falla si no coincide con `package.json`, en vez de actualizarlo.
+
 ```bash
 pnpm install --frozen-lockfile
 ```

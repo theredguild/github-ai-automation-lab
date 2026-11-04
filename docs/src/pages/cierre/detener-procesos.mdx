@@ -7,19 +7,23 @@ showFeedback: false
 
 # Detener los procesos de práctica
 
-**Dónde:** terminales del gateway y del túnel; después, host. **Antes:** los hooks de práctica están inactivos.
+**Dónde:** terminales del gateway y del túnel; después, host. **Antes:** desactivaste los hooks de práctica, o no podés hacerlo todavía y necesitás cerrar la exposición local. No hace falta haber completado los ejercicios.
 
-Detené gateway y cloudflared con `Ctrl+C` en las terminales donde están ejecutándose. Si app y agente siguen activos, desde el host:
+Detené gateway y cloudflared con `Ctrl+C` en las terminales donde están ejecutándose. Detener el gateway también interrumpe Telegram; cerrar sólo el túnel deja el gateway funcionando. Si quedó un servidor Next en el host, detenelo también con `Ctrl+C` en su terminal.
+
+Si no llegaste a usar Docker en este taller, omití los pasos de Docker de esta página. Si app y agente siguen activos, desde el host ejecutá el bloque siguiente. Si sólo llegaste a crear uno de esos containers, usá sólo su nombre en `docker stop`. Si no creaste ninguno, omití esa línea. No crees recursos para poder ejecutar el cierre.
 
 ```bash
 docker stop lab-app lab-agent
 docker ps
 ```
 
-El runner efímero debe haber terminado tras su único job. Si todavía espera, detenelo en su terminal y revisá su registro en GitHub. No detengas otros containers del equipo.
+Si quedó activo el container de exploración `herramientas`, volvé a su shell inicial y ejecutá `exit`. Si ya no tenés esa terminal, identificá tu instancia con `docker ps` y detené sólo esa desde el host con `docker stop herramientas`.
 
-No elimines por rutina `hermes-home`: conserva progreso y credenciales. Para reutilizar el perfil, arrancá su container. Si vas a descartarlo, decidilo después de guardar lo necesario.
+Si usaste el runner efímero, debe haber terminado tras su único job. Si todavía espera o está ejecutando un job al interrumpir la práctica, detenelo con `Ctrl+C` en su terminal. Si tu instancia `lab-runner` sigue activa, detenela desde el host con `docker stop lab-runner`. Cancelá sólo la ejecución de la práctica en GitHub Actions si todavía figura pendiente o en curso, y revisá su registro en GitHub. No detengas otros containers ni ejecuciones del equipo.
+
+Detener `lab-app` y `lab-agent` no borra sus archivos ni el proyecto montado. No elimines por rutina `hermes-home`: conserva progreso y credenciales. Para reutilizar el perfil, arrancá su container; eso no renueva tokens revocados ni garantiza que la URL del túnel siga vigente. Si vas a descartarlo, decidilo después de guardar lo necesario.
 
 Si usaste Codespaces, elegí **Stop codespace** en [tu lista](https://github.com/codespaces). Cerrar la pestaña no lo detiene. Un Codespace detenido puede consumir almacenamiento; eliminá únicamente uno que ya no necesites y cuyo trabajo esté publicado.
 
-**Comprobación:** los procesos de la práctica dejaron de recibir trabajo y `docker ps` no muestra sus instancias en ejecución.
+**Comprobación:** los procesos de la práctica dejaron de recibir trabajo. Si usaste Docker en el taller, `docker ps` no muestra sus instancias en ejecución. Sus resultados en GitHub y Vercel permanecen; detener containers no elimina el repo ni los deployments. Falta retirar los accesos dedicados en el paso siguiente.

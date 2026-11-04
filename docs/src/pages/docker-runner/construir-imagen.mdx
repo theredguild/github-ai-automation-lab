@@ -9,7 +9,9 @@ showFeedback: false
 
 **Dónde:** host, Bash en `lab`, sin sesión root. **Antes:** receta leída e instructor disponible para revisar permisos.
 
-La imagen usa `node` con UID/GID `1000:1000` por defecto. En Linux con Docker Engine comprobá ambos IDs antes de construir:
+La imagen usa el usuario `node` con UID/GID `1000:1000` por defecto. UID es el número que identifica al usuario y GID, el de su grupo. Linux usa esos números para decidir quién puede leer o escribir un archivo, aunque los usuarios tengan nombres distintos dentro y fuera del container. Esto importará cuando montemos el proyecto del host en el agente.
+
+En Linux con Docker Engine comprobá ambos IDs antes de construir. El primer comando muestra tu UID y el segundo, tu GID:
 
 ```bash
 id -u
@@ -28,7 +30,7 @@ docker build -t taller .
 
 ### Opción B: IDs Linux distintos
 
-En lugar de la opción A, reemplazá ambos marcadores por tus números:
+En lugar de la opción A, reemplazá `TU_UID` por el número de `id -u` y `TU_GID` por el de `id -g`. Son marcadores para editar, no nombres de variables ni texto para pegar tal cual:
 
 ```bash
 docker build -t taller   --build-arg WORKSHOP_UID=TU_UID   --build-arg WORKSHOP_GID=TU_GID .
@@ -36,7 +38,7 @@ docker build -t taller   --build-arg WORKSHOP_UID=TU_UID   --build-arg WORKSHOP_
 
 No ejecutes después el build básico sobre la imagen adaptada. No construyas desde una sesión root ni arregles permisos con `chmod 777`. Si hay un conflicto de IDs, detenete y resolvelo con el instructor.
 
-`-t taller` da un nombre corto a la imagen. El punto usa el Dockerfile de la carpeta actual. No versionamos etiquetas en este ejercicio.
+`-t taller` da un nombre corto a la imagen. El punto final elige la carpeta actual como contexto de build, es decir, los archivos disponibles durante la construcción, salvo los excluidos por `.dockerignore`. Docker usa el `Dockerfile` de esa carpeta. No versionamos etiquetas en este ejercicio.
 
 Tras finalizar la única opción elegida:
 

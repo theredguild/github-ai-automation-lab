@@ -9,6 +9,8 @@ showFeedback: false
 
 **Dónde:** host, `lab`, inicialmente `main`. **Antes:** primer Production comprobado y copia de trabajo limpia.
 
+Con la copia limpia, `git switch main` selecciona la rama local `main`. `git pull --ff-only` trae sus cambios remotos y sólo avanza si no necesita combinar historias divergentes. Luego `git switch -c development` crea una rama desde ese punto y te deja trabajando en ella.
+
 ```bash
 git status
 git switch main
@@ -19,6 +21,8 @@ git switch -c development
 Comprobá con `git branch --show-current` que estás en `development`. Si ya existe, no la recrees: elegí en su lugar `git switch development`, después de comprobar qué contiene.
 
 Una branch es una referencia a un commit; un SHA identifica ese commit. Crear la rama todavía no cambia contenido ni Production.
+
+Al cambiar de rama, Git ajusta los archivos de tu copia de trabajo a la versión seleccionada. No crea otra carpeta del proyecto. En `development` vas a preparar y probar el cambio sin mover `main` hasta el merge.
 
 | Intención | Comando usado aquí | Equivalente anterior |
 | --- | --- | --- |

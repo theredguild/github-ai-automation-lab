@@ -15,6 +15,8 @@ import loopbacks from '../../../assets/course-e4-localhost.png'
 curl -i http://127.0.0.1:3000/api/health
 ```
 
+`curl` actúa como cliente y, sin indicar otro método, envía un GET para consultar esa ruta. `-i` muestra los encabezados de la respuesta además del body. Primero buscá el código HTTP, como `200 OK`; después del renglón vacío viene el contenido. En esta ruta es JSON, un formato de datos con claves y valores como `"status":"ok"`.
+
 Ejemplo esperado:
 
 ```text

@@ -15,6 +15,8 @@ import protection from '../../../assets/vercel-setup-preview-protection.png'
 
 Preview viene habilitado por defecto tras el primer deployment. Un push a una rama no productiva genera Preview sin otro proyecto, workflow de Actions ni compra adicional.
 
+Preview publica una versión para probar el cambio antes de llevarlo a Production. No mueve la rama `main` ni reemplaza por sí solo la URL principal. Tampoco significa "privado": comprobá la protección de acceso antes de compartir su URL o incluir información sensible.
+
 <img src={two} alt="main publica Production y development publica Preview dentro del mismo proyecto" />
 
 Diagrama del taller; ejemplo conceptual.

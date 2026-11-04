@@ -23,6 +23,8 @@ Comprobá en orden, sin tomar el 202 como final del recorrido:
 4. Los SHA base y head revisados coinciden con los del evento y base sigue `main`. La comparación se obtiene de commits inmutables. Si cambió algo, la respuesta debe ser sólo un aviso de solicitud desactualizada.
 5. Aparece un comentario en **ese PR** mediante `github_comment` y describe qué pudo comprobar.
 
+`github_comment` crea un comentario en la conversación. No crea una aprobación formal de GitHub ni un check de CI. Un comentario sin críticas tampoco equivale a esas señales ni habilita el merge.
+
 ## Evaluar el contenido, no sólo su presencia
 
 Para el fallo de práctica, buscá que identifique `app/capacidad.ts`, suma en vez de resta, y efecto concreto: 20 de capacidad con 5 ocupados devuelve 25 en lugar de 15. La respuesta debe incluir ambos SHA revisados, base y head, y separar hipótesis de errores demostrados.

@@ -15,6 +15,8 @@ El punto de partida es `lab`, con `main` y `development` publicadas tras integra
 
 Host es la máquina que aloja procesos, física o virtual. Una VM tiene su propio kernel y corre sobre un hipervisor. Un container Linux aísla procesos y filesystem, pero comparte el kernel Linux de su host. En Docker Desktop ese host Linux suele estar dentro de una VM. Cada borde Container A/B encierra procesos y archivos, no un kernel propio.
 
+Compartir el kernel no vuelve seguro cualquier código que ejecutes dentro de un container. En este capítulo vas a usar código propio y una instancia sin acceso a carpetas ni credenciales del host. El runner es el programa que recibe y ejecuta trabajos de GitHub Actions; Docker le da el entorno donde corre.
+
 <img src={kernel} alt="Host con máquinas virtuales y containers que comparten el kernel Linux correspondiente" />
 
 Diagrama del taller; ejemplo conceptual.

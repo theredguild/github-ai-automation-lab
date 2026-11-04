@@ -13,7 +13,18 @@ import actions from '../../../assets/course-e2-actions.png'
 
 Abrí `docs/snippets/checks.yml`. Viajó con la app y ya no está en `hackerspace-site/` dentro del checkout del material. Leé el archivo completo. Todavía no está activado en `.github/workflows/`.
 
-GitHub Actions organiza el trabajo en workflow → jobs → steps. El job elige un runner y ese runner ejecuta sus steps.
+GitHub Actions organiza el trabajo así:
+
+| Parte | Qué significa acá |
+| --- | --- |
+| Workflow | Archivo YAML que define cuándo ejecutar trabajo y qué jobs contiene |
+| Ejecución o run | Una vez que se inicia ese workflow, con un ID y un commit concretos |
+| Job | Conjunto de pasos que se ejecuta en un runner; acá se llama `check` |
+| Step | Un paso del job, como descargar el código o ejecutar `pnpm typecheck` |
+| Runner | Programa que recibe el job y ejecuta sus steps en su entorno |
+| Check | Resultado que GitHub muestra para ese trabajo sobre un commit |
+
+CI significa integración continua: ejecutar comprobaciones repetibles sobre cambios de código para detectar fallas antes de integrarlos. Acá practicamos esas comprobaciones con inicio manual. Publicar un commit, iniciar el workflow y obtener un resultado son acciones distintas.
 
 <img src={actions} alt="Workflow contiene un job que selecciona runner y ejecuta checkout, instalación, lint y typecheck" />
 
@@ -47,6 +58,8 @@ Dentro del mismo job:
       - run: pnpm typecheck
 ```
 
-Checkout está fijado a un commit y no conserva su credencial en Git. La instalación respeta el lockfile; Biome revisa el código y TypeScript comprueba tipos.
+Checkout descarga en el runner el código de la versión que se va a comprobar. Está fijado a un commit de la acción y no conserva su credencial en Git. La instalación respeta el lockfile; Biome revisa reglas de código y TypeScript comprueba tipos sin necesitar abrir la página en un navegador.
+
+Los steps corren en orden. Si uno falla, los siguientes de este archivo no se ejecutan y el job queda fallido. Un check verde sólo confirma las comprobaciones incluidas aquí: este workflow no ejecuta tests ni hace un deployment.
 
 Comprobá en el archivo real el evento, las etiquetas y los cuatro steps. **No sigas si** el contenido no coincide o apunta a otro runner.

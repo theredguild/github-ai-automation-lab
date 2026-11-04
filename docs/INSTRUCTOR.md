@@ -18,6 +18,16 @@ Vocs es la única guía del participante. El README explica cómo abrirla y la p
 
 El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded y Poppins. El código ahora usa Inconsolata explícita y colores por sintaxis. No se entrega un paquete de fuentes tipográficas.
 
+## Revisión pedagógica local pendiente de aprobación
+
+Se revisaron introducción, preparación, los seis capítulos y cierre con el criterio de explicar los términos al usarlos, sin omitir detalles técnicos. Hay cambios locales en 66 páginas: modelo, harness y agente; operaciones de Git y deployments; imagen, container y runner; permisos y persistencia; redes y requests; firma y filtros; revisión por SHA y decisión humana. El cierre también sirve si se interrumpe un capítulo. No se cambiaron rutas, navegación, capturas, PPTX, starter ni configuración de deployment. No hubo commit ni push.
+
+Los bloques de código originales se conservaron íntegros. La única diferencia entre bloques es el ejemplo nuevo `pwd` en preparación. Los 126 bloques Bash del curso pasan `bash -n`, que comprueba sintaxis, no ejecución.
+
+El build aislado pasó con Node 26.10.0 y pnpm 10.20.0, con enlaces internos estrictos y búsqueda local. Generó 632 archivos públicos. Un recorrido HTTP comprobó las 111 páginas con estado 200 y su H1 esperado. Chromium comprobó texto nuevo y ausencia de overflow horizontal en diez páginas representativas a 1280 y 320 px, incluidas las tablas de componentes y workflow; las imágenes de las páginas inspeccionadas cargaron correctamente. También se comprobó el enlace Next desde cierre a desactivar hooks y se observaron capturas de las tablas en móvil y escritorio. Una revisión independiente detectó que el cierre incompleto aún asumía Docker instalado y omitía exploración y runner activo. Se corrigió esa omisión, se reconstruyó el curso y se comprobó la página final en ambos anchos, sin errores de navegador.
+
+Estas comprobaciones cubren la guía publicada localmente. No se repitieron ejercicios contra GitHub, Vercel, Telegram, modelos ni Cloudflare, ni se certificaron esas integraciones. La revisión no autoriza publicarlas o consumir servicios pagos. El archivo preexistente no versionado `docs/src/pages.gen.ts` se conservó sin cambios.
+
 ## Decisiones del usuario que deben conservarse
 
 - Público con muy poca experiencia; se requieren nociones de Git, GitHub, programación y conceptos generales de informática, que se retoman durante el recorrido. No hace falta experiencia con automatización o agentes. Pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.

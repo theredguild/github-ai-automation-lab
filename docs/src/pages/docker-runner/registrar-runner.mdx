@@ -24,6 +24,8 @@ Captura de referencia de la interfaz de GitHub, no prueba de tu registro.
 
 En GitHub abrí **Settings → Actions → Runners → New self-hosted runner**. Elegí **Linux** y la arquitectura de tu imagen. El runner ya está descargado en `taller`; no repitas los comandos de instalación de esa pantalla. Buscá el token temporal de **Configure**.
 
+Ese token temporal autoriza registrar el runner en este repo y tiene vencimiento. No es el PAT con el que autenticás `gh` en el host. No copies ese PAT dentro del runner ni lo uses para responder al registro.
+
 Desde el host:
 
 ```bash

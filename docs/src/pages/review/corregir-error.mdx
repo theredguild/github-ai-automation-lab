@@ -33,7 +33,7 @@ pnpm lint
 pnpm typecheck
 ```
 
-Las pruebas existentes comprueban que `lugaresLibres(20, 5)` da 15 y `lugaresLibres(20, 20)` da 0, además del receptor y health. No hace falta otro script de Node. `pnpm test` ejecuta las pruebas unitarias provistas con Node 22, no una integración de Next, Docker o servicios externos. Biome y TypeScript comprueban otras propiedades; tipos correctos no sustituyen las aserciones del cálculo.
+Las pruebas existentes comprueban que `lugaresLibres(20, 5)` da 15 y `lugaresLibres(20, 20)` da 0, además del receptor y health. Cada aserción compara un resultado real con el esperado. No hace falta otro script de Node. `pnpm test` ejecuta las pruebas unitarias provistas con Node 22, no una integración de Next, Docker o servicios externos. Biome revisa reglas del código y TypeScript comprueba tipos; ninguno sustituye las aserciones del cálculo.
 
 **Comprobación:** diff muestra sólo la corrección esperada y **test, lint y typecheck terminan correctamente**. Conservá qué comandos ejecutaste y para qué estado del código; no lo atribuyas a la review del agente.
 

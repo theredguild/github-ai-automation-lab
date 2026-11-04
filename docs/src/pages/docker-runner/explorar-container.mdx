@@ -15,6 +15,8 @@ docker run --rm -it --name herramientas taller
 
 El nuevo prompt pertenece a `herramientas`. `CMD` abrió Bash y `WORKDIR` te dejó en `/workspace`. No agregues montajes ni una red propia. La conexión entre containers se introduce recién en el ejercicio 4.
 
+`-it` permite usar la terminal de forma interactiva y `--name` asigna el nombre de la instancia. `/workspace` es una carpeta dentro del container: llamarse igual que una carpeta del host no las conecta. Sin un montaje, no vas a ver ahí los archivos de `lab`.
+
 Dentro del container:
 
 ```bash
@@ -40,7 +42,9 @@ docker ps
 docker exec -it herramientas bash
 ```
 
-`docker exec` abre otro proceso en la misma instancia, no crea otro container. Cerrá esa segunda shell con `exit` y luego cerrá la shell inicial con `exit`. `--rm` elimina la instancia al terminar su proceso principal; la imagen permanece. En el host, `docker ps` ya no debe mostrar `herramientas`.
+`docker exec` abre otro proceso en la misma instancia activa, no crea otro container. Cerrá esa segunda shell con `exit` y luego cerrá la shell inicial con `exit`. Salir de la segunda shell no detiene la primera; salir de la inicial termina el proceso principal y, con él, el container.
+
+`--rm` elimina la instancia al terminar ese proceso. Los archivos que hubieras creado sólo dentro de ella se pierden; la imagen permanece. En el host, `docker ps` ya no debe mostrar `herramientas`.
 
 Docker Desktop ofrece una alternativa visual para imágenes, containers y logs. Su panel no reemplaza la shell del runner ni la consola del agente.
 

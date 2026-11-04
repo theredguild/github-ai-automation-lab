@@ -17,11 +17,25 @@ Está pensado para personas que quieren sumar herramientas y práctica para mejo
 
 Alcanza con tener algunas nociones de **Git, GitHub, programación y conceptos generales de informática**. No hace falta dominarlos: vamos a retomar y explicar los conceptos necesarios a medida que aparezcan.
 
+Como referencia, conviene que puedas reconocer archivos y carpetas de un proyecto, leer un fragmento sencillo de código y ubicar qué son un repositorio y un commit. No hace falta memorizar comandos ni saber construir una aplicación desde cero.
+
 No necesitás experiencia previa con automatización ni agentes.
 
 ## Qué vas a aprender
 
 Hacer un cambio suele traer más trabajo: comprobar que todo siga funcionando, avisar y pedir una revisión. La propuesta es que esas tareas dejen de depender de que alguien se acuerde de ejecutarlas una por una.
+
+Una automatización sigue reglas que dejamos preparadas: cuando ocurre algo, ejecuta determinados pasos. Un agente permite delegar tareas cuyo recorrido no está completamente definido de antemano, pero también puede equivocarse.
+
+Para hablar de agentes vamos a distinguir estas piezas. Los nombres no siempre se usan igual entre productos; en este curso los usaremos así:
+
+| Concepto | Qué significa acá |
+| --- | --- |
+| Modelo | Recibe contexto y genera respuestas o propone acciones. No ejecuta por sí mismo los comandos de tu computadora. |
+| [Harness](https://openai.com/index/unlocking-the-codex-harness/) | Es el software que organiza la ejecución: llama al modelo, ejecuta las herramientas solicitadas, devuelve sus resultados y mantiene el contexto. También puede aplicar límites y pedir aprobaciones. |
+| Agente | Es el sistema que combina esas piezas con instrucciones, herramientas y permisos para trabajar sobre un objetivo, eligiendo pasos según lo que va encontrando. |
+
+En el taller, Hermes aporta el software que organiza ese trabajo y el modelo se configura por separado. Al conjunto preparado para recibir un pedido, leer cambios y devolver observaciones lo llamaremos nuestro agente revisor. El container será su entorno de ejecución, no el harness.
 
 En este recorrido vas a aprender a:
 
@@ -32,12 +46,14 @@ En este recorrido vas a aprender a:
 
 Primero vas a hacer cada parte para entender cómo funciona. Después vas a automatizarla y observar qué ocurre ante cambios y errores. Vas a distinguir qué se resuelve con reglas claras, qué requiere interpretación y qué decisiones conviene mantener en tus manos.
 
+Al terminar, vas a tener un flujo que recibe un pedido de revisión, le permite a un agente leer los cambios y devuelve sus observaciones. Vos vas a comprobarlas, corregir lo que corresponda y decidir si integrás el cambio. En este taller, integrar el código sigue siendo una decisión y una acción humana.
+
 ## Recorrido del taller
 
 | Capítulo | Resultado que vas a comprobar |
 | --- | --- |
-| [1. Proyecto y deploy](/proyecto) | Production desde `main`, Preview desde `development` y un PR integrado |
-| [2. Docker y runner](/docker-runner) | Un check pasa, falla por un error deliberado y vuelve a pasar |
+| [1. Proyecto y deploy](/proyecto) | Una publicación principal desde `main`, llamada Production; una versión para probar cambios desde `development`, llamada Preview; y una propuesta de cambios, o pull request, revisada e integrada |
+| [2. Docker y runner](/docker-runner) | Una comprobación automática pasa, falla por un error deliberado y vuelve a pasar |
 | [3. Hermes y Telegram](/hermes-telegram) | Una conversación por terminal y otra desde Telegram |
 | [4. El túnel](/tunel) | La misma respuesta local se consulta por una URL HTTPS pública |
 | [5. El webhook](/webhook) | GitHub envía un evento firmado y el receptor responde sin IA |

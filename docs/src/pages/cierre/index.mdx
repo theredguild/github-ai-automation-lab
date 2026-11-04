@@ -9,14 +9,14 @@ import systemMap from '../../../assets/course-mapa-final.png'
 
 # Cerrar la práctica
 
-**Antes:** terminaste la revisión humana, integraste la corrección y comprobaste Production. Si todavía estás investigando una entrega, retomá [leer la review](/review/leer-review).
+Podés cerrar la práctica al terminar o **si te detenés en cualquier capítulo**, aunque no hayas logrado la review, el merge o el deployment. Si querés seguir investigando una entrega antes de cerrar, retomá [leer la review](/review/leer-review).
 
-GitHub relaciona cambios, ejecuciones y eventos. Vercel construye deployments; el runner ejecuta checks; el túnel transporta requests; Hermes interpreta la tarea y publica una respuesta. Una persona conserva la decisión de integrar.
+GitHub relaciona cambios, ejecuciones y eventos. Vercel construye deployments; el runner ejecuta checks; el túnel transporta requests. Hermes coordina la tarea y las herramientas, el modelo analiza el cambio y el adaptador publica la respuesta. Una persona conserva la decisión de integrar.
 
 <img src={systemMap} alt="Mapa del taller: GitHub conectado con Vercel, runner, túnel y agente de review" />
 
 Diagrama del taller. No representa una ejecución certificada de nuestras cuentas.
 
-Guardá los cambios útiles con commit y push. Después seguí el cierre: primero desactivar hooks, después detener procesos y finalmente revocar credenciales dedicadas. No borres por rutina el perfil que contiene tu progreso.
+Guardá los cambios útiles con commit y push, sin incluir secretos. No publiques cambios sin revisar sólo para terminar. Después seguí el cierre: primero desactivar hooks, después detener procesos y finalmente revocar credenciales dedicadas. Son acciones distintas: dejar de recibir eventos no detiene tareas ya iniciadas, y apagar un proceso no revoca su acceso. No borres por rutina el perfil que contiene tu progreso.
 
-**Comprobación:** podés identificar tu repo, el PR integrado, el último SHA de `main` y su deployment de Production. [Empezar el cierre](/cierre/desactivar-hooks).
+**Comprobación:** identificaste qué recursos llegaste a crear y hasta dónde obtuviste evidencia. Si completaste el recorrido, conservá repo, PR integrado, último SHA de `main` y deployment de Production. Si no, conservá el último resultado y el error sin credenciales. En ambos casos, [empezá el cierre](/cierre/desactivar-hooks).

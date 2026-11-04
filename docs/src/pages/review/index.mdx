@@ -7,7 +7,7 @@ description: "Filtrá antes del modelo y seguí una revisión hasta su comentari
 
 # 6. La review
 
-La etiqueta `ai-review` pedirá revisar un PR concreto y la respuesta volverá a GitHub. Ahora usamos el receptor **nativo del gateway de Hermes**, no un puente Python ni otro backend personalizado.
+La etiqueta `ai-review` pedirá revisar un PR concreto y la respuesta volverá como comentario a GitHub. Pedir la review es una acción explícita de una persona, no algo que ocurre con cada push. Ahora usamos el receptor **nativo del gateway de Hermes**, no un puente Python ni otro backend personalizado.
 
 **Dónde:** navegador del repo, host en `lab` y container existente `lab-agent` en `/workspace`. **Antes:** [hook de Next inactivo](/webhook/desactivar-hook), PR propio abierto `development → main`, perfil Hermes con proveedor, modelo y Telegram conservados, y sesión de GitHub limitada dentro del agente.
 
@@ -20,7 +20,9 @@ La etiqueta `ai-review` pedirá revisar un PR concreto y la respuesta volverá a
 | Salida | Adaptador nativo github_comment |
 | Decisión | Persona que evalúa, corrige y decide integrar |
 
-Antes de gastar tokens se comprueban repo, head repo, base `main`, estado abierto, no draft, acción `labeled` y etiqueta `ai-review`. Un push cualquiera no solicita review. Primero probarás el caso negativo con otra etiqueta, luego seguirás una solicitud aceptada hasta el comentario.
+El **hook** es la configuración en GitHub que envía eventos a una URL. En Hermes, el **listener** escucha las peticiones HTTP en el puerto 8644. Es parte del **gateway**, el proceso que mantiene los canales de Telegram y Webhooks y coordina la tarea del agente. Al terminar, el **adaptador** `github_comment` publica la respuesta en el PR fijado. Son partes del mismo recorrido, no cuatro agentes distintos.
+
+El receptor verifica la firma del evento antes de crear trabajo para el modelo. Luego los filtros comprueban repo, head repo, base `main`, estado abierto, no draft, acción `labeled` y etiqueta `ai-review`. Sólo un evento permitido se convierte en tarea. Un push cualquiera no solicita review. Primero probarás el caso negativo con otra etiqueta, luego seguirás una solicitud aceptada hasta el comentario.
 
 El estado final será una corrección verificada, publicada y revisada para el SHA nuevo, con integración humana y Production comprobado. **202 Accepted sólo acusa recepción**, no prueba que exista comentario ni que el cambio sea correcto.
 

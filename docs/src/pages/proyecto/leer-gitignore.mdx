@@ -24,6 +24,8 @@ showFeedback: false
 
 Comprobá esas reglas en el archivo real. `.gitignore` indica qué archivos locales nuevos no añadir. **Ignorar no deja de seguir algo ya versionado.**
 
+Estas reglas no borran archivos del disco ni cifran secretos. Git sigue registrando cambios de un archivo ya versionado aunque después lo agregues a `.gitignore`. La excepción `!` vuelve a permitir un nombre que otra regla ignoraba; en `.env.example` dejá sólo nombres de variables y valores de muestra sin secretos.
+
 Si trabajás sobre un repo existente con artefactos seguidos, consultá [reparar artefactos](/opcional/reparar-artefactos), no ejecutes esa reparación como paso obligatorio del starter. Quitar seguimiento no elimina commits anteriores; una credencial publicada exige revocación o rotación.
 
 **No sigas si** falta el archivo protector o contiene secretos. [Referencia de gitignore](https://docs.github.com/en/get-started/git-basics/ignoring-files).

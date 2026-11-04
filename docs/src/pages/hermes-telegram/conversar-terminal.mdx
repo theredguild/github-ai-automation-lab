@@ -25,6 +25,10 @@ Ejemplo de respuesta esperada, no prueba de una ejecución realizada por esta gu
 Hermes conectado.
 ```
 
-Después pedile que se presente en español y explique qué herramientas tiene disponibles. La respuesta demuestra esa conversación con el modelo. Todavía no prueba Telegram, GitHub ni webhooks.
+Después pedile que se presente en español y explique qué herramientas tiene disponibles. Esa explicación te orienta, pero sigue siendo una respuesta del modelo: no demuestra que cada herramienta funcione ni que tenga permiso para usarla.
+
+Si Hermes pide aprobar una operación, leé el comando y los archivos afectados antes de aceptar. No habilites ejecución sin confirmación para resolver esta prueba. Pedirle por chat que "no toque archivos" expresa una instrucción, no quita permisos al montaje con escritura.
+
+La respuesta al mensaje de prueba demuestra esa conversación con el modelo. Todavía no prueba Telegram, GitHub ni webhooks.
 
 **No sigas si** hay error del proveedor, cuota agotada o ninguna respuesta. Revisá [diagnóstico de Hermes](/opcional/diagnostico-hermes). Conservá esta sesión separada de la shell donde configurarás el gateway.

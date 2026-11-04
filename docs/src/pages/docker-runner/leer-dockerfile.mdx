@@ -42,7 +42,9 @@ La receta completa instala dependencias del sistema, selecciona descargas para a
 
 `.devcontainer/devcontainer.json` configura la demo opcional de Codespaces con una imagen Node independiente. No participa en este build.
 
-El Dockerfile es la receta, la imagen es su resultado y un container es una instancia en ejecución. Reutilizaremos la imagen con instancias separadas para runner, agente y app. Cambiar una imagen no modifica containers ya existentes.
+El Dockerfile es la receta. `docker build` la ejecuta para producir una imagen con archivos y herramientas preparados; no deja esas herramientas corriendo. `docker run` crea un container a partir de esa imagen y arranca su proceso inicial. El container tiene sus propios cambios de archivos y puede estar activo o detenido.
+
+Reutilizaremos la misma imagen con instancias separadas para runner, agente y app. Esas instancias no comparten automáticamente sus archivos. Reconstruir la imagen no actualiza containers ya creados, aunque vuelvas a usar el nombre `taller`.
 
 <img src={cycle} alt="Dockerfile pasa por build para producir una imagen y cada run crea un container independiente" />
 

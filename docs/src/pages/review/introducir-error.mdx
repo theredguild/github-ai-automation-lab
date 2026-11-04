@@ -31,7 +31,7 @@ Cambiá **deliberadamente sólo la resta por suma** y guardá:
 return capacidad + ocupados;
 ```
 
-Con capacidad 20 y 5 ocupados deberían quedar **15**, pero la suma devuelve **25**. Puede pasar typecheck: tener tipo correcto no implica comportamiento correcto. Es un fallo de práctica, no un cambio que deba llegar a Production.
+Con capacidad 20 y 5 ocupados deberían quedar **15**, pero la suma devuelve **25**. TypeScript acepta sumar dos números y devolver otro número, así que este cambio puede pasar typecheck aunque el cálculo esté mal. Las pruebas de comportamiento comprueban el resultado esperado. Es un fallo de práctica, no un cambio que deba llegar a Production.
 
 Revisá y publicá sólo ese archivo:
 

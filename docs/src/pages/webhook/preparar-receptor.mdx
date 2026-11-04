@@ -11,7 +11,9 @@ import hmac from '../../../assets/course-e5-hmac.png'
 
 **Dónde:** editor del host en `lab` y Hermes CLI dentro de `lab-agent`, `/workspace`. Branch de trabajo `development`. **Antes:** [sesión de GitHub del agente](/webhook/autenticar-agente), bind mount escribible y receptor provisto `app/api/github/route.ts`.
 
-El receptor usa runtime Node y HMAC-SHA256 con comparación `timingSafeEqual`. Leer, interpretar y volver a serializar JSON cambia bytes y puede invalidar la firma. La firma se calcula sobre los bytes originales, antes de interpretar JSON.
+El secret es un valor privado compartido entre GitHub y este receptor. No es el PAT: el PAT autoriza a `gh` a usar la API de GitHub; el secret permite comprobar la firma de las entregas entrantes. HMAC-SHA256 usa ese secret y el body para calcular una firma. Verificarla permite detectar cambios en el body y comprobar que lo firmó alguien con el secret. No cifra el contenido ni decide qué repositorios o eventos vas a atender.
+
+El receptor corre en el runtime Node y compara las firmas con `timingSafeEqual`, para evitar que el tiempo de comparación revele en qué posición difieren. La firma se calcula sobre los bytes originales, antes de interpretar JSON. Leer los datos y volver a serializarlos puede cambiar espacios u orden de claves aunque signifiquen lo mismo, e invalidar la firma.
 
 <img src={hmac} alt="GitHub y el receptor calculan HMAC-SHA256 sobre los mismos bytes con el mismo secret" />
 
@@ -28,6 +30,8 @@ al recibir POST:
 ```
 
 El código provisto limita el body a 128 KiB, exige `application/json`, valida repo y delivery ID, permite `ping` y `pull_request` y registra sólo metadata acotada. La deduplicación conserva como máximo 1000 IDs durante una hora en memoria de una instancia; reiniciar pierde ese estado. No es una cola durable ni protección completa contra replay.
+
+La firma y los filtros cumplen tareas distintas. Un body que dice contener tu repo no prueba su origen: primero se verifica HMAC. Después, los filtros de repo y evento deciden si ese aviso válido corresponde al trabajo permitido. No reemplaces una comprobación por la otra.
 
 Elegí **una** forma de preparar la configuración. No ejecutes ambas pisando variables existentes.
 

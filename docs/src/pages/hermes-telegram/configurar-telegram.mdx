@@ -23,6 +23,8 @@ hermes gateway setup
 
 Elegí **Telegram**, ingresá el token de BotFather y configurá **Allowed users** con tu ID numérico. Conservá configuración existente de modelo y proveedor. No uses un `@username` ni dejes acceso abierto a cualquiera.
 
+La allowlist es la lista de usuarios que Hermes acepta para conversar con el agente por este canal. Usá tu ID numérico personal, no el del bot ni el de un grupo. El token permite al gateway operar el bot; la lista restringe quién puede enviarle pedidos al agente. No son el mismo control.
+
 **Comprobación:** wizard guarda Telegram y la lista de usuarios permitidos. Fijate si además dejó un gateway activo; el siguiente paso no debe iniciar un duplicado. **No sigas si** no podés comprobar la allowlist o se perdió la configuración del proveedor.
 
 Alta del bot y mensajes ocurren en Telegram; configuración ocurre en el wizard nativo de Hermes. No existe un equivalente de `gh` para estas pantallas. [Procedimiento independiente del taller](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram).

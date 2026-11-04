@@ -9,7 +9,7 @@ import sequence from '../../../assets/course-e5-sequence.png'
 
 # 5. El webhook
 
-Un webhook invierte la relación del polling. En lugar de preguntar periódicamente por novedades, GitHub envía un POST cuando ocurre un evento seleccionado. El túnel sólo transporta esa request. El receptor valida el aviso y responde.
+Con polling, un cliente pregunta periódicamente si hay novedades, aunque no haya cambiado nada. Con un webhook, GitHub envía una solicitud HTTP POST cuando ocurre un evento seleccionado. POST lleva los datos del aviso al receptor, a diferencia del GET que usamos para consultar health. El túnel sólo transporta esa request. El receptor valida el aviso y responde.
 
 **Dónde:** navegador de GitHub, host en la carpeta `lab` y containers existentes `lab-agent` y `lab-app`. **Antes:** [el túnel hacia Next funciona](/tunel/recuperar-origen), tenés tu repositorio privado y conservás el perfil del agente.
 
@@ -26,6 +26,8 @@ Diagrama del taller; ejemplo conceptual. La respuesta HTTP confirma recepción, 
 | X-GitHub-Delivery | ID de la entrega, también llamado GUID |
 | X-Hub-Signature-256 | HMAC-SHA256 del body con el secret |
 | Body JSON | Repositorio, acción y datos del PR |
+
+Los encabezados, o headers, describen la solicitud; el body lleva sus datos en JSON. El evento indica qué tipo de cambio ocurrió, por ejemplo `pull_request`. La propiedad `action` del JSON precisa qué pasó dentro de ese tipo, como `opened` al abrir un PR o `synchronize` al actualizarlo con commits.
 
 El secret compartido no va en la URL ni en código cliente. HTTPS cifra el transporte, pero no reemplaza la firma ni los filtros. El túnel expone el servicio completo de destino.
 
