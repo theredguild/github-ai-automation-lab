@@ -40,6 +40,8 @@ Leé el extracto en orden. `FROM` elige la base y `RUN` instala durante la const
 
 La receta completa instala dependencias del sistema, selecciona descargas para amd64 o arm64 y verifica sus SHA-256. Prepara `/opt/actions-runner`, `/workspace` y el home de `node`. El store de pnpm queda fuera del proyecto. No copia credenciales, no registra runners y no instala Hermes. El proyecto se montará después, en otras instancias, no en el runner.
 
+Entre esas dependencias está `libatomic1`. Aporta `libatomic.so.1`, que necesita el Node administrado por Hermes en Linux. La instalamos al construir la imagen para que después puedas instalar Hermes como `node`, también en ARM, sin darle `sudo` al agente.
+
 `.devcontainer/devcontainer.json` configura la demo opcional de Codespaces con una imagen Node independiente. No participa en este build.
 
 El Dockerfile es la receta que acabás de leer. Cuando ejecutes `docker build`, Docker la usará para producir una imagen con archivos y herramientas preparados. Eso todavía no deja las herramientas corriendo. Con `docker run` vas a crear un container a partir de esa imagen y arrancar su proceso inicial. Cada container tiene sus propios cambios de archivos y puede estar activo o detenido.

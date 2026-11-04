@@ -42,6 +42,18 @@ Estas pruebas comprueban la guía y su navegación, no las integraciones externa
 
 `docs/src/pages.gen.ts` contiene tipos de rutas que Waku genera al iniciar el servidor de desarrollo y al cambiar páginas. No se mantiene a mano ni se versiona. La regla específica `/docs/src/pages.gen.ts` quedó en el `.gitignore` raíz; no se borró ni modificó el archivo generado. `git check-ignore -v` comprobó esa regla y `git status` dejó de mostrarlo como no versionado. Las 111 páginas de autoría siguen fuera de las exclusiones.
 
+## Hermes en imagen mínima y libatomic
+
+Los participantes reportaron que instalar `libatomic1` resolvió el fallo en ARM. La [documentación oficial de instalación](https://hermes-agent.nousresearch.com/docs/getting-started/installation#prerequisites) confirma que el Node administrado por Hermes necesita `libatomic.so.1` en Linux glibc y que las imágenes mínimas pueden no incluirla. Se agregó `libatomic1` a la instalación común de paquetes de `hackerspace-site/Dockerfile`, sin cambiar el usuario final `node`, versiones, descargas ni checksums. Debian Bookworm publica el mismo paquete para [arm64](https://packages.debian.org/bookworm/arm64/libatomic1).
+
+`docker build -t taller .` pasó desde `hackerspace-site/` en amd64. Imagen obtenida: `sha256:bebd75c9d4eb42f37483c1930241df468f9b21b899d9fa67fa2fd7f503d5cdb7`. Dentro de una instancia descartable sin mounts ni credenciales, el usuario `node`, UID/GID 1000, cargó `libatomic.so.1` con `ctypes.CDLL`; `dpkg-query` mostró `libatomic1:amd64 12.2.0-14+deb12u1`. El instalador oficial completó Hermes v0.22.7, commit `b200f5bc60e3`, y se ejecutaron correctamente `hermes --version` y `hermes --help`.
+
+El ensayo usó `--non-interactive --skip-browser --skip-computer-use`. No configuró proveedores, Telegram, webhooks ni cuentas, no llamó modelos y no prueba browser o computer-use. La instalación emitió un warning de npm por `store-dir` y el CLI avisó que era PID 1 sin init; esos avisos no se ocultaron ni bloquearon el resultado. El container se eliminó con `--rm`. El builder sólo ofrece amd64/386 y no tiene emulación ARM registrada: este ensayo no certifica una ejecución ARM. El resultado ARM proviene del reporte de los participantes, no de un ensayo local.
+
+La guía explica la dependencia y ofrece dos comandos de administración desde el host para reparar sólo el `lab-agent` existente, sin borrar el perfil ni ejecutar Hermes como root. Se mantienen nombres distintos e intencionales: `lab-agent` ejecuta Hermes y su receptor en 8644; `lab-app` ejecuta Next en 3000. Ambos parten de `taller` y comparten el proyecto montado en `/workspace`, incluido `/workspace/node_modules`. Sus instalaciones de paquetes del sistema no se comparten. Los comandos de Hermes apuntan al agente y el túnel cambia de la app al agente en el capítulo 6.
+
+Vocs construyó con Node 22.23.4 y pnpm 10.20.0 de la imagen corregida, sin red y con validación estricta de enlaces. Los 127 bloques Bash pasan `bash -n`. Chromium comprobó las cuatro páginas modificadas en escritorio de 1280 px y móvil de 320 px, sin overflow horizontal ni errores de navegador. Se recorrieron el enlace al diagnóstico de `libatomic.so.1` y su regreso a instalación. El PPTX, las credenciales existentes y los containers de los participantes no se modificaron.
+
 ## Decisiones del usuario que deben conservarse
 
 - Público con muy poca experiencia; se requieren nociones de Git, GitHub, programación y conceptos generales de informática, que se retoman durante el recorrido. No hace falta experiencia con automatización o agentes. Pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.

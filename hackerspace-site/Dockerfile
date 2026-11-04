@@ -8,7 +8,7 @@ ARG RUNNER_VERSION=2.338.2
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash ca-certificates curl git jq nano openssl python3 python3-venv \
-    libicu72 libssl3 libkrb5-3 zlib1g liblttng-ust1 \
+    libatomic1 libicu72 libssl3 libkrb5-3 zlib1g liblttng-ust1 \
     && rm -rf /var/lib/apt/lists/*
 RUN npm install --global pnpm@10.20.0
 

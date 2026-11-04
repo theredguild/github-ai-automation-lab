@@ -27,3 +27,20 @@ Un error de cuota no autoriza fallback pago. Verificá [límites de modelos grat
 Después de corregir el problema, comprobá que haya un único gateway activo y que responda tanto al comando del canal como al mensaje del modelo. **No sigas si** necesitás mostrar tokens para explicar el fallo o la allowlist no está limitada a tu usuario.
 
 Volvé a [comprobar el mensaje](/hermes-telegram/comprobar-mensaje).
+
+## Si falta libatomic.so.1
+
+El Node que instala Hermes necesita esa biblioteca en Linux. La imagen actual del taller la incluye mediante el paquete `libatomic1`. Si estás usando una imagen anterior, no hace falta borrar el agente ni volver a configurar tus cuentas.
+
+Para reparar una instancia ya creada, abrí otra terminal del host y comprobá que `lab-agent` sea tu container de la práctica y esté activo. Es el container de Hermes, no `lab-app`, donde corre el sitio. Desde esa terminal ejecutá:
+
+```bash
+docker exec --user 0 lab-agent apt-get update
+docker exec --user 0 lab-agent apt-get install -y --no-install-recommends libatomic1
+```
+
+Esos dos comandos usan root sólo para instalar el paquete dentro de ese container. Cuando terminen, volvé a la shell original de `lab-agent` como `node` y retomá la instalación o su comprobación. **No ejecutes Hermes como root ni borres el perfil para resolver este error.**
+
+La reparación queda en esa instancia. Para las próximas, asegurate de incluir `libatomic1` en la lista de paquetes de `apt-get install` de tu `lab/Dockerfile` y reconstruí `taller` con los mismos UID/GID que elegiste. Reconstruir la imagen no actualiza containers existentes. Si necesitás reemplazar uno, seguí la [recuperación de la instancia y su perfil](/hermes-telegram/crear-agente) conservando lo anterior.
+
+Cuando termine la reparación, retomá [la instalación de Hermes](/hermes-telegram/instalar-hermes). Comprobá el comando desde la shell de `node` antes de seguir con el proveedor.

@@ -11,6 +11,8 @@ import portMap from '../../../assets/course-e4-port-map.png'
 
 Desde el host, en la raíz de tu `lab` y sobre `development`, vamos a crear la instancia de la app. Antes de ejecutar el comando, comprobá que `red-taller` esté disponible, que el puerto 3000 del host esté libre y que ninguna instancia use el nombre `lab-app`.
 
+Este es otro container, distinto de `lab-agent`. En el agente instalamos Hermes; acá vamos a ejecutar la aplicación. Los dos salen de la imagen `taller` y ven el mismo proyecto en `/workspace`, incluidas las dependencias de `/workspace/node_modules`. En cambio, los paquetes del sistema, como `libatomic1`, que instalás dentro de uno no aparecen automáticamente en el otro. El perfil privado de Hermes sigue montado sólo en `lab-agent`.
+
 ```bash
 docker run -it --name lab-app \
   --network red-taller \
