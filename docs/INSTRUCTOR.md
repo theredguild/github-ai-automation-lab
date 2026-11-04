@@ -4,9 +4,9 @@ Actualizado el 4 de noviembre de 2026. Este archivo contiene el estado técnico 
 
 ## Punto de entrada y estructura
 
-El participante sigue el curso Vocs de `docs/src/pages/`, con navegación en `docs/vocs.config.ts`. `docs/guia.md` quedó como iniciador breve, no otra copia de las instrucciones. La app Next.js autocontenida sigue en `hackerspace-site/`. El recorrido conserva clon del material, movimiento completo a `../lab`, repo propio vacío, PAT limitado, login/status y primer push. `.gitignore` viaja desde el principio y se explica después del push. El PPTX conserva sus 198 diapositivas y no se modificó durante esta migración.
+El participante sigue el curso Vocs de `docs/src/pages/`, con navegación en `docs/vocs.config.ts`. `docs/guia.md` quedó como iniciador breve, no otra copia de las instrucciones. La app Next.js autocontenida sigue en `hackerspace-site/`. El recorrido conserva clon del material, movimiento completo a `../lab`, repo propio vacío, PAT limitado, login/status y primer push. `.gitignore` viaja desde el principio y se explica después del push. La presentación actual tiene 200 diapositivas: conserva las 198 anteriores y agrega los mandamientos y la instalación de Hermes.
 
-Título visible aprobado: **De un commit a trabajo autónomo**, sin el prefijo "Taller:". Se actualiza de forma consistente en README, portada y configuración de Vocs, plantilla del título de página y presentación del capítulo 1. Los slugs del repo y del package, la app y el PPTX no cambian.
+Título visible aprobado: **De un commit a trabajo autónomo**, sin el prefijo "Taller:". Es consistente en README, portada y configuración de Vocs, plantilla del título de página, presentación del capítulo 1 y apertura/cierre del PPTX. Los slugs del repo y del package y la app no cambian.
 
 La portada aprobada agrega "Sobre este taller", "Qué necesitás saber" y "Qué vas a aprender" antes del recorrido de capítulos. Presenta automatización, delegación y comprobación de resultados sin abrir con una lista de tecnologías; conserva requisitos mínimos, autoría y contexto laboral indicados por el usuario. Chromium comprobó texto, orden de secciones, título y descripción, pantalla móvil de 320 px y navegación hacia requisitos y capítulo 1, sin errores ni overflow horizontal. Se mantuvieron el favicon de loto y la tipografía compacta.
 
@@ -14,9 +14,9 @@ Se conservó ese nombre completo y se compactó su tipografía: marca de navegac
 
 El recorrido completo recomendado es **host + containers**. Codespaces queda limitado a una demo opcional de la landing al final del ejercicio 1, después del push correcto, build, Production/Preview y PR integrado. No certifica los ejercicios 2–6. `.devcontainer/devcontainer.json` prepara únicamente esa demo; se quitó Docker-in-Docker. El `Dockerfile` local, `.dockerignore`, configuración remota y plantillas de `docs/snippets/` viajan juntos dentro de `lab`.
 
-Vocs es la única guía del participante. El README explica cómo abrirla y la presentación sigue siendo otro material, sin cambios. Los archivos locales de autoría del PPTX permanecen excluidos de la publicación. Preparar esta web no reabrió el ensayo remoto de Codespaces ni autorizó deployments, cuentas o consumos pagos.
+Vocs es la única guía del participante. El README explica cómo abrirla; el PPTX es el material proyectado de la clase. Los archivos locales de autoría del PPTX permanecen excluidos de la publicación. Preparar esta web no reabrió el ensayo remoto de Codespaces ni autorizó deployments, cuentas o consumos pagos.
 
-El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded y Poppins. El código ahora usa Inconsolata explícita y colores por sintaxis. No se entrega un paquete de fuentes tipográficas.
+El paquete se consolidó a partir del ZIP anterior del workshop y la fuente de 216 diapositivas. Las versiones anteriores se conservaron durante la edición. No se tuvo disponible el handoff original mencionado al inicio ni el template visual original para contrastarlos de nuevo; no afirmar que esta revisión auditó esos originales. Se conserva el diseño aprobado conocido: negro, magenta, amarillo y cyan, con Unbounded para títulos y Poppins para prosa. El código usa Inconsolata; los textos de apoyo, Tektur. No se entrega un paquete de fuentes tipográficas.
 
 ## Revisión técnica y pedagógica publicada
 
@@ -54,17 +54,36 @@ La guía explica la dependencia y ofrece dos comandos de administración desde e
 
 Vocs construyó con Node 22.23.4 y pnpm 10.20.0 de la imagen corregida, sin red y con validación estricta de enlaces. Los 127 bloques Bash pasan `bash -n`. Chromium comprobó las cuatro páginas modificadas en escritorio de 1280 px y móvil de 320 px, sin overflow horizontal ni errores de navegador. Se recorrieron el enlace al diagnóstico de `libatomic.so.1` y su regreso a instalación. El PPTX, las credenciales existentes y los containers de los participantes no se modificaron.
 
+## Presentación final de 200 diapositivas
+
+Se editó el OOXML del PPTX existente, sin regenerarlo desde el generador alternativo. La apertura y el cierre llevan el título aprobado. El mapa de seis ejercicios sigue en la slide 2 y agrega los objetivos generales: automatizar checks, delegar una revisión y evaluar el resultado con criterio humano. Su copia **6 mandamientos** queda en la slide 3, con el orden y la excepción al uso de AI indicados por el usuario.
+
+La tabla de herramientas incluye `libatomic1` como dependencia del Node administrado por Hermes en Linux glibc. Las slides 108, 127 y 182 distinguen `lab-agent:8644` de `lab-app:3000`: misma imagen `taller` y workspace compartido, incluido `node_modules`, pero paquetes del sistema independientes y perfil privado sólo en el agente. Se conserva la instrucción de detener el túnel anterior y conectar el agente a la red una sola vez. La slide 109 separa modelo, harness, agente, proveedor, canal y entorno.
+
+La slide 110 agrega la instalación CLI de Linux dentro de `lab-agent`, como `node`, con proyecto y perfil escribibles. Enlaza la sección correspondiente de la [guía oficial](https://hermes-agent.nousresearch.com/docs/getting-started/installation#linux--macos--wsl2) y muestra `hermes --version` como comprobación posterior, no como instalador. El wizard sigue en la 111. La slide 199 permite cerrar también a mitad del curso: sólo recursos propios creados, omitir Docker si no se usó, cerrar exposición aunque falle la desactivación del hook, detener `herramientas` y `lab-runner` incluso durante un job, cancelar sólo el run propio y conservar los perfiles privados.
+
+El usuario confirmó **Tektur**, de Google Fonts, para subtítulos, contextos y comentarios en `#FC3CB5`. Los fragmentos inline de código, rutas y URLs conservan Inconsolata. Los 89 bloques de código/diff están en negrita; 34 usan 40 pt reales, incluido `pnpm dev`. El resto usa entre 21 y 39,5 pt, según espacio. Se conservan los colores de sintaxis de los 88 bloques anteriores. La fuente local `slides/source.json` acompaña el orden y las notas de las 200 slides.
+
+El paquete final conserva las identidades de las 198 slides anteriores y las 55 partes originales ajenas a slides/notas/metadatos, incluidos media, temas, masters y layouts. Tiene 860 partes y resuelve sus 1051 relaciones internas. Las 200 notas coinciden con la fuente local: 38 guiones breves y 162 notas vacías; máximo 23 palabras. No se agregaron fuentes ni instrucciones editoriales al guion.
+
+Se renderizaron las 200 slides con LibreOffice 7.4.7.2 en un container descartable, sin red, usando las familias y estilos reales verificados por fontconfig. Se revisaron las diez vistas generales y 14 slides en detalle; las corregidas se volvieron a renderizar. La comparación del texto nativo con el PDF no encontró caracteres faltantes. Las 360 cajas de código y apoyo pasan el control de límites con tolerancia de 2 pt; las 119 cajas anteriores de código, diff, salida y árbol del editor conservan su texto íntegro. El enlace de instalación quedó clickeable y magenta; `pdfinfo -url` confirmó su destino en la slide 110.
+
+Este ensayo prueba el render de LibreOffice, no la importación en PowerPoint o Google Slides. No se repitieron integraciones, logins ni llamadas a modelos. Las páginas e imágenes de Vocs permanecen sin cambios: esta edición corresponde al material proyectado y no altera el contenido técnico de las figuras del curso. Fuentes, PDF, renderer y scripts de comprobación son temporales, fuera del repo; no forman parte de la entrega.
+
+SHA-256 del PPTX final: `c34233ac2a8b262a1714e73a417b5ff8d6c57bd9b78da3d1166ba826d5ccfadf`.
+
+
 ## Decisiones del usuario que deben conservarse
 
 - Público con muy poca experiencia; se requieren nociones de Git, GitHub, programación y conceptos generales de informática, que se retoman durante el recorrido. No hace falta experiencia con automatización o agentes. Pasos que puedan repetirse sin el instructor. Duración flexible de 3 a 6 horas.
 - Voz de docente que acompaña la práctica. Explicar para qué hacemos cada paso y cómo leer su resultado, con prosa natural en español rioplatense. Evitar fichas repetidas de "Dónde", "Antes" y "Comprobación", frases telegráficas y muletillas. Ubicación, requisitos, resultados y condiciones para detenerse siguen siendo obligatorios, pero pueden integrarse al relato. Conservar advertencias de seguridad visibles junto a la acción.
 - Seis ejercicios: landing y Vercel; Docker y runner; Hermes y Telegram; túnel; webhook sin IA; review solicitada por etiqueta.
 - Taller muy introductorio, práctico e improvisado, diseñado por The Red Guild para darse inicialmente en NodoSerrano. Pensado para sumar herramientas y práctica que mejoren las posibilidades de inserción laboral. La portada presenta objetivos generales antes del mapa técnico de capítulos.
-- Empezar haciendo: dos diapositivas de apertura y el primer ejercicio. Enseñar Git, virtualización, redes y webhooks justo al necesitarlos.
+- Empezar haciendo: portada, mapa de seis ejercicios y **6 mandamientos**, antes del primer ejercicio. Enseñar Git, virtualización, redes y webhooks justo al necesitarlos.
 - App de ejemplo: landing Next.js del HackerSpace de NodoSerrano.org. Hacer build real y deploy de main y development; el código de la landing es secundario al proceso.
 - Separar material y app con un `mv`, sin copias con exclusiones, cadenas de guardas ni clon adicional. El destino debe estar libre; si falla un paso o no coincide carpeta/estructura, detenerse antes de inicializar Git.
 - Crear el repo por web y enseñar el PAT antes de `gh auth login`, `gh auth status` y push. Seleccionar sólo el repo propio y añadir permisos cuando se necesitan. No usar OAuth amplio como atajo, refrescar scopes de PAT ni reemplazar autenticación heredada de Codespaces.
-- Priorizar host y containers. Demo opcional en slides 65–67, después del checkpoint del ejercicio 1; detener Next y Codespace, y volver al host antes de Docker. No depurar Codespaces o Gitpod durante la clase.
+- Priorizar host y containers. Demo opcional en slides 66–68, después del checkpoint del ejercicio 1; detener Next y Codespace, y volver al host antes de Docker. No depurar Codespaces o Gitpod durante la clase.
 - Mantener pasos, capturas reales y diagramas. **Notas del presentador: guion breve, sólo información útil ausente de la slide; vacío cuando no hace falta.** Sin pistas al instructor, relleno, repetición ni listas de fuentes.
 - Historial Git con carriles y curvas; usar main y development en el ejercicio. Explicar merge commit, squash y rebase, y mostrar la interfaz real de PR.
 - Host, VM y límites de containers explícitos; después leer el Dockerfile antes del build. Imagen `taller`, sin etiqueta fechada. Explicar redes cuando se usan, en el ejercicio 4; conectar el agente existente en el 6.
@@ -268,7 +287,7 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 
    Contrastar versiones y SHA si se actualiza el Dockerfile. Probar la arquitectura de las máquinas del taller. Comprobar permisos del usuario node y de la carpeta montada.
 
-3. Mantener el recorrido completo en host + containers. La demo opcional está en `docs/src/pages/opcional/codespaces/` y slides 65–67, después de push, deployments y PR. El usuario cerró la investigación remota; no reintentar ni crear otra instancia sin nuevo pedido.
+3. Mantener el recorrido completo en host + containers. La demo opcional está en `docs/src/pages/opcional/codespaces/` y slides 66–68, después de push, deployments y PR. El usuario cerró la investigación remota; no reintentar ni crear otra instancia sin nuevo pedido.
 
 4. Con autorización para un repo de ensayo, seguir el curso Vocs desde Preparación: clon del material, mover a `lab`, crear repo vacío por web, PAT seleccionado, login/status, primer push, `.gitignore`, install/build, Production, Preview, PR, review y nuevo Production. No agregar un segundo clon.
 
@@ -280,13 +299,13 @@ Para reemplazar `lab-app`, conservar también la instancia anterior con otro nom
 
 8. Fusionar la plantilla `hackerspace-site/docs/snippets/hermes-webhook.yaml` del material, que en el repo del participante queda como `docs/snippets/hermes-webhook.yaml`. Comprobarla contra la versión instalada y habilitar Webhooks. Confirmar el caso negativo de etiqueta sin llamada al modelo, el caso positivo con comentario, el control del SHA y una segunda revisión tras la corrección. Si `github_comment` requiere autenticación adicional en esa versión, resolverlo con el flujo nativo y actualizar guía y slides juntos.
 
-9. Importar la presentación en Google Slides. Revisar código, capturas, gráficos y las 198 notas, incluidas vacías; recorrer las 198 slides. Si se sustituye Inconsolata, corregir los comandos manteniéndolos monoespaciados.
+9. Importar la presentación en Google Slides. Revisar código, capturas, gráficos y las 200 notas, incluidas vacías; recorrer las 200 slides. Comprobar posibles sustituciones de Tektur e Inconsolata; conservar comentarios magenta y comandos monoespaciados en negrita.
 
 10. Actualizar esta tabla con comandos, versiones, IDs y evidencias reales. Capturar las interfaces autorizadas del propio ensayo. Nunca capturar credenciales. Mantener los pendientes fuera de los slides del público.
 
 ## Editar y regenerar la presentación
 
-Para cambios manuales, `slides/workshop.pptx` contiene texto, código con runs de color, tablas, diagramas y notas. El código editable usa Inconsolata; títulos y prosa mantienen Unbounded y Poppins. Después de importar en Google Slides, comprobar posibles sustituciones; en PowerPoint de escritorio la fuente debe estar instalada. No se incrustan ni se entregan archivos tipográficos con el PPTX.
+Para cambios manuales, `slides/workshop.pptx` contiene texto, código con runs de color, tablas, diagramas y notas. Los comandos usan Inconsolata en negrita; títulos y prosa mantienen Unbounded y Poppins. Subtítulos, contextos y comentarios usan Tektur en `#FC3CB5`, salvo sus fragmentos inline de código. Después de importar en Google Slides, comprobar posibles sustituciones; en PowerPoint de escritorio las fuentes deben estar instaladas. No se incrustan ni se entregan archivos tipográficos con el PPTX.
 
 En el entorno local se conserva la fuente editable adicional `slides/source.json`: orden, texto, comandos, salidas ilustrativas, notas y enlaces oficiales por diapositiva. Los estilos están en `theme.mjs`, `layouts.mjs`, `base.mjs` y `metrics.json`. Estos archivos de autoría no se publican en el repo; el PPTX es la presentación versionada. Las capturas compartidas están en `docs/assets/`.
 
@@ -298,7 +317,7 @@ npm install
 npm run build
 ```
 
-El generador escribe `workshop-generated.pptx`, sin sobrescribir la entrega. Su ensayo anterior exportó 178 slides; no se repitió tras ampliar a 198. **La salida alternativa requiere revisión visual.** Esta revisión actualizó selectivamente el OOXML nativo y renderizó el PPTX real; el generador opcional no forma parte de los comandos del participante.
+El generador escribe `workshop-generated.pptx`, sin sobrescribir la entrega. Su ensayo anterior exportó 178 slides; no se repitió para la versión actual de 200. No reproduce todas las ediciones nativas, incluido el panel de instalación, sus enlaces y la tipografía final. **La salida alternativa no debe sustituir al PPTX aprobado sin una revisión completa.** La edición actual actualizó selectivamente el OOXML y renderizó la presentación real; el generador opcional no forma parte de los comandos del participante.
 
 La fuente local conserva orden, contenido y guiones mínimos, incluidos blancos. `base.mjs` no añade fuentes al cuerpo de las notas. El formato inline de código se segmenta nativamente en el PPTX; el generador opcional no reproduce todos esos detalles. Para validar se usaron Inconsolata Regular/Bold y fuentes del diseño sólo en una carpeta temporal fuera del repo. Ni fuentes tipográficas ni PDF forman parte de la entrega.
 
